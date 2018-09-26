@@ -1,0 +1,234 @@
+
+% FACT: resource(resource_id, resource_uri).
+resource(1, 'data/norm_addresses.pkl').
+resource(2, 'data/inaugural/1957-Eisenhower.txt').
+resource(3, 'data/inaugural/1881-Garfield.txt').
+resource(4, 'data/inaugural/1905-Roosevelt.txt').
+resource(5, 'data/inaugural/1985-Reagan.txt').
+resource(6, 'data/inaugural/1913-Wilson.txt').
+resource(7, 'data/inaugural/1793-Washington.txt').
+resource(8, 'data/inaugural/1885-Cleveland.txt').
+resource(9, 'data/inaugural/1789-Washington.txt').
+resource(10, 'data/inaugural/1845-Polk.txt').
+resource(11, 'data/inaugural/1925-Coolidge.txt').
+resource(12, 'data/inaugural/1837-VanBuren.txt').
+resource(13, 'data/inaugural/1941-Roosevelt.txt').
+resource(14, 'data/inaugural/2001-Bush.txt').
+resource(15, 'data/inaugural/1961-Kennedy.txt').
+resource(16, 'data/inaugural/1909-Taft.txt').
+resource(17, 'data/inaugural/1945-Roosevelt.txt').
+resource(18, 'data/inaugural/1817-Monroe.txt').
+resource(19, 'data/inaugural/1949-Truman.txt').
+resource(20, 'data/inaugural/1953-Eisenhower.txt').
+resource(21, 'data/inaugural/1841-Harrison.txt').
+resource(22, 'data/inaugural/1889-Harrison.txt').
+resource(23, 'data/inaugural/1857-Buchanan.txt').
+resource(24, 'data/inaugural/2009-Obama.txt').
+resource(25, 'data/inaugural/1877-Hayes.txt').
+resource(26, 'data/inaugural/1861-Lincoln.txt').
+resource(27, 'data/inaugural/1973-Nixon.txt').
+resource(28, 'data/inaugural/1977-Carter.txt').
+resource(29, 'data/inaugural/1993-Clinton.txt').
+resource(30, 'data/inaugural/1869-Grant.txt').
+resource(31, 'data/inaugural/1981-Reagan.txt').
+resource(32, 'data/inaugural/1937-Roosevelt.txt').
+resource(33, 'data/inaugural/1917-Wilson.txt').
+resource(34, 'data/inaugural/1849-Taylor.txt').
+resource(35, 'data/inaugural/1933-Roosevelt.txt').
+resource(36, 'data/inaugural/1809-Madison.txt').
+resource(37, 'data/inaugural/2005-Bush.txt').
+resource(38, 'data/inaugural/1873-Grant.txt').
+resource(39, 'data/inaugural/1921-Harding.txt').
+resource(40, 'data/inaugural/1829-Jackson.txt').
+resource(41, 'data/inaugural/1969-Nixon.txt').
+resource(42, 'data/inaugural/1805-Jefferson.txt').
+resource(43, 'data/inaugural/1801-Jefferson.txt').
+resource(44, 'data/inaugural/1901-McKinley.txt').
+resource(45, 'data/inaugural/1853-Pierce.txt').
+resource(46, 'data/inaugural/1813-Madison.txt').
+resource(47, 'data/inaugural/1929-Hoover.txt').
+resource(48, 'data/inaugural/1893-Cleveland.txt').
+resource(49, 'data/inaugural/1989-Bush.txt').
+resource(50, 'data/inaugural/1897-McKinley.txt').
+resource(51, 'data/inaugural/1797-Adams.txt').
+resource(52, 'data/inaugural/1833-Jackson.txt').
+resource(53, 'data/inaugural/1965-Johnson.txt').
+resource(54, 'data/inaugural/1997-Clinton.txt').
+resource(55, 'data/inaugural/1821-Monroe.txt').
+resource(56, 'data/inaugural/1825-Adams.txt').
+resource(57, 'data/inaugural/1865-Lincoln.txt').
+
+% FACT: data_resource(data_id, resource_id).
+data_resource(3, 1).
+data_resource(5, 2).
+data_resource(5, 3).
+data_resource(5, 4).
+data_resource(5, 5).
+data_resource(5, 6).
+data_resource(5, 7).
+data_resource(5, 8).
+data_resource(5, 9).
+data_resource(5, 10).
+data_resource(5, 11).
+data_resource(5, 12).
+data_resource(5, 13).
+data_resource(5, 14).
+data_resource(5, 15).
+data_resource(5, 16).
+data_resource(5, 17).
+data_resource(5, 18).
+data_resource(5, 19).
+data_resource(5, 20).
+data_resource(5, 21).
+data_resource(5, 22).
+data_resource(5, 23).
+data_resource(5, 24).
+data_resource(5, 25).
+data_resource(5, 26).
+data_resource(5, 27).
+data_resource(5, 28).
+data_resource(5, 29).
+data_resource(5, 30).
+data_resource(5, 31).
+data_resource(5, 32).
+data_resource(5, 33).
+data_resource(5, 34).
+data_resource(5, 35).
+data_resource(5, 36).
+data_resource(5, 37).
+data_resource(5, 38).
+data_resource(5, 39).
+data_resource(5, 40).
+data_resource(5, 41).
+data_resource(5, 42).
+data_resource(5, 43).
+data_resource(5, 44).
+data_resource(5, 45).
+data_resource(5, 46).
+data_resource(5, 47).
+data_resource(5, 48).
+data_resource(5, 49).
+data_resource(5, 50).
+data_resource(5, 51).
+data_resource(5, 52).
+data_resource(5, 53).
+data_resource(5, 54).
+data_resource(5, 55).
+data_resource(5, 56).
+data_resource(5, 57).
+data_resource(7, 1).
+data_resource(7, 1).
+
+% FACT: uri_variable_value(resource_id, uri_variable_id, uri_variable_value).
+uri_variable_value(2, 1, '1957').
+uri_variable_value(2, 2, 'Eisenhower').
+uri_variable_value(3, 1, '1881').
+uri_variable_value(3, 2, 'Garfield').
+uri_variable_value(4, 1, '1905').
+uri_variable_value(4, 2, 'Roosevelt').
+uri_variable_value(5, 1, '1985').
+uri_variable_value(5, 2, 'Reagan').
+uri_variable_value(6, 1, '1913').
+uri_variable_value(6, 2, 'Wilson').
+uri_variable_value(7, 1, '1793').
+uri_variable_value(7, 2, 'Washington').
+uri_variable_value(8, 1, '1885').
+uri_variable_value(8, 2, 'Cleveland').
+uri_variable_value(9, 1, '1789').
+uri_variable_value(9, 2, 'Washington').
+uri_variable_value(10, 1, '1845').
+uri_variable_value(10, 2, 'Polk').
+uri_variable_value(11, 1, '1925').
+uri_variable_value(11, 2, 'Coolidge').
+uri_variable_value(12, 1, '1837').
+uri_variable_value(12, 2, 'VanBuren').
+uri_variable_value(13, 1, '1941').
+uri_variable_value(13, 2, 'Roosevelt').
+uri_variable_value(14, 1, '2001').
+uri_variable_value(14, 2, 'Bush').
+uri_variable_value(15, 1, '1961').
+uri_variable_value(15, 2, 'Kennedy').
+uri_variable_value(16, 1, '1909').
+uri_variable_value(16, 2, 'Taft').
+uri_variable_value(17, 1, '1945').
+uri_variable_value(17, 2, 'Roosevelt').
+uri_variable_value(18, 1, '1817').
+uri_variable_value(18, 2, 'Monroe').
+uri_variable_value(19, 1, '1949').
+uri_variable_value(19, 2, 'Truman').
+uri_variable_value(20, 1, '1953').
+uri_variable_value(20, 2, 'Eisenhower').
+uri_variable_value(21, 1, '1841').
+uri_variable_value(21, 2, 'Harrison').
+uri_variable_value(22, 1, '1889').
+uri_variable_value(22, 2, 'Harrison').
+uri_variable_value(23, 1, '1857').
+uri_variable_value(23, 2, 'Buchanan').
+uri_variable_value(24, 1, '2009').
+uri_variable_value(24, 2, 'Obama').
+uri_variable_value(25, 1, '1877').
+uri_variable_value(25, 2, 'Hayes').
+uri_variable_value(26, 1, '1861').
+uri_variable_value(26, 2, 'Lincoln').
+uri_variable_value(27, 1, '1973').
+uri_variable_value(27, 2, 'Nixon').
+uri_variable_value(28, 1, '1977').
+uri_variable_value(28, 2, 'Carter').
+uri_variable_value(29, 1, '1993').
+uri_variable_value(29, 2, 'Clinton').
+uri_variable_value(30, 1, '1869').
+uri_variable_value(30, 2, 'Grant').
+uri_variable_value(31, 1, '1981').
+uri_variable_value(31, 2, 'Reagan').
+uri_variable_value(32, 1, '1937').
+uri_variable_value(32, 2, 'Roosevelt').
+uri_variable_value(33, 1, '1917').
+uri_variable_value(33, 2, 'Wilson').
+uri_variable_value(34, 1, '1849').
+uri_variable_value(34, 2, 'Taylor').
+uri_variable_value(35, 1, '1933').
+uri_variable_value(35, 2, 'Roosevelt').
+uri_variable_value(36, 1, '1809').
+uri_variable_value(36, 2, 'Madison').
+uri_variable_value(37, 1, '2005').
+uri_variable_value(37, 2, 'Bush').
+uri_variable_value(38, 1, '1873').
+uri_variable_value(38, 2, 'Grant').
+uri_variable_value(39, 1, '1921').
+uri_variable_value(39, 2, 'Harding').
+uri_variable_value(40, 1, '1829').
+uri_variable_value(40, 2, 'Jackson').
+uri_variable_value(41, 1, '1969').
+uri_variable_value(41, 2, 'Nixon').
+uri_variable_value(42, 1, '1805').
+uri_variable_value(42, 2, 'Jefferson').
+uri_variable_value(43, 1, '1801').
+uri_variable_value(43, 2, 'Jefferson').
+uri_variable_value(44, 1, '1901').
+uri_variable_value(44, 2, 'McKinley').
+uri_variable_value(45, 1, '1853').
+uri_variable_value(45, 2, 'Pierce').
+uri_variable_value(46, 1, '1813').
+uri_variable_value(46, 2, 'Madison').
+uri_variable_value(47, 1, '1929').
+uri_variable_value(47, 2, 'Hoover').
+uri_variable_value(48, 1, '1893').
+uri_variable_value(48, 2, 'Cleveland').
+uri_variable_value(49, 1, '1989').
+uri_variable_value(49, 2, 'Bush').
+uri_variable_value(50, 1, '1897').
+uri_variable_value(50, 2, 'McKinley').
+uri_variable_value(51, 1, '1797').
+uri_variable_value(51, 2, 'Adams').
+uri_variable_value(52, 1, '1833').
+uri_variable_value(52, 2, 'Jackson').
+uri_variable_value(53, 1, '1965').
+uri_variable_value(53, 2, 'Johnson').
+uri_variable_value(54, 1, '1997').
+uri_variable_value(54, 2, 'Clinton').
+uri_variable_value(55, 1, '1821').
+uri_variable_value(55, 2, 'Monroe').
+uri_variable_value(56, 1, '1825').
+uri_variable_value(56, 2, 'Adams').
+uri_variable_value(57, 1, '1865').
+uri_variable_value(57, 2, 'Lincoln').
