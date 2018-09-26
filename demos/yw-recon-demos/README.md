@@ -5,9 +5,7 @@ I would not try to execute this python script, it requires the following:
 * Interpreted using python3
 * matplotlib, pickle, and nltk.corpus downloaded on your local machine
 
-Recon does not require an executable script, just proper file paths. 
-
-All filepaths are relative to the working directory of your terminal. This includes:
+Recon does not require an executable script, just proper file paths. All filepaths are relative to the working directory of your terminal. This includes:
 * @URI tags in your scripts
 * files in your `yw.properties` file
 * files specified in the command prompt
