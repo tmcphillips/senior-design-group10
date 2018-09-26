@@ -7,8 +7,7 @@ I would not try to execute this python script, it requires the following:
 
 Recon does not require an executable script, just proper file paths. 
 
-All filepaths are relative the working directory of your terminal. 
-This includes:
+All filepaths are relative to the working directory of your terminal. This includes:
 * @URI tags in your scripts
 * files in your `yw.properties` file
 * files specified in the command prompt
@@ -45,7 +44,7 @@ data_resource(7, 1).
 Of course this can also be piped to a file by appending ` > recon_logs/terminal_recon_facts.txt` to the previous command.
 
 ### B) Specify output using terminal
-Append `=recon_logs/recon_facts.txt` to the command in [Part A](https://github.com/aniehuser/senior-design-group10/demos/yw-recon-demos/README.md#A)
+Append `=recon_logs/recon_facts.txt` to the command in [Part A](https://github.com/aniehuser/senior-design-group10/demos/yw-recon-demos/README.md#a-output-to-terminal)
 
 `java -jar yw recon yw_recon.py -c recon.factsfile=recon_logs/recon_facts.txt`
 
@@ -66,7 +65,7 @@ I have set up an example `yw.properties` file in this demo. Simply run the recon
 `java -jar yw recon yw_recon.py`
 
 ## Step 3: Uri Variables
-You'll notice in [Part A]() the `uri_variable_value` fact has no output. This is an additional feature of the @URI tag in YesWorkflow. You can specify multiply files of similar names using curly braces in the URI in your script. 
+You'll notice in [Part A](https://github.com/aniehuser/senior-design-group10/demos/yw-recon-demos/README.md#a-output-to-terminal) the `uri_variable_value` fact has no data. This is an additional feature of the @URI tag in YesWorkflow. You can specify multiply files of similar names using curly braces in the URI in your script. 
 
 If you look in `yw_recon_variables.py`, you'll notice I changed the URI's for some of the annotations. Try running `java -jar yw recon yw_recon_variables.py -c recon.factsfile` and look at the output in `recon_logs/properties_recon_facts.txt` output now. You'll see the `uri_variable_value` facts have now been populated.
 
