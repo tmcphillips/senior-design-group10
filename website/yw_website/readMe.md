@@ -32,8 +32,8 @@ At the project root directory, Enter into the terminal
 python3 manage.py runserver
 ```
 
-By default the website will run at http://127.0.0.1:8000/yw_root but
-the terminal will output if the port changed. With your webbrowser, navigate to the url outputted by the terminal, with /yw_root appended to the end.
+By default the website will run at http://127.0.0.1:8000 but
+the terminal will output if the port changed. With your webbrowser, navigate to the url outputted by the terminal.
 
 # Future file structure
 Our project structure to reflect this suggested project structure found at:
