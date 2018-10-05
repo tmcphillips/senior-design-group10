@@ -22,7 +22,7 @@ from script_upload import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('upload/$', views.model_form_upload, name='upload')
+    path('upload/', views.model_form_upload, name='upload')
 ]
 
 if settings.DEBUG:
