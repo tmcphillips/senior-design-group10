@@ -24,3 +24,4 @@ class UploadTestCase(TestCase):
 
         # Clean up after test
         os.remove(file_path)
+        self.assertFalse(os.path.isfile(file_path))
