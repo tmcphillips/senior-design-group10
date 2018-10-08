@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'design/nav_bar.css' %}">
@@ -11,12 +12,23 @@
             </nav>
         </div>
     </div>
-{% block content %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-  </form>
 
-  <p><a href="{% url 'home' %}">Return to home</a></p>
+{% block content %}
+  <h2>Sign up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text|safe }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+  </form>
 {% endblock %}

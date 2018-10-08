@@ -1,9 +1,23 @@
 <!DOCTYPE html>
 <html>
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'design/nav_bar.css' %}">
+<div class="navbar">
+        <div class="topnav">
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'users' %}">Users</a>
+                <a href="#">Workflows</a>
+                <a href="#">Files</a>
+            </nav>
+        </div>
+    </div>
   <head>
     <meta charset="utf-8">
     <title>Yw-Website-Home</title>
   </head>
+
   <body>
       {% block content %}
       <ul>
@@ -21,7 +35,12 @@
           </li>
         {% endfor %}
       </ul>
+      <p>Log in to view your files and workflows:</p>
+      <p><a href="{% url 'login' %}">Log in</a></p>
+      <p>New to the site? Create an account to upload your own scripts:</p>
+      <p><a href="{% url 'register' %}">Create Login</a></p>     
     {% endblock %}
+
   </body>
 </html>
 

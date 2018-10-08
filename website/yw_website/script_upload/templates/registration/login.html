@@ -11,12 +11,10 @@
             </nav>
         </div>
     </div>
-{% block content %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-  </form>
 
-  <p><a href="{% url 'home' %}">Return to home</a></p>
-{% endblock %}
+<h2>Login</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>

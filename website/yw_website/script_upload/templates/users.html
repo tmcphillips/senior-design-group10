@@ -11,12 +11,23 @@
             </nav>
         </div>
     </div>
+
 {% block content %}
+	<body>
+		<p>Users in system:</p>
+      <ul>
+        {% for user in users %}
+          <li>
+            <a href="{{ user.username.url }}">{{ user.username }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+	</body>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Upload</button>
   </form>
+
 
   <p><a href="{% url 'home' %}">Return to home</a></p>
 {% endblock %}
