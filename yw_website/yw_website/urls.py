@@ -43,9 +43,13 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+<<<<<<< HEAD:website/yw_website/yw_website/urls.py
     path('upload/', views.model_form_upload, name='upload'),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls'))
+=======
+    path('upload/', views.model_form_upload, name='upload')
+>>>>>>> master:yw_website/yw_website/urls.py
 ]
 
 if settings.DEBUG:
