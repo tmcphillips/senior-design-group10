@@ -23,10 +23,10 @@ Use `git fetch origin pull/<Merge Number>/head:<Name of new Branch>`, then check
 
 YesWorkflow is a maven project. To set up the project for development follow these steps:
 
-1. Insure you have a Java SE 7 or above installed on your device. To see all versions on a mac device and their location, run `$ /usr/libexec/java_home -V`
+1. Ensure you have a Java SE 7 or above installed on your device. To see all versions on a mac device and their location, run `$ /usr/libexec/java_home -V`.
 2. Set JAVA_HOME to any version that is 1.7 or greater. I.e. on mac `$ export JAVA_HOME="/usr/libexec/java_home -v 1.8"` for Java 8.
-3. Insure [Maven 3.2](https://maven.apache.org/install.html) or above is installed on your device.
-4. run `$ git clone https://github.com/aniehuser/yw-prototypes.git`
+3. Ensure [Maven 3.2](https://maven.apache.org/install.html) or above is installed on your device.
+4. Run `$ git clone https://github.com/aniehuser/yw-prototypes.git`.
 5. Navigate to the newly cloned directory.
 6. Open the `pom.xml` file in the project's root directory and edit the following portion to reflect the current java and maven version
 ```
@@ -41,7 +41,7 @@ YesWorkflow is a maven project. To set up the project for development follow the
     </configuration>
 </plugin>
 ```
-7. Save edits made to the `pom.xml` file, and run `$ mvn clean install`. You can know build the project from an intellij or eclipse project!
+7. Save edits made to the `pom.xml` file, and run `$ mvn clean install`. You can now build the project from an intellij or eclipse project!
 
 
 
