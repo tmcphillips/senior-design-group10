@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'design/nav_bar.css' %}">
+<div class="navbar">
+        <div class="topnav">
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'users' %}">Users</a>
+                <a href="#">Workflows</a>
+                <a href="#">Files</a>
+            </nav>
+        </div>
+    </div>
+
+<link rel="stylesheet" type="text/css" href="{% static 'design/home_design.css' %}">
+<div class="list">
+    {% block content %}
+      <h1>Document List</h1>
+      {% if document_list %}
+      <ol id="elementStyle">
+        {% for document in document_list %}
+          <li>
+            <a href="{{ Document.get_absolute_url }}">{{ document.description|linebreaks}}</a> 
+            Uploaded: {{document.uploaded_at }}
+          </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+        <p>There are no documents in the system.</p>
+      {% endif %}       
+    {% endblock %}
+</div>
+
+</html>

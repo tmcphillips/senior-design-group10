@@ -21,7 +21,8 @@ from script_upload import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.home, name='home'),
+    path('home/', views.DocumentListView.as_view(), name='home'),
+    # path('home/', views.home, name='home'),
     path('home/', include('django.contrib.auth.urls'), name ='login'),
     path('home/register/', views.register, name='register'),
     path('home/users/', views.users, name = 'users'),
