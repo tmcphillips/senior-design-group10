@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS Users;
 
 
 CREATE TABLE Workflow(
-	workflow_id INT NOT NULL AUTO_ICREMENT,
+	workflow_id INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY(workflow_id)
 ) ENGINE = InnoDB;
 	
