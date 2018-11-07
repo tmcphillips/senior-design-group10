@@ -8,5 +8,5 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - cd ~/senior-design-group10/yw_website/
+  - cd ./yw_website/
   - python3 manaqe.py test
