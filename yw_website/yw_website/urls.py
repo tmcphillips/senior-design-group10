@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from script_upload import views
+from script_upload import views as script_upload_views
+from yw_rest_services import views as yw_rest_services_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('upload/', views.model_form_upload, name='upload')
+    path('', script_upload_views.home, name='home'),
+    path('upload/', script_upload_views.model_form_upload, name='upload'),
+    path('save/ping', yw_rest_services_views.yw_save_ping, name='ping'),
 ]
 
 if settings.DEBUG:
