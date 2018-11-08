@@ -8,8 +8,8 @@ class User(models.Model):
 	password = models.CharField(max_length=255)
 
 class Document(models.Model):
-	# username = models.ForeignKey(User, on_delete=models.CASCADE)
-	# title = models.CharField(max_length=255, blank=True)
+	# username = models.ForeignKey('User', on_delete=models.CASCADE)
+	title = models.CharField(max_length=255, blank=True)
 	# workflow = Image.open(model_instance.image_field)
 	description = models.CharField(max_length=255, blank=True)
 	document = models.FileField(upload_to='documents/')

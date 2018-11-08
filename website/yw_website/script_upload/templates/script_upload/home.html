@@ -42,18 +42,25 @@
     </div>
 
 </nav>
+<div class = "search">
+    <p> Search: <input type="text" placeholder="Search">
+    <link rel="stylesheet" type="text/css" href="{% static 'design/home_design.css' %}">
+    <button type="button">Go</button>
+    </p>
+</div>
 
-
-<link rel="stylesheet" type="text/css" href="{% static 'design/home_design.css' %}">
 <div class="list">
     {% block content %}
-      <h1>Document List</h1>
+      <h2>All Workflows</h1>
       {% if document_list %}
       <ol id="elementStyle">
         {% for document in document_list %}
           <li>
+            <div class "title"> {{ document.description|linebreaks}}</div>
             <a href="{{ Document.get_absolute_url }}">{{ document.description|linebreaks}}</a> 
             Uploaded: {{document.uploaded_at }}
+            <img src="{% static 'example/picture.jpeg' %}" alt="My image"/>
+            <!-- <p class = "workflow" > Workflow Standin</p> -->
           </li>
         {% endfor %}
       </ol>
