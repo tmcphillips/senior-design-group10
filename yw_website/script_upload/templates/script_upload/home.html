@@ -56,10 +56,16 @@
       <ol id="elementStyle">
         {% for document in document_list %}
           <li>
-            <div class "title"> {{ document.description|linebreaks}}</div>
-            <a href="{{ Document.get_absolute_url }}">{{ document.description|linebreaks}}</a> 
-            Uploaded: {{document.uploaded_at }}
-            <img src="{% static 'example/picture.jpeg' %}" alt="My image"/>
+            <div class = title>
+                Title:  {{ document.title|linebreaks}}
+            </div>
+            Link to Detail View: <a href="{{ document.get_absolute_url }}">{{ document.title|linebreaks}}</a> 
+            Description: {{document.description|linebreaks}}
+            Uploaded At: {{document.uploaded_at}}
+             <div class = workflow>
+                <img src="images/workflow.png" alt="Workflow Image">
+                <!-- <img src="{{ MEDIA_URL }}{{ document.workflow }}" alt="Workflow Image"/>  -->
+            </div>
             <!-- <p class = "workflow" > Workflow Standin</p> -->
           </li>
         {% endfor %}
