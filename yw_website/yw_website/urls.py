@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from script_upload import views
+from script_upload import views as script_upload_views
+from yw_rest_services import views as yw_rest_services_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,9 +27,12 @@ urlpatterns = [
     path('home/', include('django.contrib.auth.urls'), name ='login'),
     path('home/register/', views.register, name='register'),
     path('home/users/', views.users, name = 'users'),
-    path('upload/', views.model_form_upload, name='upload'),
+    # path('upload/', views.model_form_upload, name='upload'),
     #test path- remove later
     path('home/test', views.home, name='test')
+    path('', script_upload_views.home, name='home'),
+    path('upload/', script_upload_views.model_form_upload, name='upload'),
+    path('save/ping', yw_rest_services_views.yw_save_ping, name='ping'),
 ]
 
 if settings.DEBUG:
