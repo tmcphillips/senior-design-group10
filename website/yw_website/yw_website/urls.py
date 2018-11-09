@@ -26,7 +26,9 @@ urlpatterns = [
     path('home/', include('django.contrib.auth.urls'), name ='login'),
     path('home/register/', views.register, name='register'),
     path('home/users/', views.users, name = 'users'),
-    path('upload/', views.model_form_upload, name='upload')
+    path('upload/', views.model_form_upload, name='upload'),
+    #test path- remove later
+    path('home/test', views.home, name='test')
 ]
 
 if settings.DEBUG:

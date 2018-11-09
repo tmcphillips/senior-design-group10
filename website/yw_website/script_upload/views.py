@@ -6,20 +6,27 @@ from django.views import generic
 
 from script_upload.models import Document
 from script_upload.forms import DocumentForm
+from script_upload.forms import ImageUploadForm
 from script_upload.forms import SignUpForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 
+
 def home(request):
     documents = Document.objects.all()
-    return render(request, 'script_upload/home.html', { 'documents': documents })
+    return render(request, 'script_upload/base.html', { 'documents': documents })
 
 def model_form_upload(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
+        form2 = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            if form2.is_valid():
+                m = ExampleModel.objects.get(pk=course_id)
+                m.workflow = form.cleaned_data['image']
+                form2.save()
             return redirect('home')
     else:
         form = DocumentForm()

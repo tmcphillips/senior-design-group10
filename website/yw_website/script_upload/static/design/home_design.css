@@ -11,6 +11,7 @@
 	overflow-x: scroll; 
 	height:500px;
 
+
 }
 
 .title {
@@ -30,11 +31,10 @@
 
 
 .workflow {
- 	text-align: right;
- 	border-right: 2px solid;
-    border-left: 2px solid;
-    border-top: 2px solid;
-    border-bottom: 2px solid;
+
+ 	align-text: right;
+    padding: 5px;
+    width: 50%;
  }
 
 .search {
