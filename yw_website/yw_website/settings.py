@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'script_upload.apps.ScriptUploadConfig',
     'rest_framework',
+    'yw_db',
 ]
 
 MIDDLEWARE = [
