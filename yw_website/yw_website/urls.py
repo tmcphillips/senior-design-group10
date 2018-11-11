@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from script_upload import views as script_upload_views
@@ -25,6 +25,14 @@ urlpatterns = [
     path('', script_upload_views.home, name='home'),
     path('upload/', script_upload_views.model_form_upload, name='upload'),
     path('save/ping', yw_rest_services_views.yw_save_ping, name='ping'),
+    path('home/', script_upload_views.DocumentListView.as_view(), name='home'),
+    # path('home/', views.home, name='home'),
+    path('home/', include('django.contrib.auth.urls'), name ='login'),
+    path('home/register/', script_upload_views.register, name='register'),
+    path('home/users/', script_upload_views.users, name = 'users'),
+    path('upload/', script_upload_views.model_form_upload, name='upload'),
+    #test path- remove later
+    path('home/test', script_upload_views.home, name='test')
 ]
 
 if settings.DEBUG:
