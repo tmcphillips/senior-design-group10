@@ -1,8 +1,8 @@
-import pandas as pd
-from pandas.plotting import scatter_matrix
 import matplotlib
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
+from pandas.plotting import scatter_matrix
 
 def scatter_nba(df):
     matplotlib.rc('figure', figsize=(10, 5))
@@ -39,7 +39,7 @@ def correlation_heat_map_nba(df):
     f.savefig("nba_graphs/heatmap_nba.png")
 
 if __name__ == "__main__":
-    df = pd.read_csv("clean_nba_data")
+    df = pd.read_csv("nba_data")
     scatter_matrix(df)
     pairwise_nba(df)
     correlation_heat_map_nba(df)

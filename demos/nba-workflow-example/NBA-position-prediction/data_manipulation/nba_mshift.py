@@ -1,14 +1,12 @@
 # create clusters and visualize our data from stats.nba.com
 from sklearn.cluster import MeanShift
 import pandas as pd
-from nba_reducer import reducer 
 import numpy as np
 import matplotlib.pyplot as plt
 from itertools import cycle
 
 def nba_mshift(df):
-    # X = df.as_matrix(columns=df.columns[1:23])
-    X, _ = reducer(df)
+    X = df.as_matrix(columns=df.columns[1:23])
 
     ms = MeanShift(bin_seeding=False)
     ms.fit(X)
@@ -18,7 +16,7 @@ def nba_mshift(df):
     labels_unique = np.unique(labels)
     n_clusters_ = len(labels_unique)
 
-    print("number of estimated clusters : %d" % n_clusters_)
+    clusters_estimate = "number of estimated clusters : %d" % n_clusters_
 
     plt.figure(1)
     plt.clf()
@@ -32,6 +30,8 @@ def nba_mshift(df):
                 markeredgecolor='k', markersize=14)
     plt.title('Estimated number of clusters: %d' % n_clusters_)
     plt.savefig("nba_graphspca_data_mshift.png")
+
+    return clusters_estimate
 
 if __name__ == "__main__":
     df = pd.read_csv("nba_data")

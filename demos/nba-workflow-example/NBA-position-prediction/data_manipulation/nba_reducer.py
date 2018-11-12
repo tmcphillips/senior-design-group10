@@ -3,9 +3,10 @@ from sklearn.decomposition import PCA
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def reducer(df):
+def dimension_reducer(df):
     X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])
     pca = PCA(n_components=18)
+
     X = df.as_matrix(columns=df.columns[1:23])
     y = df.as_matrix(columns=df.columns[:1]).ravel()
     X_r = pca.fit(X).transform(X)
@@ -28,5 +29,7 @@ def plot_pca(X, y):
                     label=target_name)
     plt.legend(loc='best', shadow=False, scatterpoints=1)
     plt.title('PCA of NBA dataset')
-
     plt.savefig("nba_graphs/nba_pca.png")
+if __name__ == "__main__":
+    df = pd.read_csv("extracted_nba_position_data/clean_nba_data")
+    dimension_reducer(df)
