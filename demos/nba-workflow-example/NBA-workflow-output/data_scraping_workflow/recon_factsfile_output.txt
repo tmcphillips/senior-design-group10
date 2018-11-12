@@ -1,0 +1,224 @@
+
+% FACT: resource(resource_id, resource_uri).
+resource(1, '../extracted_nba_position_data/nba_data').
+resource(2, '../extracted_nba_position_data/1966-67_player_stats').
+resource(3, '../extracted_nba_position_data/1986-87_player_stats').
+resource(4, '../extracted_nba_position_data/2016-17_player_stats').
+resource(5, '../extracted_nba_position_data/1957-58_player_stats').
+resource(6, '../extracted_nba_position_data/1979-80_player_stats').
+resource(7, '../extracted_nba_position_data/1975-76_player_stats').
+resource(8, '../extracted_nba_position_data/2013-14_player_stats').
+resource(9, '../extracted_nba_position_data/1964-65_player_stats').
+resource(10, '../extracted_nba_position_data/1983-84_player_stats').
+resource(11, '../extracted_nba_position_data/1958-59_player_stats').
+resource(12, '../extracted_nba_position_data/1995-96_player_stats').
+resource(13, '../extracted_nba_position_data/2014-15_player_stats').
+resource(14, '../extracted_nba_position_data/1984-85_player_stats').
+resource(15, '../extracted_nba_position_data/1963-64_player_stats').
+resource(16, '../extracted_nba_position_data/1951-52_player_stats').
+resource(17, '../extracted_nba_position_data/2005-06_player_stats').
+resource(18, '../extracted_nba_position_data/2007-08_player_stats').
+resource(19, '../extracted_nba_position_data/2012-13_player_stats').
+resource(20, '../extracted_nba_position_data/1946-47_player_stats').
+resource(21, '../extracted_nba_position_data/1982-83_player_stats').
+resource(22, '../extracted_nba_position_data/1997-98_player_stats').
+resource(23, '../extracted_nba_position_data/2009-10_player_stats').
+resource(24, '../extracted_nba_position_data/1962-63_player_stats').
+resource(25, '../extracted_nba_position_data/1977-78_player_stats').
+resource(26, '../extracted_nba_position_data/1955-56_player_stats').
+resource(27, '../extracted_nba_position_data/2001-02_player_stats').
+resource(28, '../extracted_nba_position_data/1980-81_player_stats').
+resource(29, '../extracted_nba_position_data/2010-11_player_stats').
+resource(30, '../extracted_nba_position_data/1991-92_player_stats').
+resource(31, '../extracted_nba_position_data/1978-79_player_stats').
+resource(32, '../extracted_nba_position_data/2008-09_player_stats').
+resource(33, '../extracted_nba_position_data/1960-61_player_stats').
+resource(34, '../extracted_nba_position_data/1998-99_player_stats').
+resource(35, '../extracted_nba_position_data/1971-72_player_stats').
+resource(36, '../extracted_nba_position_data/1965-66_player_stats').
+resource(37, '../extracted_nba_position_data/2003-04_player_stats').
+resource(38, '../extracted_nba_position_data/1974-75_player_stats').
+resource(39, '../extracted_nba_position_data/1993-94_player_stats').
+resource(40, '../extracted_nba_position_data/1948-49_player_stats').
+resource(41, '../extracted_nba_position_data/1985-86_player_stats').
+resource(42, '../extracted_nba_position_data/1950-51_player_stats').
+resource(43, '../extracted_nba_position_data/2004-05_player_stats').
+resource(44, '../extracted_nba_position_data/1994-95_player_stats').
+resource(45, '../extracted_nba_position_data/1973-74_player_stats').
+resource(46, '../extracted_nba_position_data/2015-16_player_stats').
+resource(47, '../extracted_nba_position_data/1976-77_player_stats').
+resource(48, '../extracted_nba_position_data/1949-50_player_stats').
+resource(49, '../extracted_nba_position_data/1996-97_player_stats').
+resource(50, '../extracted_nba_position_data/2006-07_player_stats').
+resource(51, '../extracted_nba_position_data/1952-53_player_stats').
+resource(52, '../extracted_nba_position_data/1947-48_player_stats').
+resource(53, '../extracted_nba_position_data/2011-12_player_stats').
+resource(54, '../extracted_nba_position_data/1990-91_player_stats').
+resource(55, '../extracted_nba_position_data/1954-55_player_stats').
+resource(56, '../extracted_nba_position_data/2000-01_player_stats').
+resource(57, '../extracted_nba_position_data/1981-82_player_stats').
+resource(58, '../extracted_nba_position_data/1968-69_player_stats').
+resource(59, '../extracted_nba_position_data/1959-60_player_stats').
+resource(60, '../extracted_nba_position_data/1970-71_player_stats').
+resource(61, '../extracted_nba_position_data/1988-89_player_stats').
+resource(62, '../extracted_nba_position_data/1961-62_player_stats').
+resource(63, '../extracted_nba_position_data/1953-54_player_stats').
+resource(64, '../extracted_nba_position_data/1989-90_player_stats').
+resource(65, '../extracted_nba_position_data/2017-18_player_stats').
+resource(66, '../extracted_nba_position_data/2002-03_player_stats').
+resource(67, '../extracted_nba_position_data/1956-57_player_stats').
+resource(68, '../extracted_nba_position_data/1999-00_player_stats').
+resource(69, '../extracted_nba_position_data/1992-93_player_stats').
+resource(70, '../extracted_nba_position_data/1987-88_player_stats').
+resource(71, '../extracted_nba_position_data/1969-70_player_stats').
+resource(72, '../extracted_nba_position_data/1972-73_player_stats').
+resource(73, '../extracted_nba_position_data/1967-68_player_stats').
+
+% FACT: data_resource(data_id, resource_id).
+data_resource(2, 1).
+data_resource(3, 2).
+data_resource(3, 3).
+data_resource(3, 4).
+data_resource(3, 5).
+data_resource(3, 6).
+data_resource(3, 7).
+data_resource(3, 8).
+data_resource(3, 9).
+data_resource(3, 10).
+data_resource(3, 11).
+data_resource(3, 12).
+data_resource(3, 13).
+data_resource(3, 14).
+data_resource(3, 15).
+data_resource(3, 16).
+data_resource(3, 17).
+data_resource(3, 18).
+data_resource(3, 19).
+data_resource(3, 20).
+data_resource(3, 21).
+data_resource(3, 22).
+data_resource(3, 23).
+data_resource(3, 24).
+data_resource(3, 25).
+data_resource(3, 26).
+data_resource(3, 27).
+data_resource(3, 28).
+data_resource(3, 29).
+data_resource(3, 30).
+data_resource(3, 31).
+data_resource(3, 32).
+data_resource(3, 33).
+data_resource(3, 34).
+data_resource(3, 35).
+data_resource(3, 36).
+data_resource(3, 37).
+data_resource(3, 38).
+data_resource(3, 39).
+data_resource(3, 40).
+data_resource(3, 41).
+data_resource(3, 42).
+data_resource(3, 43).
+data_resource(3, 44).
+data_resource(3, 45).
+data_resource(3, 46).
+data_resource(3, 47).
+data_resource(3, 48).
+data_resource(3, 49).
+data_resource(3, 50).
+data_resource(3, 51).
+data_resource(3, 52).
+data_resource(3, 53).
+data_resource(3, 54).
+data_resource(3, 55).
+data_resource(3, 56).
+data_resource(3, 57).
+data_resource(3, 58).
+data_resource(3, 59).
+data_resource(3, 60).
+data_resource(3, 61).
+data_resource(3, 62).
+data_resource(3, 63).
+data_resource(3, 64).
+data_resource(3, 65).
+data_resource(3, 66).
+data_resource(3, 67).
+data_resource(3, 68).
+data_resource(3, 69).
+data_resource(3, 70).
+data_resource(3, 71).
+data_resource(3, 72).
+data_resource(3, 73).
+
+% FACT: uri_variable_value(resource_id, uri_variable_id, uri_variable_value).
+uri_variable_value(2, 1, '1966-67').
+uri_variable_value(3, 1, '1986-87').
+uri_variable_value(4, 1, '2016-17').
+uri_variable_value(5, 1, '1957-58').
+uri_variable_value(6, 1, '1979-80').
+uri_variable_value(7, 1, '1975-76').
+uri_variable_value(8, 1, '2013-14').
+uri_variable_value(9, 1, '1964-65').
+uri_variable_value(10, 1, '1983-84').
+uri_variable_value(11, 1, '1958-59').
+uri_variable_value(12, 1, '1995-96').
+uri_variable_value(13, 1, '2014-15').
+uri_variable_value(14, 1, '1984-85').
+uri_variable_value(15, 1, '1963-64').
+uri_variable_value(16, 1, '1951-52').
+uri_variable_value(17, 1, '2005-06').
+uri_variable_value(18, 1, '2007-08').
+uri_variable_value(19, 1, '2012-13').
+uri_variable_value(20, 1, '1946-47').
+uri_variable_value(21, 1, '1982-83').
+uri_variable_value(22, 1, '1997-98').
+uri_variable_value(23, 1, '2009-10').
+uri_variable_value(24, 1, '1962-63').
+uri_variable_value(25, 1, '1977-78').
+uri_variable_value(26, 1, '1955-56').
+uri_variable_value(27, 1, '2001-02').
+uri_variable_value(28, 1, '1980-81').
+uri_variable_value(29, 1, '2010-11').
+uri_variable_value(30, 1, '1991-92').
+uri_variable_value(31, 1, '1978-79').
+uri_variable_value(32, 1, '2008-09').
+uri_variable_value(33, 1, '1960-61').
+uri_variable_value(34, 1, '1998-99').
+uri_variable_value(35, 1, '1971-72').
+uri_variable_value(36, 1, '1965-66').
+uri_variable_value(37, 1, '2003-04').
+uri_variable_value(38, 1, '1974-75').
+uri_variable_value(39, 1, '1993-94').
+uri_variable_value(40, 1, '1948-49').
+uri_variable_value(41, 1, '1985-86').
+uri_variable_value(42, 1, '1950-51').
+uri_variable_value(43, 1, '2004-05').
+uri_variable_value(44, 1, '1994-95').
+uri_variable_value(45, 1, '1973-74').
+uri_variable_value(46, 1, '2015-16').
+uri_variable_value(47, 1, '1976-77').
+uri_variable_value(48, 1, '1949-50').
+uri_variable_value(49, 1, '1996-97').
+uri_variable_value(50, 1, '2006-07').
+uri_variable_value(51, 1, '1952-53').
+uri_variable_value(52, 1, '1947-48').
+uri_variable_value(53, 1, '2011-12').
+uri_variable_value(54, 1, '1990-91').
+uri_variable_value(55, 1, '1954-55').
+uri_variable_value(56, 1, '2000-01').
+uri_variable_value(57, 1, '1981-82').
+uri_variable_value(58, 1, '1968-69').
+uri_variable_value(59, 1, '1959-60').
+uri_variable_value(60, 1, '1970-71').
+uri_variable_value(61, 1, '1988-89').
+uri_variable_value(62, 1, '1961-62').
+uri_variable_value(63, 1, '1953-54').
+uri_variable_value(64, 1, '1989-90').
+uri_variable_value(65, 1, '2017-18').
+uri_variable_value(66, 1, '2002-03').
+uri_variable_value(67, 1, '1956-57').
+uri_variable_value(68, 1, '1999-00').
+uri_variable_value(69, 1, '1992-93').
+uri_variable_value(70, 1, '1987-88').
+uri_variable_value(71, 1, '1969-70').
+uri_variable_value(72, 1, '1972-73').
+uri_variable_value(73, 1, '1967-68').

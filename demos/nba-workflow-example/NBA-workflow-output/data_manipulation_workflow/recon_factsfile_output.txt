@@ -1,0 +1,16 @@
+
+% FACT: resource(resource_id, resource_uri).
+resource(1, 'nba_graphs/mean_shift_cluster_plot.png').
+resource(2, 'nba_analysis_output.txt').
+resource(3, 'nba_graphs/nba-data-scattermatrix.png').
+resource(4, 'nba_graphs/pairwise_nba.png').
+resource(5, 'nba_graphs/heatmap_nba.png').
+
+% FACT: data_resource(data_id, resource_id).
+data_resource(2, 1).
+data_resource(3, 2).
+data_resource(4, 3).
+data_resource(5, 4).
+data_resource(6, 5).
+
+% FACT: uri_variable_value(resource_id, uri_variable_id, uri_variable_value).
