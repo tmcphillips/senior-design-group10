@@ -6,6 +6,7 @@ from django.views import generic
 
 from script_upload.models import Document
 from script_upload.forms import DocumentForm
+from script_upload.forms import VersionsForm
 from script_upload.forms import ImageUploadForm
 from script_upload.forms import SignUpForm
 from django.contrib.auth.models import User
@@ -33,6 +34,20 @@ def model_form_upload(request):
     return render(request, 'script_upload/upload_form.html', {
         'form': form
     })
+
+# Added this
+def detailed_workflow(request):
+    try:
+        # if request.method == "POST":
+        #     task_id = QueryDict(request.body).get('task_id')
+        #     document = Document.objects.get(pk=task_id).update(completed=True)
+        document = Document.objects.get(id="1")
+        form = VersionsForm(request.POST, request.FILES)
+        info = {'document': document, 'form': form}
+        return render(request, 'script_upload/detailed_workflow.html', info)
+    except Document.DoesNotExist:
+      # we have no object!  
+      return redirect('home')
 
 
 def register(request):
