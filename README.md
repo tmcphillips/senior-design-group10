@@ -1,6 +1,12 @@
 # senior-design-group10
 Document sharing between team members, sponsors, faculty advisors, and DAB members for the Senior Design Software Project
 
+## Setting up development environment
+
+1. Insure Python 3.6 or greater is installed
+2. Install pip3 (pip for windows)
+3. Install dependencies with `pip3 install`: `django==2.1.3`, `djangorestframework`, `pillow`
+4. Optional: If you would like to deploy the server and are running a UNIX OS (OS X, linux, etc), open your `.profile` or `.bash_profile`, create a new config `DJANGO_DEBUG=""` and run `source .profile` or `source .bash_profile`.
 
 ## Code Review
 
