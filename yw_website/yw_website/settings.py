@@ -26,7 +26,8 @@ SECRET_KEY = 'xxh*%&fu6a*2li25l6f#wa)yx3_(%3!5erw5hvnp4#r3)@xnu5'
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 ALLOWED_HOSTS = [
-    'workflow-web.gonzaga.edu',        
+    'workflow-web.gonzaga.edu',    
+    'localhost',    
 ]
 
 
