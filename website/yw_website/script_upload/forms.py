@@ -24,4 +24,8 @@ class ImageUploadForm(forms.Form):
     """Image upload form."""
     image = forms.ImageField()
 
+# added
+class VersionsForm(forms.Form):
+    # Will need to change from docuements to versions when ready
+    versions = forms.ModelChoiceField(queryset=Document.objects.all(), required = False, empty_label="Version 1")
 
