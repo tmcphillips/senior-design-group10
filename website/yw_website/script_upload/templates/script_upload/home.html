@@ -2,8 +2,9 @@
 <html>
 {% load staticfiles %}
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="{% static 'homepage/style.css' %}" />
-<!-- <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'design/nav_bar.css' %}">
+
+<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -49,7 +50,11 @@
     </p>
 </div>
 
+<div class="tab">
+   All Workflows
+</div>
 <div class="list">
+   
     {% block content %}
       <h2>All Workflows</h1>
       {% if document_list %}
