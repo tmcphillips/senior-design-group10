@@ -17,8 +17,27 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+
 from script_upload import views as script_upload_views
 from yw_rest_services import views as yw_rest_services_views
+
+from rest_framework import routers
+
+from yw_db.views import *
+
+# REST API ROUTES
+router = routers.DefaultRouter()
+router.register('workflows', WorkflowViewSet)
+router.register('tags', TagViewSet)
+router.register('versions', VersionViewSet)
+router.register('runs', RunViewSet)
+router.register('files', FileViewSet)
+router.register('runfiles', RunFileViewSet)
+router.register('tagworkflows', TagWorkflowViewSet)
+router.register('tagversions', TagVersionViewSet)
+router.register('tagruns', TagRunViewSet)
+router.register('tagfiles', TagWorkflowViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,7 +51,13 @@ urlpatterns = [
     path('home/users/', script_upload_views.users, name = 'users'),
     path('upload/', script_upload_views.model_form_upload, name='upload'),
     #test path- remove later
-    path('home/test', script_upload_views.home, name='test')
+    path('home/test', script_upload_views.home, name='test'),
+
+    #REST API URLS
+    path('api/', include(router.urls)),
+
+
+    # path('api-auth/', include('rest_framework.urls')), # This is for rest stuff that should be hidden behind authentication.
 ]
 
 if settings.DEBUG:
