@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from yw_db.models import Tag, Workflow, Version, Run, File, RunFile
-# TODO: Do we need to serialize users? probably
-# from django.contrib.auth.models import User
+from yw_db.models import *
 
 class TagSerializer(serializers.ModelSerializer):
     parent_tag = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -10,47 +8,59 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('parent_tag', 'title', 'tag_type')
 
 class WorkflowSerializer(serializers.ModelSerializer):
-    users = serializers.RelatedField(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Workflow
-        fields = ('users', 'title', 'description')
+        fields = ('user', 'title', 'description')
 
 class VersionSerializer(serializers.ModelSerializer):
-    workflows = serializers.PrimaryKeyRelatedField(read_only=True)
+    workflow = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Version
-        fields = ('script_check_sum', 'yw_model_check_sum', 'yw_model_output', 'yw_graph_output', 'last_modified')
+        fields = ('workflow', 'script_check_sum', 'yw_model_check_sum', 'yw_model_output', 'yw_graph_output', 'last_modified')
 
 class RunSerializer(serializers.ModelSerializer):
-    versions = serializers.PrimaryKeyRelatedField(read_only=True)
+    version = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Run
-        fields = ('run_time_stamp', 'yw_recon_output')
+        fields = ('version', 'run_time_stamp', 'yw_recon_output')
 
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
-        fields = ('file_checksum', 'input_data', 'file_size', 'last_modified_time_stamp')
+        fields = ('file_checksum', 'input_data', 'file_size', 'last_modified')
 
 class RunFileSerializer(serializers.ModelSerializer):
-    run_file = serializers.PrimaryKeyRelatedField(read_only=True)
-    file_run = serializers.PrimaryKeyRelatedField(read_only=True)
+    run = serializers.PrimaryKeyRelatedField(read_only=True)
+    file = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = RunFile 
-        fields = ('uri', 'file_name')
+        fields = ('run', 'file', 'uri', 'file_name')
 
 class TagWorkflowSerializer(serializers.ModelSerializer):
-    tags_workflows = serializers.PrimaryKeyRelatedField(read_only=True)
-    workflows_tags = serializers.PrimaryKeyRelatedField(read_only=True)
+    tag = serializers.PrimaryKeyRelatedField(read_only=True)
+    workflow = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = TagWorkflow
+        fields = ('tag', 'workflow')
 
 class TagVersionSerializer(serializers.ModelSerializer):
-    tags_version = serializers.PrimaryKeyRelatedField(read_only=True)
-    versions_tags = serializers.PrimaryKeyRelatedField(read_only=True)
+    tag = serializers.PrimaryKeyRelatedField(read_only=True)
+    version = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = TagVersion
+        fields = ('tag', 'version')
 
 class TagRunSerializer(serializers.ModelSerializer):
-    tags_runs = serializers.PrimaryKeyRelatedField(read_only=True)
-    runs_tags = serializers.PrimaryKeyRelatedField(read_only=True)
+    tag = serializers.PrimaryKeyRelatedField(read_only=True)
+    run = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = TagRun
+        fields = ('tag', 'run')
 
 class TagFileSerializer(serializers.ModelSerializer):
-    tags_files = serializers.PrimaryKeyRelatedField(read_only=True)
-    files_tags = serializers.PrimaryKeyRelatedField(read_only=True)
+    tag = serializers.PrimaryKeyRelatedField(read_only=True)
+    file = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = TagFile
+        fields = ('tag', 'file')
