@@ -54,7 +54,7 @@ urlpatterns = [
     path('home/test', script_upload_views.home, name='test'),
 
     #REST API URLS
-    path('api/', include(router.urls)),
+    path('api/v1/', include(router.urls)),
 
 
     # path('api-auth/', include('rest_framework.urls')), # This is for rest stuff that should be hidden behind authentication.
