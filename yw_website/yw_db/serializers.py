@@ -43,7 +43,6 @@ class TagWorkflowSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagWorkflow
         fields = ('tag', 'workflow')
-        unique_together = ('tag', 'workflow')
 
 class TagVersionSerializer(serializers.ModelSerializer):
     tag = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -51,7 +50,6 @@ class TagVersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagVersion
         fields = ('tag', 'version')
-        unique_together = ('tag', 'version')
 
 class TagRunSerializer(serializers.ModelSerializer):
     tag = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -59,7 +57,6 @@ class TagRunSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagRun
         fields = ('tag', 'run')
-        unique_together = ('tag', 'run')
 
 
 class TagFileSerializer(serializers.ModelSerializer):
@@ -68,4 +65,3 @@ class TagFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagFile
         fields = ('tag', 'file')
-        unique_together = ('tag', 'workflow')

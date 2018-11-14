@@ -61,14 +61,26 @@ class TagWorkflow(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        unique_together = ('tag', 'workflow')
+
+
 class TagVersion(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
     version = models.ForeignKey(Version, on_delete=models.CASCADE, null=True)
+    class Meta:
+        unique_together = ('tag', 'version')
 
 class TagRun(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
     run = models.ForeignKey(Run, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        unique_together = ('tag', 'run')
+
 class TagFile(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
     file = models.ForeignKey(File, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        unique_together = ('tag', 'file')
