@@ -8,4 +8,6 @@ install:
 # command to run tests
 script:
   - cd ./yw_website/
+  - python3 manage.py makemigrations
+  - python3 manage.py migrate --noinput
   - python3 manage.py test
