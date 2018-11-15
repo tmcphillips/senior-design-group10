@@ -1,10 +1,11 @@
 from django.db import models
-
-# Create your models here.
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Tag(models.Model):
-    parent_tag = models.ForeignKey('self', blank=True, on_delete=models.DO_NOTHING, default=None)
+    parent_tag = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True)
 
+    FILE = "f"
     WORKFLOW = "w"
     VERSION = "v"
     RUN = "r"
@@ -13,48 +14,73 @@ class Tag(models.Model):
         (WORKFLOW, "Workflow"),
         (VERSION, "Version"),
         (RUN, "Run"),
+        (FILE, "File"),
     )
 
     title = models.CharField(max_length=255)
     tag_type = models.CharField(max_length=1, choices=TAG_CHOICES, default=WORKFLOW)
 
-class WorkFlow(models.Model):
-    # TODO: integrate users with yw database
-    # user_id = models.ForeignKey() 
-    workflow_tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+class Workflow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
 
     title = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    description = models.TextField()
 
 class Version(models.Model):
-    workflow_id = models.ForeignKey(WorkFlow, on_delete=models.CASCADE)
-    version_tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, null=True)
 
-    # TODO: double check checksum is same length as hash length client side
-    script_check_sum = models.CharField(max_length=20)
-    yw_model_check_sum = models.CharField(max_length=20)
+    script_check_sum = models.CharField(max_length=128)
+    yw_model_check_sum = models.CharField(max_length=128)
 
-    yw_model_output = models.CharField(max_length=255)
+    yw_model_output = models.TextField()
     yw_graph_output = models.TextField()
 
-    last_modified = models.DateField()
+    last_modified = models.DateTimeField()
 
 class Run(models.Model):
-    run_tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    version = models.ForeignKey(Version, on_delete=models.CASCADE, null=True)
 
-    time_stamp = models.DateTimeField()
+    run_time_stamp = models.DateTimeField()
     yw_recon_output = models.TextField()
 
 class File(models.Model):
-    checksum = models.CharField(max_length=20, primary_key=True)
-    file_tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    file_checksum = models.CharField(max_length=128, primary_key=True, default=None)
+    input_data = models.FileField(upload_to="recon_files/")
+    file_size = models.IntegerField(default=0)
 
-    input_data = models.FileField(upload_to="recon_files/", blank=True)
+    last_modified = models.DateTimeField(default=timezone.now())
 
 class RunFile(models.Model):
-    run_id = models.ForeignKey(Run, on_delete=models.CASCADE)
-    file_id = models.ForeignKey(File, on_delete=models.CASCADE)
+    run = models.ForeignKey(Run, on_delete=models.CASCADE, null=True)
+    file = models.ForeignKey(File, on_delete=models.CASCADE, null=True)
 
     uri = models.CharField(max_length=255)
     file_name = models.CharField(max_length=255)
-    time_stamp = models.DateField()
+
+class TagWorkflow(models.Model):
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
+    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        unique_together = ('tag', 'workflow')
+
+
+class TagVersion(models.Model):
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
+    version = models.ForeignKey(Version, on_delete=models.CASCADE, null=True)
+    class Meta:
+        unique_together = ('tag', 'version')
+
+class TagRun(models.Model):
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
+    run = models.ForeignKey(Run, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        unique_together = ('tag', 'run')
+
+class TagFile(models.Model):
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
+    file = models.ForeignKey(File, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        unique_together = ('tag', 'file')
