@@ -16,7 +16,7 @@ from django.contrib.auth import login
 
 def home(request):
     documents = Document.objects.all()
-    return render(request, 'script_upload/base.html', { 'documents': documents })
+    return render(request, 'script_upload/home.html', { 'documents': documents })
 
 def model_form_upload(request):
     if request.method == 'POST':
@@ -49,6 +49,9 @@ def detailed_workflow(request):
       # we have no object!  
       return redirect('home')
 
+def run_detail(request):
+    document = Document.objects.get(id="1")
+    return render(request, 'script_upload/run_detail.html', { 'document': document })
 
 def register(request):
     if request.method == 'POST':

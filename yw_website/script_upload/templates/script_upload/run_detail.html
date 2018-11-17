@@ -1,9 +1,9 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="{% static 'design/nav_bar.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'design/login.css' %}">
 
 <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -39,17 +39,51 @@
             </ul>
         </div>
     </div>
-
 </nav>
 
-<div class="credentials">
-    <h2>Login</h2>
-    <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account?</p>
-    <a href="{% url 'register' %}">Create an account</a>
+<link rel="stylesheet" type="text/css" href="{% static 'design/run_detail.css' %}">
+<div class = box>
+    <div class = title>
+        {{ document.title|linebreaks}}
+    </div>
+    <div class = 'inputs'>
+        <p>Inputs:</p>
+        <table align="center">
+            <tr>
+                <th>Name</th>
+                <!-- <th>Creation Date</th> -->
+            </tr>
+            <tr>
+                <td>Analysis 1 </td>
+            </tr>
+            <tr>
+                <td>Analysis 2 </td>
+            </tr>
+
+        </table>
+    </div>
+    <div class = 'outputs'>
+        <p>Outputs:</p>
+        <table align="center">
+            <tr>
+                <th>Name</th>
+                <!-- <th>Creation Date</th> -->
+            </tr>
+            <tr>
+                <td>Analysis 1 </td>
+            </tr>
+            <tr>
+                <td>Analysis 2 </td>
+            </tr>
+
+        </table>
+    </div>
+    <div class= 'workflow'>
+        Workflow Image will go here
+    </div>
+<!--     <div class = outside_data>
+        Description: {{document.description}}
+    </div> -->
 </div>
+
 

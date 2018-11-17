@@ -27,13 +27,13 @@ urlpatterns = [
     # path('save/ping', yw_rest_services_views.yw_save_ping, name='ping'),
     path('home/', script_upload_views.DocumentListView.as_view(), name='home'),
     path('home/detailed_workflow/', script_upload_views.detailed_workflow, name = 'detailed_workflow'),
+    path('home/run_detail/', script_upload_views.run_detail, name='run_detail'),
     # path('home/', views.home, name='home'),
     path('home/', include('django.contrib.auth.urls'), name ='login'),
     path('home/register/', script_upload_views.register, name='register'),
     path('home/users/', script_upload_views.users, name = 'users'),
     path('upload/', script_upload_views.model_form_upload, name='upload'),
-    #test path- remove later
-    path('home/test', script_upload_views.home, name='test')
+
 ]
 
 if settings.DEBUG:

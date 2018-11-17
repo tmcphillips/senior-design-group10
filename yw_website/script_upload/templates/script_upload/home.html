@@ -2,8 +2,9 @@
 <html>
 {% load staticfiles %}
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="{% static 'homepage/style.css' %}" />
-<!-- <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'design/nav_bar.css' %}">
+
+<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -49,7 +50,11 @@
     </p>
 </div>
 
+<div class="tab">
+   All Workflows
+</div>
 <div class="list">
+   
     {% block content %}
       <h2>All Workflows</h1>
       {% if document_list %}
@@ -59,7 +64,7 @@
             <div class = title>
                 Title:  {{ document.title|linebreaks}}
             </div>
-            Link to Detail View: <a href="{{ document.get_absolute_url }}">{{ document.title|linebreaks}}</a> 
+            Link to Detail View: <a href="{% url 'detailed_workflow' %}">{{ document.title|linebreaks}}</a> 
             Description: {{document.description|linebreaks}}
             Uploaded At: {{document.uploaded_at}}
              <div class = workflow>
