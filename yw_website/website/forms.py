@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from script_upload.models import Document
+from website.models import Document
 from django.contrib.auth.models import User
 
 class DocumentForm(forms.ModelForm):

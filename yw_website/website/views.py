@@ -4,11 +4,11 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.views import generic
 
-from script_upload.models import Document
-from script_upload.forms import DocumentForm
-from script_upload.forms import VersionsForm
-from script_upload.forms import ImageUploadForm
-from script_upload.forms import SignUpForm
+from website.models import Document
+from website.forms import DocumentForm
+from website.forms import VersionsForm
+from website.forms import ImageUploadForm
+from website.forms import SignUpForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
@@ -16,7 +16,7 @@ from django.contrib.auth import login
 
 def home(request):
     documents = Document.objects.all()
-    return render(request, 'script_upload/home.html', { 'documents': documents })
+    return render(request, 'website/home.html', { 'documents': documents })
 
 def model_form_upload(request):
     if request.method == 'POST':
@@ -44,14 +44,14 @@ def detailed_workflow(request):
         document = Document.objects.get(id="1")
         form = VersionsForm(request.POST, request.FILES)
         info = {'document': document, 'form': form}
-        return render(request, 'script_upload/detailed_workflow.html', info)
+        return render(request, 'website/detailed_workflow.html', info)
     except Document.DoesNotExist:
       # we have no object!  
       return redirect('home')
 
 def run_detail(request):
     document = Document.objects.get(id="1")
-    return render(request, 'script_upload/run_detail.html', { 'document': document })
+    return render(request, 'website/run_detail.html', { 'document': document })
 
 def register(request):
     if request.method == 'POST':
@@ -75,6 +75,6 @@ def users(request):
 class DocumentListView(generic.ListView):
     model = Document
     context_object_name = 'document_list'
-    template_name = 'script_upload/home.html'  
+    template_name = 'website/home.html'  
 
 

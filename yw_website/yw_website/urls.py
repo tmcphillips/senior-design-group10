@@ -17,22 +17,22 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from script_upload import views as script_upload_views
+from website import views as yw_website_views
 # from yw_rest_services import views as yw_rest_services_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', script_upload_views.home, name='home'),
-    path('upload/', script_upload_views.model_form_upload, name='upload'),
+    path('', yw_website_views.home, name='home'),
+    path('upload/', yw_website_views.model_form_upload, name='upload'),
     # path('save/ping', yw_rest_services_views.yw_save_ping, name='ping'),
-    path('home/', script_upload_views.DocumentListView.as_view(), name='home'),
-    path('home/detailed_workflow/', script_upload_views.detailed_workflow, name = 'detailed_workflow'),
-    path('home/run_detail/', script_upload_views.run_detail, name='run_detail'),
+    path('home/', yw_website_views.DocumentListView.as_view(), name='home'),
+    path('home/detailed_workflow/', yw_website_views.detailed_workflow, name = 'detailed_workflow'),
+    path('home/run_detail/', yw_website_views.run_detail, name='run_detail'),
     # path('home/', views.home, name='home'),
     path('home/', include('django.contrib.auth.urls'), name ='login'),
-    path('home/register/', script_upload_views.register, name='register'),
-    path('home/users/', script_upload_views.users, name = 'users'),
-    path('upload/', script_upload_views.model_form_upload, name='upload'),
+    path('home/register/', yw_website_views.register, name='register'),
+    path('home/users/', yw_website_views.users, name = 'users'),
+    path('upload/', yw_website_views.model_form_upload, name='upload'),
 
 ]
 
