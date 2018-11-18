@@ -191,3 +191,9 @@ dmypy.json
 
 # uploaded files
 media/*
+
+# Django DB migrations
+**/migrations/
+
+# Django app binaries
+**/__pycache__/
