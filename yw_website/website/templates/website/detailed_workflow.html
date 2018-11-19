@@ -44,25 +44,22 @@
 
 <div class = box>
     <div class = title>
-        {{ document.title|linebreaks}}
+        {{ document.title}}
     </div>
     <link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
-    <div class= 'list'>
-        Workflow Image will go here
-    </div>
+    <img src="{% static 'workflow.JPG' %}" alt="Workflow Image">
+
     <div class = outside_data>
-        Description: {{document.description}}
-    </div>
+        <b>Description: </b>{{document.description}}
+        <br>
+       <b>Uploaded At: </b>{{document.uploaded_at}}    </div>
 
 
     <div class = "runs">
-        Versions:
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
         </form>
-
-        Click on a run for more detail
         <table align="center">
             <tr>
                 <th>Run#</th>

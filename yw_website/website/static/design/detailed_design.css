@@ -17,21 +17,27 @@
 
 }
 
+img {
+	margin: 20px;
+	max-width: 90%
+}
+
+
 .runs {
-	border-style: solid;
+	border-top: 1px dashed;
 	text-align: center;
 	background-color: white;
-    padding: 40px 30px; 
+    padding: 20px 30px; 
     /*background-color: PowderBlue;*/
     margin:auto;
-    margin-top: 100px;
-	width:1000px;
+    margin-top: 30px;
 	max-width:100%; 
-	overflow-x: scroll; 
+	overflow-y: scroll; 
 	height:500px;
 }
 
 table {
+	margin: 10px;
     border-collapse: collapse;
     background-color: white;
     width: 100%;
@@ -42,33 +48,28 @@ th, td {
     text-align: left;
    border-bottom: 1px solid #ddd;
 }
-tr:hover {background-color: #f5f5f5;}
-
 .box {
 	margin:auto;
-	border-style: solid;
 	text-align: center;
-	width:1100px;
 }
 
 .outside_data {
-
 	padding: 10px 10px; 
-	text-align: center;
+	text-align: left;
 }
 
 .title {
 	padding: 8px;
 	text-align: center;
 	font-size: 20px;
-	border-bottom: 4px solid black;
+	border-bottom: 1px dashed black;
+	border-top: 1px dashed black;
+
 	background-color: white;
 
 }
 
-
 .workflow {
-
  	align-text: right;
     padding: 5px;
     width: 50%;

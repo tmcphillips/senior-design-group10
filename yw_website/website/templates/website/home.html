@@ -56,21 +56,24 @@
 <div class="list">
    
     {% block content %}
-      <h2>All Workflows</h1>
       {% if document_list %}
       <ol id="elementStyle">
         {% for document in document_list %}
           <li>
-            <div class = title>
-                Title:  {{ document.title|linebreaks}}
+            <div class = "title">
+                <a href="{% url 'detailed_workflow' %}">{{ document.title|linebreaks}}</a> 
             </div>
-            Link to Detail View: <a href="{% url 'detailed_workflow' %}">{{ document.title|linebreaks}}</a> 
-            Description: {{document.description|linebreaks}}
-            Uploaded At: {{document.uploaded_at}}
-             <div class = workflow>
-                <img src="images/workflow.png" alt="Workflow Image">
+            <div class = workflow-image>
+                <img src="{% static 'workflow.JPG' %}" alt="Workflow Image">
                 <!-- <img src="{{ MEDIA_URL }}{{ document.workflow }}" alt="Workflow Image"/>  -->
             </div>
+            <div class = "workflow-details">
+                <b>Description: </b>{{document.description}}
+                <br>
+               <b>Uploaded At: </b>{{document.uploaded_at}}
+            </div>
+            
+             
             <!-- <p class = "workflow" > Workflow Standin</p> -->
           </li>
         {% endfor %}
