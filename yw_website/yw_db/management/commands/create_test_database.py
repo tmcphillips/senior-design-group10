@@ -4,6 +4,11 @@ from yw_db.models import Workflow, Version, Tag, Run, File, RunFile, TagWorkflow
 import uuid
 TEMP_NUM_ENTRIES = 100
 
+# TODO: Add file outputs
+# > recon
+# > extract
+# > model/graph
+
 class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
