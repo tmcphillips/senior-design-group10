@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout as user_logout
-from django.contrib.auth.views import password_reset
+# from django.contrib.auth.views import password_reset_view
 
 
 def home(request):
@@ -73,12 +73,12 @@ def users(request):
     users = User.objects.all()
     return render(request, 'users.html', { 'users': users })
 
-def forgot_password(request):
-    if request.method == 'POST':
-        return password_reset(request, 
-            from_email=request.POST.get('email'))
-    else:
-        return render(request, 'website/forgot_password.html')
+# def forgot_password(request):
+#     if request.method == 'POST':
+#         return password_reset(request, 
+#             from_email=request.POST.get('email'))
+#     else:
+#         return render(request, 'website/forgot_password.html')
 
 def logout(request):
     user_logout(request)
