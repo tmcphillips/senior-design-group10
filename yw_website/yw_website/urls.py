@@ -21,17 +21,19 @@ from website import views as yw_website_views
 # from yw_rest_services import views as yw_rest_services_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', yw_website_views.home, name='home'),
+    path('admin/', admin.site.urls,),
     path('upload/', yw_website_views.model_form_upload, name='upload'),
     # path('save/ping', yw_rest_services_views.yw_save_ping, name='ping'),
     path('home/', yw_website_views.DocumentListView.as_view(), name='home'),
+    path('home/my-workflows/', yw_website_views.PersonalWorkflowsView.as_view(), name='my-workflows'),
     path('home/detailed_workflow/', yw_website_views.detailed_workflow, name = 'detailed_workflow'),
     path('home/run_detail/', yw_website_views.run_detail, name='run_detail'),
-    # path('home/', views.home, name='home'),
     path('home/', include('django.contrib.auth.urls'), name ='login'),
+    path('home/login/', include('django.contrib.auth.urls'), name ='password_reset'),
     path('home/register/', yw_website_views.register, name='register'),
+    path('logout/', yw_website_views.logout, name='logout'),
     path('home/users/', yw_website_views.users, name = 'users'),
+    # used exclusively for texting, will need to remove later
     path('upload/', yw_website_views.model_form_upload, name='upload'),
 
 ]

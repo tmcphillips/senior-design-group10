@@ -12,6 +12,8 @@ from website.forms import SignUpForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.contrib.auth import logout as user_logout
+from django.contrib.auth.views import password_reset
 
 
 def home(request):
@@ -62,7 +64,7 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return redirect('website/home.html')
     else:
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})
@@ -71,10 +73,25 @@ def users(request):
     users = User.objects.all()
     return render(request, 'users.html', { 'users': users })
 
+def forgot_password(request):
+    if request.method == 'POST':
+        return password_reset(request, 
+            from_email=request.POST.get('email'))
+    else:
+        return render(request, 'website/forgot_password.html')
+
+def logout(request):
+    user_logout(request)
+    return render(request,'website/home.html')
 
 class DocumentListView(generic.ListView):
     model = Document
     context_object_name = 'document_list'
-    template_name = 'website/home.html'  
+    template_name = 'website/home.html'
+
+class PersonalWorkflowsView(generic.ListView):
+    model = Document
+    context_object_name = 'document_list'
+    template_name = 'website/my-workflows.html'     
 
 

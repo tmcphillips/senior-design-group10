@@ -41,51 +41,43 @@
     </div>
 </nav>
 
-
-<div class = box>
-    <div class = title>
-        {{ document.title}}
-    </div>
-    <link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
-    <img src="{% static 'workflow.JPG' %}" alt="Workflow Image">
-
-    <div class = outside_data>
-        <b>Description: </b>{{document.description}}
-        <br>
-       <b>Uploaded At: </b>{{document.uploaded_at}}    </div>
-
-
-    <div class = "runs">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-        </form>
-        <table align="center">
-            <tr>
-                <th>Run#</th>
-                <th>Creation Date</th>
-            </tr>
-            <tr>
-                <td><a href="{% url 'run_detail' %}">Run #1:</a> </td>
-                <td>01/11/18</td>
-            </tr>
-            <tr>
-                <td><a href="{% url 'run_detail' %}">Run #2:</a> </td>
-                <td>03/22/18</td>
-            </tr>
-            <tr>
-                <td><a href="{% url 'run_detail' %}">Run #3:</a> </td>
-                <td>11/11/18</td>
-            </tr>
-            <tr>
-                <td><a href="{% url 'run_detail' %}">Run #4:</a> </td>
-                <td>05/17/18</td>
-            </tr>
-        </table>
-
-    </div>
+<div class = "search">
+    <p> Search: <input type="text" placeholder="Search">
+    <link rel="stylesheet" type="text/css" href="{% static 'design/home_design.css' %}">
+    <button type="button">Go</button>
+    </p>
 </div>
 
-
-
-
+<div class="tab">
+   Your Workflows
+</div>
+<div class="list">
+   
+    {% block content %}
+      {% if document_list %}
+      <ol id="elementStyle">
+        {% for document in document_list %}
+          <li>
+            <div class = "title">
+                <a href="{% url 'detailed_workflow' %}">{{ document.title|linebreaks}}</a> 
+            </div>
+            <div class = workflow-image>
+                <img src="{% static 'workflow.JPG' %}" alt="Workflow Image">
+                <!-- <img src="{{ MEDIA_URL }}{{ document.workflow }}" alt="Workflow Image"/>  -->
+            </div>
+            <div class = "workflow-details">
+                <b>Description: </b>{{document.description}}
+                <br>
+               <b>Uploaded At: </b>{{document.uploaded_at}}
+            </div>
+            
+             
+            <!-- <p class = "workflow" > Workflow Standin</p> -->
+          </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+        <p>There are no documents in the system.</p>
+      {% endif %}       
+    {% endblock %}
+</div>

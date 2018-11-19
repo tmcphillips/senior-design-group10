@@ -19,12 +19,12 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="#">
+                    <a href="{% url 'my-workflows' %}">
                         My Workflows
                     </a>
                 </li>
                 <li class="">
-                    <a href="#">
+                    <a href="{% url 'admin:index' %}">
                         Admin
                     </a>
                 </li>
@@ -49,6 +49,9 @@
     {{ form.as_p }}
     <button type="submit">Login</button>
     </form>
+    <p> Forgot password?</p>
+    <a href="{% url 'password_reset' %}">Reset Password</a>
+    <p></p>
     <p>Don't have an account?</p>
     <a href="{% url 'register' %}">Create an account</a>
 </div>
