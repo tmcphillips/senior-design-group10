@@ -1,0 +1,83 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'design/nav_bar.css' %}">
+
+<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            
+            <a class="navbar-brand" href="{% url 'home' %}">YesWorkflow</a>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li class="">
+                    <a href="{% url 'home' %}">
+                        Home
+                    </a>
+                </li>
+                <li class="">
+                    <a href="{% url 'my-workflows' %}">
+                        My Workflows
+                    </a>
+                </li>
+                <li class="">
+                    <a href="{% url 'admin:index' %}">
+                        Admin
+                    </a>
+                </li>
+            </ul>
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class = "search">
+    <p> Search: <input type="text" placeholder="Search">
+    <link rel="stylesheet" type="text/css" href="{% static 'design/home_design.css' %}">
+    <button type="button">Go</button>
+    </p>
+</div>
+
+<div class="tab">
+   Your Workflows
+</div>
+<div class="list">
+   
+    {% block content %}
+      {% if document_list %}
+      <ol id="elementStyle">
+        {% for document in document_list %}
+          <li>
+            <div class = "title">
+                <a href="{% url 'detailed_workflow' %}">{{ document.title|linebreaks}}</a> 
+            </div>
+            <div class = workflow-image>
+                <img src="{% static 'workflow.JPG' %}" alt="Workflow Image">
+                <!-- <img src="{{ MEDIA_URL }}{{ document.workflow }}" alt="Workflow Image"/>  -->
+            </div>
+            <div class = "workflow-details">
+                <b>Description: </b>{{document.description}}
+                <br>
+               <b>Uploaded At: </b>{{document.uploaded_at}}
+            </div>
+            
+             
+            <!-- <p class = "workflow" > Workflow Standin</p> -->
+          </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+        <p>There are no documents in the system.</p>
+      {% endif %}       
+    {% endblock %}
+</div>

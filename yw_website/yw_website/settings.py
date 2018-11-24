@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'script_upload.apps.ScriptUploadConfig',
+    'website.apps.WebsiteConfig',
     'rest_framework',
     'yw_db',
 ]

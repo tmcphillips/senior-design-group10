@@ -2,7 +2,7 @@ import os
 from django.test import TestCase
 from django.test.client import Client
 from django.core.files.uploadedfile import SimpleUploadedFile
-from script_upload.views import model_form_upload
+from website.views import model_form_upload
 
 
 # class UploadTestCase(TestCase):
