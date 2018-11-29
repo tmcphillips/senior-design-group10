@@ -45,7 +45,7 @@ class Run(models.Model):
 
 class File(models.Model):
     file_checksum = models.CharField(max_length=128, primary_key=True, default=None)
-    input_data = models.FileField(upload_to="recon_files/", null=True)
+    input_data = models.FileField(upload_to="recon_files/", null=True, default=None)
     file_size = models.IntegerField(default=0)
 
     last_modified = models.DateTimeField(default=timezone.now())

@@ -2,7 +2,7 @@ from autofixture import AutoFixture
 from django.core.management.base import BaseCommand
 from yw_db.models import Workflow, Version, Tag, Run, File, RunFile, TagWorkflow, TagVersion, TagRun, TagFile
 import uuid
-TEMP_NUM_ENTRIES = 100
+TEMP_NUM_ENTRIES = 10
 
 # TODO: Add file outputs
 # > recon

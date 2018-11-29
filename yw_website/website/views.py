@@ -5,6 +5,7 @@ from django.core.files.storage import FileSystemStorage
 from django.views import generic
 
 from website.models import Document
+from yw_db.models import Workflow
 from website.forms import DocumentForm
 from website.forms import VersionsForm
 from website.forms import ImageUploadForm
@@ -17,7 +18,7 @@ from django.contrib.auth import logout as user_logout
 
 
 def home(request):
-    documents = Document.objects.all()
+    documents = Workflow.objects.all()
     return render(request, 'website/home.html', { 'documents': documents })
 
 def model_form_upload(request):
@@ -85,12 +86,12 @@ def logout(request):
     return render(request,'website/home.html')
 
 class DocumentListView(generic.ListView):
-    model = Document
+    model = Workflow
     context_object_name = 'document_list'
     template_name = 'website/home.html'
 
 class PersonalWorkflowsView(generic.ListView):
-    model = Document
+    model = Workflow
     context_object_name = 'document_list'
     template_name = 'website/my-workflows.html'     
 

@@ -19,8 +19,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from yw_rest_services import views as yw_rest_services_views
 from website import views as yw_website_views
-# from yw_rest_services import views as yw_rest_services_views
-
 from rest_framework import routers
 
 from yw_db.views import *
@@ -48,19 +46,12 @@ urlpatterns = [
     path('home/detailed_workflow/', yw_website_views.detailed_workflow, name = 'detailed_workflow'),
     path('home/run_detail/', yw_website_views.run_detail, name='run_detail'),
     path('home/', include('django.contrib.auth.urls'), name ='login'),
-<<<<<<< HEAD
-    path('home/register/', script_upload_views.register, name='register'),
-    path('home/users/', script_upload_views.users, name = 'users'),
-    path('upload/', script_upload_views.model_form_upload, name='upload'),
-    #test path- remove later
-    path('home/test', script_upload_views.home, name='test'),
 
     #REST API URLS
     path('api/v1/', include(router.urls)),
 
 
     # path('api-auth/', include('rest_framework.urls')), # This is for rest stuff that should be hidden behind authentication.
-=======
     # path('home/login/', include('django.contrib.auth.urls'), name ='password_reset'),
     path('home/register/', yw_website_views.register, name='register'),
     path('logout/', yw_website_views.logout, name='logout'),
@@ -68,7 +59,6 @@ urlpatterns = [
     # used exclusively for texting, will need to remove later
     path('upload/', yw_website_views.model_form_upload, name='upload'),
 
->>>>>>> ui-css-detail-design
 ]
 
 if settings.DEBUG:
