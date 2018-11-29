@@ -54,5 +54,5 @@ YesWorkflow is a maven project. To set up the project for development follow the
 ## Papers For Review
 
 * [Retrospective Provenance and YesWorkflow](https://github.com/yesworkflow-org/yw-tapp-15-recon/blob/master/yw-prov-recon-tapp15-submitted.pdf)
-*[Displaying and Querying Scientific Workflow Provenance](https://www.researchgate.net/publication/220965045_Provenance_Browser_Displaying_and_Querying_Scientific_Workflow_Provenance_Graphs)
+* [Displaying and Querying Scientific Workflow Provenance](https://www.researchgate.net/publication/220965045_Provenance_Browser_Displaying_and_Querying_Scientific_Workflow_Provenance_Graphs)
 * [More about YesWorkflow](http://www.ijdc.net/article/view/10.1.298/401)
