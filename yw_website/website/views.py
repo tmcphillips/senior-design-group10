@@ -5,7 +5,7 @@ from django.core.files.storage import FileSystemStorage
 from django.views import generic
 
 from website.models import Document
-from yw_db.models import Workflow
+from yw_db.models import Workflow, Run
 from website.forms import DocumentForm
 from website.forms import VersionsForm
 from website.forms import ImageUploadForm
@@ -44,7 +44,7 @@ def detailed_workflow(request):
         # if request.method == "POST":
         #     task_id = QueryDict(request.body).get('task_id')
         #     document = Document.objects.get(pk=task_id).update(completed=True)
-        document = Document.objects.get(id="1")
+        document = Workflow.objects.get(id="1")
         form = VersionsForm(request.POST, request.FILES)
         info = {'document': document, 'form': form}
         return render(request, 'website/detailed_workflow.html', info)
@@ -53,7 +53,7 @@ def detailed_workflow(request):
       return redirect('home')
 
 def run_detail(request):
-    document = Document.objects.get(id="1")
+    document = Run.objects.get(id="1")
     return render(request, 'website/run_detail.html', { 'document': document })
 
 def register(request):
@@ -89,10 +89,12 @@ class DocumentListView(generic.ListView):
     model = Workflow
     context_object_name = 'document_list'
     template_name = 'website/home.html'
+    paginate_by = 10
 
 class PersonalWorkflowsView(generic.ListView):
     model = Workflow
     context_object_name = 'document_list'
     template_name = 'website/my-workflows.html'     
+    paginate_by = 10
 
 
