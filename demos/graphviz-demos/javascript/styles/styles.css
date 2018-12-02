@@ -1,0 +1,12 @@
+svg {
+    width: inherit;
+    border-style: solid;
+    border-width: .1em;
+}
+
+.graph {
+    width: 95%;
+    padding-left: 5%;
+    padding-top: 2em;
+    text-align: center;
+}
