@@ -40,6 +40,7 @@ router.register('tagfiles', TagWorkflowViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls,),
     path('upload/', yw_website_views.model_form_upload, name='upload'),
+    path('save/', yw_rest_services_views.create_workflow, name='create'),
     path('save/ping', yw_rest_services_views.yw_save_ping, name='ping'),
     path('', yw_website_views.DocumentListView.as_view(), name='home'),
     path('my-workflows/', yw_website_views.PersonalWorkflowsView.as_view(), name='my-workflows'),
