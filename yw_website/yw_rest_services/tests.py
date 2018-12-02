@@ -11,6 +11,6 @@ class YwSaveTestCase(TestCase):
         response = self.client.get(path=route)
         self.assertEqual(response.status_code, 200, msg="Valid route failed")
 
-        bad_route = '/save/pig'
+        bad_route = '/save/pig/'
         bad_response = self.client.get(path=bad_route)
         self.assertNotEqual(bad_response.status_code, 200, msg="Invalid route failed")
