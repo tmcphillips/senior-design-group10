@@ -45,14 +45,14 @@ urlpatterns = [
     path('my-workflows/', yw_website_views.PersonalWorkflowsView.as_view(), name='my-workflows'),
     path('detailed_workflow/', yw_website_views.detailed_workflow, name = 'detailed_workflow'),
     path('run_detail/', yw_website_views.run_detail, name='run_detail'),
-    path('login/', include('django.contrib.auth.urls'), name ='login'),
+    path('', include('django.contrib.auth.urls'), name ='login'),
 
     #REST API URLS
     path('api/v1/', include(router.urls)),
 
 
     # path('api-auth/', include('rest_framework.urls')), # This is for rest stuff that should be hidden behind authentication.
-    # path('home/login/', include('django.contrib.auth.urls'), name ='password_reset'),
+    # path('password_reset/', include('django.contrib.auth.urls'), name ='password_reset'),
     path('register/', yw_website_views.register, name='register'),
     path('logout/', yw_website_views.logout, name='logout'),
     path('users/', yw_website_views.users, name = 'users'),

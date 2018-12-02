@@ -13,15 +13,17 @@
 	max-width:100%; 
 	overflow-x: scroll; 
 	height:500px;
-
-
 }
+
+h2 {
+	margin: 25px;
+}
+
 
 img {
 	margin: 20px;
 	max-width: 90%
 }
-
 
 .runs {
 	border-top: 1px dashed;
@@ -71,6 +73,6 @@ th, td {
 
 .workflow {
  	align-text: right;
-    padding: 5px;
+    padding: 25px;
     width: 50%;
  }

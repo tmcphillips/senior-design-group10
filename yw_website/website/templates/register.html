@@ -42,9 +42,10 @@
 
 </nav>
 
+<link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
 {% block content %}
-  <h2>Sign up</h2>
-  <form method="post">
+<h2> Sign up</h2>
+  <form method="post" class ="workflow">
     {% csrf_token %}
     {% for field in form %}
       <p>
