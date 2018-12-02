@@ -14,12 +14,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout as user_logout
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 # from django.contrib.auth.views import password_reset_view
 
 
 def home(request):
-    documents = Workflow.objects.all()
-    return render(request, 'website/home.html', { 'documents': documents })
+    documents_list = Workflow.objects.all()
+    paginator = Paginator(documents_list, 10)
+    page = request.GET.get('page')
+    documents = paginator.get_page(page)
+    return render(request, 'website/home.html', { 'document_list': documents })
 
 def model_form_upload(request):
     if request.method == 'POST':
@@ -89,12 +93,10 @@ class DocumentListView(generic.ListView):
     model = Workflow
     context_object_name = 'document_list'
     template_name = 'website/home.html'
-    paginate_by = 10
 
 class PersonalWorkflowsView(generic.ListView):
     model = Workflow
     context_object_name = 'document_list'
     template_name = 'website/my-workflows.html'     
-    paginate_by = 10
 
 
