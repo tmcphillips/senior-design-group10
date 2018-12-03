@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.views import generic
+from django.core.paginator import Paginator
 
 from website.models import Document
-from yw_db.models import Workflow, Run
+from yw_db.models import Workflow, Run, Version
 from website.forms import DocumentForm
 from website.forms import VersionsForm
 from website.forms import ImageUploadForm
@@ -20,6 +21,10 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 def home(request):
     documents_list = Workflow.objects.all()
+    for document in documents_list:
+        latest_version = Version.objects.filter(workflow_id=document.id).order_by('last_modified').first()
+        document.graph = latest_version.yw_graph_output if latest_version is not None else ""
+    
     paginator = Paginator(documents_list, 10)
     page = request.GET.get('page')
     documents = paginator.get_page(page)
