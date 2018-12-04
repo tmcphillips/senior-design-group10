@@ -17,10 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
-from script_upload import views as script_upload_views
 from yw_rest_services import views as yw_rest_services_views
-
+from website import views as yw_website_views
 from rest_framework import routers
 
 from yw_db.views import *
@@ -40,24 +38,28 @@ router.register('tagfiles', TagWorkflowViewSet)
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', script_upload_views.home, name='home'),
-    path('upload/', script_upload_views.model_form_upload, name='upload'),
-    path('save/ping', yw_rest_services_views.yw_save_ping, name='ping'),
-    path('home/', script_upload_views.DocumentListView.as_view(), name='home'),
-    # path('home/', views.home, name='home'),
-    path('home/', include('django.contrib.auth.urls'), name ='login'),
-    path('home/register/', script_upload_views.register, name='register'),
-    path('home/users/', script_upload_views.users, name = 'users'),
-    path('upload/', script_upload_views.model_form_upload, name='upload'),
-    #test path- remove later
-    path('home/test', script_upload_views.home, name='test'),
+    path('admin/', admin.site.urls,),
+    path('upload/', yw_website_views.model_form_upload, name='upload'),
+    path('save/', yw_rest_services_views.create_workflow, name='create'),
+    path('save/ping/', yw_rest_services_views.yw_save_ping, name='ping'),
+    path('', yw_website_views.home, name='home'),
+    path('my-workflows/', yw_website_views.PersonalWorkflowsView.as_view(), name='my-workflows'),
+    path('detailed_workflow/', yw_website_views.detailed_workflow, name = 'detailed_workflow'),
+    path('run_detail/', yw_website_views.run_detail, name='run_detail'),
+    path('', include('django.contrib.auth.urls'), name ='login'),
 
     #REST API URLS
     path('api/v1/', include(router.urls)),
 
 
     # path('api-auth/', include('rest_framework.urls')), # This is for rest stuff that should be hidden behind authentication.
+    # path('password_reset/', include('django.contrib.auth.urls'), name ='password_reset'),
+    path('register/', yw_website_views.register, name='register'),
+    path('logout/', yw_website_views.logout, name='logout'),
+    path('users/', yw_website_views.users, name = 'users'),
+    # used exclusively for texting, will need to remove later
+    path('upload/', yw_website_views.model_form_upload, name='upload'),
+
 ]
 
 if settings.DEBUG:

@@ -11,3 +11,9 @@ script:
   - python3 manage.py makemigrations
   - python3 manage.py migrate --noinput
   - python3 manage.py test
+
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  on:
+    branch: develop
