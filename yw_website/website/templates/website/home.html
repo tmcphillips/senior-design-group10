@@ -65,15 +65,15 @@
         {% for document in document_list %}
           <li>
             <div class = "title">
-                <a href="{% url 'detailed_workflow' %}">{{ document.title|linebreaks}}</a> 
+                <a href="{% url 'detailed_workflow' %}">{{ document.title|linebreaks }}</a> 
             </div>
             <div id="graph{{ forloop.counter }}" class = workflow-image></div>
             <div class = "workflow-details">
-                <b>Description: </b>{{document.description}}
+                <b>Description: </b>{{ document.description }}
             </div>
           </li>
           <script type="text/javascript">
-            graph = `{{ document.graph }}`
+            graph = `{{ document.graph|safe }}`
           </script>
           <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
         {% endfor %}
