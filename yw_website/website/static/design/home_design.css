@@ -1,6 +1,4 @@
-
 .list {
-	/*list-style-type: none;*/
 	text-align: center;
 	align-items:center;
     padding: 20px 40px 10px 0px;; 
@@ -9,7 +7,6 @@
 	width:80%;
 	min-height:500px;
 	height: 80%;
-
 }
 
 .tab {
@@ -22,7 +19,6 @@
 	font-size: 16px;
 	border-radius: 5px 5px 0 0;
 	border: 1px dashed;
-
 }
 
 .title {
@@ -36,8 +32,7 @@
     padding: 10px;
 	border: 1px dashed;
 	width: 100%;
-  }
-
+}
 
 img {
     margin: 5px;
@@ -53,4 +48,5 @@ img {
 
 svg {
 	width: 100%;
+	max-height: 20em;
 }
