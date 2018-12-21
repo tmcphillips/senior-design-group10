@@ -30,6 +30,18 @@ def home(request):
     documents = paginator.get_page(page)
     return render(request, 'website/home.html', { 'document_list': documents })
 
+def my_workflows(request):
+    # TODO: Handle unathenticated user? Right now will just load an empty table.
+    documents_list = Workflow.objects.all().filter(user=request.user)
+    for document in documents_list:
+        latest_version = Version.objects.filter(workflow_id=document.id).order_by('last_modified').first()
+        document.graph = latest_version.yw_graph_output if latest_version is not None else ""
+    
+    paginator = Paginator(documents_list, 10)
+    page = request.GET.get('page')
+    documents = paginator.get_page(page)
+    return render(request, 'website/home.html', { 'document_list': documents })
+
 # Added this
 def detailed_workflow(request, document_id):
     try:
@@ -41,7 +53,7 @@ def detailed_workflow(request, document_id):
             return render(request, 'website/detailed_workflow.html', info)
     except Document.DoesNotExist:
       # we have no object!  
-      return redirect('home')
+      return redirect(home)
 
 def run_detail(request):
     document = Run.objects.get(id="1")
@@ -56,7 +68,7 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('website/home.html')
+            return redirect(home)
     else:
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})
