@@ -48,15 +48,13 @@ def model_form_upload(request):
     })
 
 # Added this
-def detailed_workflow(request):
+def detailed_workflow(request, document_id):
     try:
-        # if request.method == "POST":
-        #     task_id = QueryDict(request.body).get('task_id')
-        #     document = Document.objects.get(pk=task_id).update(completed=True)
-        document = Workflow.objects.get(id="1")
-        form = VersionsForm(request.POST, request.FILES)
-        info = {'document': document, 'form': form}
-        return render(request, 'website/detailed_workflow.html', info)
+        if request.method == "GET":
+            document = Workflow.objects.get(pk=document_id)
+            form = VersionsForm(request.POST, request.FILES)
+            info = {'document': document, 'form': form}
+            return render(request, 'website/detailed_workflow.html', info)
     except Document.DoesNotExist:
       # we have no object!  
       return redirect('home')
