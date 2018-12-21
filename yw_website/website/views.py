@@ -30,26 +30,10 @@ def home(request):
     documents = paginator.get_page(page)
     return render(request, 'website/home.html', { 'document_list': documents })
 
-def model_form_upload(request):
-    if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        form2 = ImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            if form2.is_valid():
-                m = ExampleModel.objects.get(pk=course_id)
-                m.workflow = form.cleaned_data['image']
-                form2.save()
-            return redirect('home')
-    else:
-        form = DocumentForm()
-    return render(request, 'script_upload/upload_form.html', {
-        'form': form
-    })
-
 # Added this
 def detailed_workflow(request, document_id):
     try:
+        # TODO: change to get object or 404
         if request.method == "GET":
             document = Workflow.objects.get(pk=document_id)
             form = VersionsForm(request.POST, request.FILES)
