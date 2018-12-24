@@ -1,0 +1,49 @@
+{% load static %}
+
+{% comment %}
+ <!-- Content to be paginated must be assigned to the document_list keyword argument when including
+        
+    Example:
+    {% include 'includeable/paginator.html' with document_list=<pageable_object> %}
+
+
+    The 'document_list' object must be a list like object with each 'document' element 
+    having the following attributes.
+
+    document:
+        title       {string}
+        description {string}
+        graph       {string}    /* graphviz string representation */
+        
+ -->
+{% endcomment %}
+
+
+{% if document_list %}
+
+    <ol id="elementStyle">
+        <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
+
+        {% for document in document_list %}
+            <li>
+                <div class = "title">
+                    <a href="{% url 'detailed_workflow' %}">{{ document.title|linebreaks }}</a> 
+                </div>
+                <div id="graph{{ forloop.counter }}" class = workflow-image></div>
+                <div class = "workflow-details">
+                    <b>Description: </b>{{ document.description }}
+                </div>
+            </li>
+            <script type="text/javascript">
+                graph = `{{ document.graph|safe }}`
+            </script>
+            <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
+        {% endfor %}
+
+    </ol>
+
+{% else %}
+
+    <p>There are no documents in the system.</p>
+
+{% endif %}  

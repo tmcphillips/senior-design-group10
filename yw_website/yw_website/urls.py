@@ -43,8 +43,8 @@ urlpatterns = [
     # YESWORKFLOW WEBSERVER PATHS
     ###
     path('', yw_website_views.home, name='home'),
-    path('my-workflows/', yw_website_views.PersonalWorkflowsView.as_view(), name='my-workflows'),
-    path('detailed_workflow/', yw_website_views.detailed_workflow, name='detailed_workflow'),
+    path('myworkflows/', yw_website_views.myworkflows, name='myworkflows'),
+    path('detailed_workflow/', yw_website_views.detailed_workflow, name = 'detailed_workflow'),
     path('run_detail/', yw_website_views.run_detail, name='run_detail'),
 
     ###

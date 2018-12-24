@@ -1,20 +1,9 @@
 let options = {
     "zoom":false,
+    "tweenPaths":false,
+    "tweenShapes":false,
+    "convertEqualSidedPolygons":false,
+    "tweenPrecision":10,
 };
 let graph = "";
 let graphid = 0;
-
-String.prototype.replaceAll = function(search, replacement){
-    return this.replace(new RegExp(search, 'g'), replacement);
-}
-
-repl = [
-    [
-        `&quot`,
-        `"`,
-    ],
-    [
-        `&gt`,
-        `>`,
-    ],
-]

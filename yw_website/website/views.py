@@ -28,7 +28,18 @@ def home(request):
     paginator = Paginator(documents_list, 10)
     page = request.GET.get('page')
     documents = paginator.get_page(page)
-    return render(request, 'website/home.html', { 'document_list': documents })
+    return render(request, 'pages/home_page.html', { 'document_list': documents })
+
+def myworkflows(request):
+    documents_list = Workflow.objects.all()
+    for document in documents_list:
+        latest_version = Version.objects.filter(workflow_id=document.id).order_by('last_modified').first()
+        document.graph = latest_version.yw_graph_output if latest_version is not None else ""
+    
+    paginator = Paginator(documents_list, 10)
+    page = request.GET.get('page')
+    documents = paginator.get_page(page)
+    return render(request, 'pages/myworkflows_page.html', { 'document_list': documents })
 
 def model_form_upload(request):
     if request.method == 'POST':
@@ -93,15 +104,3 @@ def users(request):
 def logout(request):
     user_logout(request)
     return render(request,'website/home.html')
-
-class DocumentListView(generic.ListView):
-    model = Workflow
-    context_object_name = 'document_list'
-    template_name = 'website/home.html'
-
-class PersonalWorkflowsView(generic.ListView):
-    model = Workflow
-    context_object_name = 'document_list'
-    template_name = 'website/my-workflows.html'     
-
-
