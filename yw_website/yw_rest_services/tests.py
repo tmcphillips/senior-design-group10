@@ -1,5 +1,8 @@
 from django.test import TestCase
 from django.test.client import Client
+from django.contrib.auth.models import User
+from yw_db.models import Workflow
+import uuid
 
 # Create your tests here.
 class YwSaveTestCase(TestCase):
@@ -14,3 +17,25 @@ class YwSaveTestCase(TestCase):
         bad_route = '/save/pig/'
         bad_response = self.client.get(path=bad_route)
         self.assertNotEqual(bad_response.status_code, 200, msg="Invalid route failed")
+
+    def test_save_upload(self):
+        username = str(uuid.uuid1())
+        self.user = User.objects.create_user(username=username, password='12345')
+        route = '/save/'
+
+        data = {}
+        data['username'] = username
+        data['title'] = 'test_title'
+        data['description'] = 'test_description'
+        data['model'] = 'test_model'
+        data['model_checksum'] = '2341234123423'
+        data['graph'] = 'test_graph'
+        data['recon'] = 'test_recon'
+
+        response = self.client.post(route, data)
+
+        self.assertEquals(response.status_code, 200, msg="Could not upload a workflow")
+
+        data['username'] = 'nousername'
+        bad_response = self.client.post(route, data)
+        self.assertNotEqual(bad_response.status_code, 200, msg="Bad username unaccounted by save path")
