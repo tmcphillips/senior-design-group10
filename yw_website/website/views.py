@@ -44,14 +44,13 @@ def detailed_workflow(request, document_id):
             document = Workflow.objects.get(pk=document_id)
             form = VersionsForm(request.POST, request.FILES)
             info = {'document': document, 'form': form}
-            return render(request, 'website/detailed_workflow.html', info)
-    except Document.DoesNotExist:
-      # we have no object!  
+            return render(request, 'pages/detailed_workflow.html', info)
+    except Workflow.DoesNotExist:
       return redirect(home)
 
 def run_detail(request):
     document = Run.objects.get(id="1")
-    return render(request, 'website/run_detail.html', { 'document': document })
+    return render(request, 'pages/run_detail.html', { 'document': document })
 
 def register(request):
     if request.method == 'POST':
