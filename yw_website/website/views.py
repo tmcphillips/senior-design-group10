@@ -30,8 +30,9 @@ def home(request):
     documents = paginator.get_page(page)
     return render(request, 'pages/home_page.html', { 'document_list': documents })
 
-def myworkflows(request):
-    documents_list = Workflow.objects.all()
+def my_workflows(request):
+    # TODO: Handle unathenticated user? Right now will just load an empty table.
+    documents_list = Workflow.objects.all().filter(user=request.user)
     for document in documents_list:
         latest_version = Version.objects.filter(workflow_id=document.id).order_by('last_modified').first()
         document.graph = latest_version.yw_graph_output if latest_version is not None else ""
@@ -39,38 +40,19 @@ def myworkflows(request):
     paginator = Paginator(documents_list, 10)
     page = request.GET.get('page')
     documents = paginator.get_page(page)
-    return render(request, 'pages/myworkflows_page.html', { 'document_list': documents })
+    return render(request, 'pages/home_page.html', { 'document_list': documents })
 
-def model_form_upload(request):
-    if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        form2 = ImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            if form2.is_valid():
-                m = ExampleModel.objects.get(pk=course_id)
-                m.workflow = form.cleaned_data['image']
-                form2.save()
-            return redirect('home')
-    else:
-        form = DocumentForm()
-    return render(request, 'script_upload/upload_form.html', {
-        'form': form
-    })
-
-# Added this
-def detailed_workflow(request):
+def detailed_workflow(request, document_id):
     try:
-        # if request.method == "POST":
-        #     task_id = QueryDict(request.body).get('task_id')
-        #     document = Document.objects.get(pk=task_id).update(completed=True)
-        document = Workflow.objects.get(id="1")
-        form = VersionsForm(request.POST, request.FILES)
-        info = {'document': document, 'form': form}
-        return render(request, 'website/detailed_workflow.html', info)
+        # TODO: change to get object or 404
+        if request.method == "GET":
+            document = Workflow.objects.get(pk=document_id)
+            form = VersionsForm(request.POST, request.FILES)
+            info = {'document': document, 'form': form}
+            return render(request, 'website/detailed_workflow.html', info)
     except Document.DoesNotExist:
       # we have no object!  
-      return redirect('home')
+      return redirect(home)
 
 def run_detail(request):
     document = Run.objects.get(id="1")
@@ -85,7 +67,7 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('website/home.html')
+            return redirect(home)
     else:
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})
