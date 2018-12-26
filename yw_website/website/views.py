@@ -35,7 +35,7 @@ def my_workflows(request):
     paginator = Paginator(documents_list, 10)
     page = request.GET.get('page')
     documents = paginator.get_page(page)
-    return render(request, 'pages/home_page.html', { 'document_list': documents })
+    return render(request, 'pages/my_workflows.html', { 'document_list': documents })
 
 def detailed_workflow(request, document_id):
     try:
