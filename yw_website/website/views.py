@@ -1,21 +1,16 @@
 # Create your views here.
-from django.shortcuts import render, redirect
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
-from django.views import generic
-from django.core.paginator import Paginator
-
-from website.models import Document
-from yw_db.models import Workflow, Run, Version
-from website.forms import DocumentForm
-from website.forms import VersionsForm
-from website.forms import ImageUploadForm
-from website.forms import SignUpForm
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as user_logout
+from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import redirect, render
+from django.views import generic
+
+from website.forms import SignUpForm, VersionsForm
+from yw_db.models import Run, Version, Workflow
+
 # from django.contrib.auth.views import password_reset_view
 
 
