@@ -43,8 +43,8 @@ urlpatterns = [
     # YESWORKFLOW WEBSERVER PATHS
     ###
     path('', yw_website_views.home, name='home'),
-    path('myworkflows/', yw_website_views.myworkflows, name='myworkflows'),
-    path('detailed_workflow/', yw_website_views.detailed_workflow, name = 'detailed_workflow'),
+    path('my_workflows/', yw_website_views.my_workflows, name='my_workflows'),
+    path('detailed_workflow/<int:document_id>', yw_website_views.detailed_workflow, name='detailed_workflow'),
     path('run_detail/', yw_website_views.run_detail, name='run_detail'),
 
     ###
@@ -57,8 +57,6 @@ urlpatterns = [
     # REST API PATHS
     ###
     path('api/v1/', include(router.urls)),
-    # used exclusively for texting, will need to remove later
-    path('upload/', yw_website_views.model_form_upload, name='upload'),
 
     ###
     # USER PATHS
@@ -66,7 +64,6 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls'), name='login'),
     path('register/', yw_website_views.register, name='register'),
     path('logout/', yw_website_views.logout, name='logout'),
-    path('users/', yw_website_views.users, name='users'),
     path('admin/', admin.site.urls,),
 ]
 
