@@ -8,7 +8,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 from django.views import generic
 
-from website.forms import SignUpForm, VersionsForm
+from website.forms import SignUpForm
 from yw_db.models import Run, Version, Workflow
 
 # from django.contrib.auth.views import password_reset_view

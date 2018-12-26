@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html>
-{% load staticfiles %}
-{% include 'includeable/navbar.html' %}
-
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/home_design.css">
-<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
-
-<link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
-{% block content %}
+{% extends 'extendable/__base_template.html' %}
+{% block main_content %}
 <h2> Sign up</h2>
   <form method="post" class ="workflow">
     {% csrf_token %}
@@ -27,4 +18,3 @@
     <button type="submit">Sign up</button>
   </form>
 {% endblock %}
-<html/>

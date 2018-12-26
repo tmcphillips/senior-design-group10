@@ -1,9 +1,5 @@
-<html>
-{% load staticfiles %}
-{% include 'includeable/navbar.html' %}
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="{% static 'design/nav_bar.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'design/login.css' %}">
+{% extends 'extendable/__base_template.html' %}
+{% block main_content %}
 
 <div class="credentials">
     <h2>Login</h2>
@@ -18,4 +14,4 @@
     <p>Don't have an account?</p>
     <a href="{% url 'register' %}">Create an account</a>
 </div>
-
+{% endblock %}
