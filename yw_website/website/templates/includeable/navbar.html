@@ -20,11 +20,13 @@
                         My Workflows
                     </a>
                 </li>
+                {% if request.user.is_superuser %}
                 <li class="">
-                    <a href="{% url 'admin:index' %}">
-                        Admin
-                    </a>
+                        <a href="{% url 'admin:index' %}">
+                            Admin
+                        </a>
                 </li>
+                {% endif %}
             </ul>
             
             <ul class="nav navbar-nav navbar-right">
