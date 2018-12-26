@@ -70,11 +70,7 @@ def register(request):
             return redirect(home)
     else:
         form = SignUpForm()
-    return render(request, 'website/register.html', {'form': form})
-
-def users(request):
-    users = User.objects.all()
-    return render(request, 'website/users.html', { 'users': users })
+    return render(request, 'registration/register.html', {'form': form})
 
 # def forgot_password(request):
 #     if request.method == 'POST':
@@ -85,4 +81,4 @@ def users(request):
 
 def logout(request):
     user_logout(request)
-    return render(request,'website/home.html')
+    return render(request,'pages/home_page.html')
