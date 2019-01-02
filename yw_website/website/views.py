@@ -27,7 +27,6 @@ def home(request):
 
 @login_required()
 def my_workflows(request):
-    # TODO: Handle unathenticated user? Right now will just load an empty table.
     documents_list = Workflow.objects.all().filter(user=request.user)
     for document in documents_list:
         latest_version = Version.objects.filter(workflow_id=document.id).order_by('last_modified').first()
