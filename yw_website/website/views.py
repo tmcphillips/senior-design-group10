@@ -7,7 +7,7 @@ from django.core.files.storage import FileSystemStorage
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 from django.views import generic
-
+from django.contrib.auth.decorators import login_required
 from website.forms import SignUpForm
 from yw_db.models import Run, Version, Workflow
 
@@ -25,6 +25,7 @@ def home(request):
     documents = paginator.get_page(page)
     return render(request, 'pages/home_page.html', { 'document_list': documents })
 
+@login_required()
 def my_workflows(request):
     # TODO: Handle unathenticated user? Right now will just load an empty table.
     documents_list = Workflow.objects.all().filter(user=request.user)
