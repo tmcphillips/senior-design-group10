@@ -51,6 +51,7 @@ urlpatterns = [
     # YESWORKFLOW SAVE PATHS
     ###
     path('save/', yw_rest_services_views.create_workflow, name='create'),
+    path('save/update/', yw_rest_services_views.update_workflow, name='update'),
     path('save/ping/', yw_rest_services_views.yw_save_ping, name='ping'),
 
     ###
