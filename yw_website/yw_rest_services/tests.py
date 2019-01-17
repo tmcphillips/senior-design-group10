@@ -32,14 +32,13 @@ class YwSaveTestCase(TestCase):
         data['recon'] = 'test_recon'
 
         response = self.client.post(route, data)
-
         self.assertEquals(response.status_code, 200, msg="Could not upload a workflow")
+
         data['username'] = 'nousername'
         bad_response = self.client.post(route, data)
         self.assertNotEqual(bad_response.status_code, 200, msg="Bad username unaccounted by save path")
 
     def test_workflow_update(self):
-        # After a workflow has a new checksum for it's model, a new version is created for that workflow
         route = '/save/'
         data = {}
         data['username'] = self.username
@@ -56,7 +55,7 @@ class YwSaveTestCase(TestCase):
 
         data['model_checksum'] = 'b'
         data['workflow_id'] = first_workflow_id
-        route = '/save/update/'
+        route = '/save/{}/'.format(first_workflow_id)
 
         response = self.client.post(route, data)
         second_workflow_id = response.data['workflow']['id']
@@ -66,7 +65,6 @@ class YwSaveTestCase(TestCase):
         self.assertNotEqual(first_version_id, second_version_id, msg="Version was not incremented when a new model checksum was uploaded")
 
     def test_bad_workflow_update(self):
-        route = '/save/update/'
         data = {}
         data['workflow_id'] = -1
         data['username'] = self.username
@@ -77,8 +75,11 @@ class YwSaveTestCase(TestCase):
         data['graph'] = 'test_graph'
         data['recon'] = 'test_recon'
 
+        route = '/save/{}/'.format(data['workflow_id'])
+
+
         response = self.client.post(route, data)
-        self.assertEqual(response.status_code, 500, msg="Unvalid Workflow id passed in post request")
+        self.assertEqual(response.status_code, 404, msg="Workflow does not exist")
 
 
 

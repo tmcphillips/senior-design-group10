@@ -63,14 +63,14 @@ def create_workflow(request):
 
 @api_view(['post'])
 @permission_classes((permissions.AllowAny,))
-def update_workflow(request):
+def update_workflow(request, workflow_id):
     username = User.objects.filter(username=request.data.get('username', None))
     if not username:
         return Response(status=500, data={'error':'bad username'})
     username = username[0]
 
     try:
-        w = Workflow.objects.get(pk=request.data.get('workflow_id'))
+        w = Workflow.objects.get(pk=workflow_id)
     except Workflow.DoesNotExist:
         return Response(status=500, data={'error':'workflow does not exist'})
 
@@ -95,6 +95,7 @@ def update_workflow(request):
     vdata['id'] = v.id
     rdata = RunSerializer(r).data
     rdata['id'] = r.id
+    
     return Response(status=200, data={
         "workflow": wdata,
         "version": vdata,

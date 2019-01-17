@@ -42,8 +42,7 @@ def detailed_workflow(request, document_id):
         # TODO: change to get object or 404
         if request.method == "GET":
             document = Workflow.objects.get(pk=document_id)
-            form = VersionsForm(request.POST, request.FILES)
-            info = {'document': document, 'form': form}
+            info = {'document': document}
             return render(request, 'pages/detailed_workflow.html', info)
     except Workflow.DoesNotExist:
       return redirect(home)
