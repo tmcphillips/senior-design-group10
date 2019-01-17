@@ -2,16 +2,17 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as user_logout
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 from django.views import generic
-from django.contrib.auth.decorators import login_required
+from website.forms import VersionsForm
+
 from website.forms import SignUpForm
 from yw_db.models import Run, Version, Workflow
-
-# from django.contrib.auth.views import password_reset_view
 
 
 def home(request):
@@ -37,18 +38,27 @@ def my_workflows(request):
     documents = paginator.get_page(page)
     return render(request, 'pages/my_workflows.html', { 'document_list': documents })
 
-def detailed_workflow(request, document_id):
+def detailed_workflow(request, workflow_id):
     try:
-        # TODO: change to get object or 404
         if request.method == "GET":
-            document = Workflow.objects.get(pk=document_id)
-            info = {'document': document}
+            form = request.POST
+            workflow = Workflow.objects.get(pk=workflow_id)
+            versions = Version.objects.filter(workflow=workflow)
+
+            runs = Run.objects.filter(version=versions)
+            info = {'workflow': workflow, 'versions': versions, 'runs':runs, 'form': form}
             return render(request, 'pages/detailed_workflow.html', info)
-    except Workflow.DoesNotExist:
+        elif request.method == "POST":
+            pass
+    
+    except ObjectDoesNotExist:
       return redirect(home)
 
-def run_detail(request):
-    document = Run.objects.get(id="1")
+def run_detail(request, run_id):
+    try:
+        document = Run.objects.get(pk=run_id)
+    except Run.DoesNotExist:
+        return redirect(home)
     return render(request, 'pages/run_detail.html', { 'document': document })
 
 def register(request):

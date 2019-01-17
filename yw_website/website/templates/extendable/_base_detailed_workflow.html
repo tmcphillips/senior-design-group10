@@ -1,0 +1,36 @@
+{% extends 'extendable/__base_template.html' %}
+
+{% block inherits_from_base_scripts %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+    <script src="{{ STATIC_PREFIX }}scripts/viz.js"></script>
+    <script src="{{ STATIC_PREFIX }}scripts/d3.min.js"></script>
+    <script src="{{ STATIC_PREFIX }}scripts/d3-graphviz.min.js"></script>
+{% endblock %}
+
+{% block main_content %}
+
+<div class = box>
+    <div class = title>
+        {{ workflow.title}}
+    </div>
+    <div class = outside_data>
+        <b>Description: </b>{{workflow.description}}
+        <br>
+       <b>Uploaded At: </b>{{workflow.uploaded_at}}    
+    </div>
+
+    <form method="POST">
+        <select name="version_id">
+        {% for version in versions %}
+            <option value="{{ version.id }}">Version #{{ versions.count }}</option>
+        {% endfor %}
+        </select>
+    </form>
+    
+    <div class="list">
+        {% include 'includeable/run_list.html' with run_list=run_list %}
+    </div>
+<div>
+
+{% endblock %}

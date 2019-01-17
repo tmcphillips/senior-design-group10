@@ -1,0 +1,42 @@
+{% load static %}
+
+{% comment %}
+ <!-- Content to be paginated must be assigned to the document_list keyword argument when including
+        
+    Example:
+    {% include 'includeable/paginator.html' with document_list=<pageable_object> %}
+
+
+    The 'document_list' object must be a list like object with each 'document' element 
+    having the following attributes.
+
+    document:
+        title       {string}
+        description {string}
+        graph       {string}    /* graphviz string representation */
+        
+ -->
+{% endcomment %}
+
+
+{% if run_list %}
+
+    <ol id="elementStyle">
+        {% for run in run_list %}
+            <li>
+                <div class = "title">
+                    <a href="{% url 'run_detailed' run.id %}">{{ run.title|linebreaks }}</a> 
+                </div>
+                <div class = "workflow-details">
+                    <b>Time Stamp: </b>{{ run.run_time_stamp }}
+                </div>
+            </li>
+        {% endfor %}
+
+    </ol>
+
+{% else %}
+
+    <p>There are no Runs in the system.</p>
+
+{% endif %}  
