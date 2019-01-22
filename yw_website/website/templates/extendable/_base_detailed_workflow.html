@@ -20,10 +20,10 @@
        <b>Uploaded At: </b>{{workflow.uploaded_at}}    
     </div>
 
-    <form method="POST">
+    <form method="POST" >
         <select name="version_id">
         {% for version in versions %}
-            <option value="{{ version.id }}">Version #{{ versions.count }}</option>
+            <option value="{{ version.id }}">Version #{{ forloop.counter }}</option>
         {% endfor %}
         </select>
     </form>

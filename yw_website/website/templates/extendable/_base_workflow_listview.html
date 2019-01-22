@@ -18,14 +18,11 @@
 
     <div class="list">
 
-        <!-- Content to be paginated must be assigned to the document_list keyword argument -->
-        {% include 'includeable/paginator.html' with document_list=document_list %}
-
         <!-- Content to workflow list_view must be assigned to the document_list keyword argument -->
-        {% include 'includeable/workflow_list.html' with document_list=document_list %}
+        {% include 'includeable/workflow_list.html' with workflow_list=workflow_list %}
 
         <!-- Content to be paginated must be assigned to the document_list keyword argument -->
-        {% include 'includeable/paginator.html' with document_list=document_list %}
+        {% include 'includeable/paginator.html' with document_list=workflow_list %}
 
     </div>
 

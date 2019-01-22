@@ -18,12 +18,3 @@ class SignUpForm(UserCreationForm):
                   'email', 'password1', 'password2', )
 
 
-class VersionsForm(forms.Form):
-    class Meta:
-        model = Version
-    versions = forms.ModelChoiceField(
-        queryset=Version.objects.all(), required=False, empty_label="Version 1")
-
-    def __init__(self, workflow, *args, **kwargs):
-        super(VersionsForm, self).__init__(*args, **kwargs)
-        self.queryset = Version.objects.all().filter(workflow=workflow)

@@ -9,22 +9,36 @@ from django.core.files.storage import FileSystemStorage
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 from django.views import generic
-from website.forms import VersionsForm
 
 from website.forms import SignUpForm
 from yw_db.models import Run, Version, Workflow
 
 
-def home(request):
-    documents_list = Workflow.objects.all()
-    for document in documents_list:
-        latest_version = Version.objects.filter(workflow_id=document.id).order_by('last_modified').first()
-        document.graph = latest_version.yw_graph_output if latest_version is not None else ""
+# def home(request):
+#     workflow_list = Workflow.objects.all()
+#     version_list = Version.objects.all().order_by('workflow_id', 'last_modified').distinct('workflow_id')
+#     for document in version_list:
+#         latest_version = Version.objects.filter(workflow=document).order_by('last_modified').first()
+#         # TODO: What is this
+#         document.graph = latest_version.yw_graph_output if latest_version is not None else ""
     
-    paginator = Paginator(documents_list, 10)
+#     paginator = Paginator(version_list, 10)
+#     page = request.GET.get('page')
+#     documents = paginator.get_page(page)
+#     return render(request, 'pages/home_page.html', { 'document_list': documents })
+
+def home(request):
+    workflow_list = Workflow.objects.all()
+
+    for workflow in workflow_list:
+        latest_version = Version.objects.filter(workflow=workflow).order_by('last_modified').first()
+        workflow.graph = latest_version.yw_graph_output if latest_version is not None else 1
+        workflow.version_id = latest_version.id  if latest_version is not None else 1
+
+    paginator = Paginator(workflow_list, 10)
     page = request.GET.get('page')
-    documents = paginator.get_page(page)
-    return render(request, 'pages/home_page.html', { 'document_list': documents })
+    workflows = paginator.get_page(page)
+    return render(request, 'pages/home_page.html', { 'workflow_list': workflows })
 
 @login_required()
 def my_workflows(request):
@@ -38,15 +52,16 @@ def my_workflows(request):
     documents = paginator.get_page(page)
     return render(request, 'pages/my_workflows.html', { 'document_list': documents })
 
-def detailed_workflow(request, workflow_id):
+def detailed_workflow(request, workflow_id, version_id):
     try:
         if request.method == "GET":
             form = request.POST
             workflow = Workflow.objects.get(pk=workflow_id)
+            version = Version.objects.get(pk=version_id)
             versions = Version.objects.filter(workflow=workflow)
 
-            runs = Run.objects.filter(version=versions)
-            info = {'workflow': workflow, 'versions': versions, 'runs':runs, 'form': form}
+            runs = Run.objects.filter(version=version)
+            info = {'workflow': workflow, 'version': version, 'versions':versions ,'runs':runs, 'form': form}
             return render(request, 'pages/detailed_workflow.html', info)
         elif request.method == "POST":
             pass
