@@ -23,7 +23,8 @@ def home(request):
     paginator = Paginator(documents_list, 10)
     page = request.GET.get('page')
     documents = paginator.get_page(page)
-    return render(request, 'pages/home_page.html', { 'document_list': documents })
+    host = request.get_host()
+    return render(request, 'pages/home_page.html', { 'document_list': documents, 'host': host })
 
 @login_required()
 def my_workflows(request):
