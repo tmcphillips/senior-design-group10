@@ -72,7 +72,7 @@ def update_workflow(request, workflow_id):
     if 'model_checksum' not in request.data:
         return Response(status=500, data={'error':'No model checksum was recieved'})
 
-    v, _ = Version.objects.get_or_create(
+    v, _ = Version.objects.update_or_create(
         workflow=w,
         yw_model_check_sum=request.data.get('model_checksum', ''),
         defaults={
