@@ -15,6 +15,13 @@
     <div class = title>
         {{ workflow.title}}
     </div>
+    <div class = text> 
+        {% for version_ in versions %}
+            {% if version_.id == version.id %}
+                <text>Version #{{ forloop.counter }}</text>
+            {%  endif %}
+        {% endfor %}
+    </div>
     <div class = outside_data>
         <b>Description: </b>{{workflow.description}}
         <br>
@@ -23,8 +30,10 @@
 
     <form method="POST" >
         <select name="version_id">
-        {% for version in versions %}
-            <option value="{{ version.id }}">Version #{{ forloop.counter }}</option>
+        {% for version_ in versions %}
+            {% if version_.id != version.id %}
+                <option value="{{ version_.id }}">Version #{{ forloop.counter }}</option>
+            {%  endif %}
         {% endfor %}
         </select>
     </form>
