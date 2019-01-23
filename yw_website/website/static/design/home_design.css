@@ -21,6 +21,12 @@
 	border: 1px dashed;
 }
 
+.dns {
+	text-align: right;
+	padding-right: 15%;
+
+}
+
 .title {
 	text-align: center;
 }
