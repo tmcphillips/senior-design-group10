@@ -11,13 +11,14 @@
 {% block main_content %}
 
 <div class = box>
+    <link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
     <div class = title>
         {{ workflow.title}}
     </div>
     <div class = outside_data>
         <b>Description: </b>{{workflow.description}}
         <br>
-       <b>Uploaded At: </b>{{workflow.uploaded_at}}    
+       <b>Uploaded At: </b>{{version.last_modified}}    
     </div>
 
     <form method="POST" >
