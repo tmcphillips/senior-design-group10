@@ -66,7 +66,7 @@ urlpatterns = [
     path('register/', yw_website_views.register, name='register'),
     path('logout/', yw_website_views.logout, name='logout'),
     path('admin/', admin.site.urls,),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
