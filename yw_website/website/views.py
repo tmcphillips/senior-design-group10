@@ -38,7 +38,9 @@ def home(request):
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get('page')
     workflows = paginator.get_page(page)
-    return render(request, 'pages/home_page.html', { 'workflow_list': workflows })
+    host = request.get_host()
+
+    return render(request, 'pages/home_page.html', { 'workflow_list': workflows, 'host': host  })
 
 @login_required()
 def my_workflows(request):
@@ -50,7 +52,8 @@ def my_workflows(request):
     paginator = Paginator(documents_list, 10)
     page = request.GET.get('page')
     documents = paginator.get_page(page)
-    return render(request, 'pages/my_workflows.html', { 'document_list': documents })
+    host = request.get_host()
+    return render(request, 'pages/my_workflows.html', { 'document_list': documents, 'host': host })
 
 def detailed_workflow(request, workflow_id, version_id):
     try:

@@ -29,13 +29,13 @@ def create_workflow(request):
         return Response(status=500, data={'error':'bad username'})
     username = username[0]
     w = Workflow(
-        user=User.objects.get(username=username),
+        user=username,
         title=request.data.get('title', 'Title'),
         description=request.data.get('description','Description')
     )
     w.save()
     v = Version(
-        workflow=Workflow.objects.get(pk=w.id),
+        workflow=w,
         script_check_sum=request.data.get('script_checksum', ''),
         yw_model_check_sum=request.data.get('model_checksum', ''),
         yw_model_output=request.data.get('model', ''),
@@ -44,7 +44,7 @@ def create_workflow(request):
     )
     v.save()
     r = Run(
-        version = Version.objects.get(pk=v.id),
+        version = v,
         yw_recon_output = request.data.get('recon', ''),
         run_time_stamp = datetime.datetime.now(tz=timezone.utc)
     )
@@ -64,27 +64,26 @@ def create_workflow(request):
 @api_view(['post'])
 @permission_classes((permissions.AllowAny,))
 def update_workflow(request, workflow_id):
-    username = User.objects.filter(username=request.data.get('username', None))
-    if not username:
-        return Response(status=500, data={'error':'bad username'})
-    username = username[0]
-
     try:
         w = Workflow.objects.get(pk=workflow_id)
     except Workflow.DoesNotExist:
-        return Response(status=500, data={'error':'workflow does not exist'})
+        return Response(status=500, data={'error':'Workflow does not exist'})
 
-    v = Version(
-        workflow=Workflow.objects.get(pk=w.id),
-        script_check_sum=request.data.get('script_checksum', ''),
+    if 'model_checksum' not in request.data:
+        return Response(status=500, data={'error':'No model checksum was recieved'})
+
+    v, _ = Version.objects.update_or_create(
+        workflow=w,
         yw_model_check_sum=request.data.get('model_checksum', ''),
-        yw_model_output=request.data.get('model', ''),
-        yw_graph_output=request.data.get('graph', ''),
-        last_modified=datetime.datetime.now(tz=timezone.utc)
+        defaults={
+            'script_check_sum':request.data.get('script_checksum', ''),
+            'yw_model_output':request.data.get('model', ''),
+            'yw_graph_output':request.data.get('graph', ''),
+            'last_modified':datetime.datetime.now(tz=timezone.utc)
+        }
     )
-    v.save()
     r = Run(
-        version = Version.objects.get(pk=v.id),
+        version = v,
         yw_recon_output = request.data.get('recon', ''),
         run_time_stamp = datetime.datetime.now(tz=timezone.utc)
     )
@@ -95,7 +94,7 @@ def update_workflow(request, workflow_id):
     vdata['id'] = v.id
     rdata = RunSerializer(r).data
     rdata['id'] = r.id
-    
+
     return Response(status=200, data={
         "workflow": wdata,
         "version": vdata,
