@@ -28,14 +28,15 @@
        <b>Uploaded At: </b>{{version.last_modified}}    
     </div>
 
-    <form method="POST" >
+    <form method="POST" action="{% url 'detailed_workflow' workflow.id version_id %}"> {% csrf_token %}
         <select name="version_id">
         {% for version_ in versions %}
             {% if version_.id != version.id %}
-                <option value="{{ version_.id }}">Version #{{ forloop.counter }}</option>
+                <option value="{{version_.id}}">Version #{{ forloop.counter }}</option>
             {%  endif %}
         {% endfor %}
         </select>
+        <input type="submit"  value="View Different Version" />
     </form>
     
     <div class="list">
