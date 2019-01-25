@@ -1,7 +1,41 @@
-.navbar-brand{
+/* navbar */
+.navbar-default {
+    background-color:rgb(233, 202, 27);
+    border-color: #E7E7E7;
+}
+/* Title */
+.navbar-default .navbar-brand {
+    color: rgb(0, 0, 0);
     font-family: 'Anton';
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #FFFFFF;
+}
+/* Link */
+.navbar-default .navbar-nav > li > a {
+    color: #000000;
+}
+
+.navbar-default .navbar-nav > li > input[type=text] {
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 3px;
+    margin-left: 18px;
+    width: 380px;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #FFFFFF;
 }
 
 body{
-    background-color: powderblue;
+    background-color: #FFFFFF
+}
+
+.search {
+    text-align: center;
+	display: inline;
+	width:10px;
 }
