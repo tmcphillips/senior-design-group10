@@ -1,33 +1,19 @@
-# Create your views here.
-from django.conf import settings
-from django.http import HttpResponse
 from django import forms
+from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as user_logout
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import generic
 
 from website.forms import SignUpForm, VersionSelectionForm
 from yw_db.models import Run, Version, Workflow
 
-
-# def home(request):
-#     workflow_list = Workflow.objects.all()
-#     version_list = Version.objects.all().order_by('workflow_id', 'last_modified').distinct('workflow_id')
-#     for document in version_list:
-#         latest_version = Version.objects.filter(workflow=document).order_by('last_modified').first()
-#         # TODO: What is this
-#         document.graph = latest_version.yw_graph_output if latest_version is not None else ""
-    
-#     paginator = Paginator(version_list, 10)
-#     page = request.GET.get('page')
-#     documents = paginator.get_page(page)
-#     return render(request, 'pages/home_page.html', { 'document_list': documents })
 
 def home(request):
     workflow_list = Workflow.objects.all().exclude(version__isnull=True)
@@ -60,9 +46,6 @@ def my_workflows(request):
     return render(request, 'pages/my_workflows.html', { 'document_list': documents, 'host': host })
 
 def detailed_workflow(request, workflow_id, version_id):
-   
-    # html = "<html><body>Version ID: {0}, Workflow ID:{1}</body></html>".format(workflow_id, version_id)
-    # return HttpResponse(html)
     try:
         if request.method == "GET":
             form = request.POST
@@ -74,7 +57,8 @@ def detailed_workflow(request, workflow_id, version_id):
             info = {'workflow': workflow, 'version': version, 'versions':versions ,'runs':runs, 'form': form}
             return render(request, 'pages/detailed_workflow.html', info)
         elif request.method == "POST":
-            pass
+            new_version = request.POST['version_id']
+            return redirect('/detailed_workflow/{}/{}/'.format(workflow_id, new_version))
     
     except ObjectDoesNotExist:
       return redirect(home)
