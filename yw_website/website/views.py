@@ -23,7 +23,7 @@ def home(request):
     host = request.get_host()
     return render(request, 'pages/home_page.html', { 'document_list': documents, 'host': host })
 
-@login_required()
+@login_required(login_url='/accounts/login/')
 def my_workflows(request):
     documents_list = Workflow.objects.all().filter(user=request.user)
     for document in documents_list:
