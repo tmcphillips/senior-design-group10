@@ -30,7 +30,7 @@ def home(request):
 
 @login_required()
 def my_workflows(request):
-    workflow_list = Workflow.objects.all().exclude(version__isnull=True)
+    workflow_list = Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
     for workflow in workflow_list:
         latest_version = Version.objects.filter(workflow=workflow).order_by('last_modified').first()
         if latest_version is None:
