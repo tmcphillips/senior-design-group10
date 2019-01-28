@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, ModelForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from yw_db.models import *
 
@@ -19,7 +19,10 @@ class SignUpForm(UserCreationForm):
                   'email', 'password1', 'password2', )
 
 
-class VersionSelectionForm(ModelForm):
+class VersionSelectionForm(forms.Form):
+    versions = forms.ModelChoiceField(queryset=Version.objects.filter(id=1))
     class Meta:
         model = Version
         fields = '__all__'
+    # versions = forms.ModelChoiceField(empty_label="No versions were found for this workflow")
+    

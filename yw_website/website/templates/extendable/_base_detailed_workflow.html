@@ -28,7 +28,8 @@
        <b>Uploaded At: </b>{{version.last_modified}}    
     </div>
 
-    <form method="POST" action="{% url 'detailed_workflow' workflow.id version_id %}"> {% csrf_token %}
+    <form method="POST"> 
+        {% csrf_token %}
         <select name="version_id">
         {% for version_ in versions %}
             {% if version_.id != version.id %}

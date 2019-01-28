@@ -1,5 +1,7 @@
 # Create your views here.
 from django.conf import settings
+from django.http import HttpResponse
+from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as user_logout
 from django.contrib.auth.decorators import login_required
@@ -10,7 +12,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 from django.views import generic
 
-from website.forms import SignUpForm
+from website.forms import SignUpForm, VersionSelectionForm
 from yw_db.models import Run, Version, Workflow
 
 
@@ -29,11 +31,13 @@ from yw_db.models import Run, Version, Workflow
 
 def home(request):
     workflow_list = Workflow.objects.all()
-
     for workflow in workflow_list:
         latest_version = Version.objects.filter(workflow=workflow).order_by('last_modified').first()
-        workflow.graph = latest_version.yw_graph_output if latest_version is not None else 1
-        workflow.version_id = latest_version.id  if latest_version is not None else 1
+        if latest_version is None:
+            workflow_list = workflow_list.exclude(pk=workflow.id)
+        else:
+            workflow.graph = latest_version.yw_graph_output
+            workflow.version_id = latest_version.id
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get('page')
@@ -56,6 +60,9 @@ def my_workflows(request):
     return render(request, 'pages/my_workflows.html', { 'document_list': documents, 'host': host })
 
 def detailed_workflow(request, workflow_id, version_id):
+   
+    # html = "<html><body>Version ID: {0}, Workflow ID:{1}</body></html>".format(workflow_id, version_id)
+    # return HttpResponse(html)
     try:
         if request.method == "GET":
             form = request.POST
