@@ -25,14 +25,13 @@
         {% for run in run_list %}
             <li>
                 <div class = "title">
-                    <a href="{% url 'run_detailed' run.id %}">{{ run.title|linebreaks }}</a> 
+                    <a href="{% url 'run_detail' run.id %}">{{ run.id|linebreaks }}</a> 
                 </div>
                 <div class = "workflow-details">
                     <b>Time Stamp: </b>{{ run.run_time_stamp }}
                 </div>
             </li>
         {% endfor %}
-
     </ol>
 
 {% else %}

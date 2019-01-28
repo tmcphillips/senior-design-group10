@@ -54,7 +54,7 @@ def detailed_workflow(request, workflow_id, version_id):
             versions = Version.objects.filter(workflow=workflow)
 
             runs = Run.objects.filter(version=version)
-            info = {'workflow': workflow, 'version': version, 'versions':versions ,'runs':runs, 'form': form}
+            info = {'workflow': workflow, 'version': version, 'versions':versions ,'run_list':runs, 'form': form}
             return render(request, 'pages/detailed_workflow.html', info)
         elif request.method == "POST":
             new_version = request.POST['version_id']
