@@ -30,7 +30,7 @@ from yw_db.models import Run, Version, Workflow
 #     return render(request, 'pages/home_page.html', { 'document_list': documents })
 
 def home(request):
-    workflow_list = Workflow.objects.all()
+    workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
         latest_version = Version.objects.filter(workflow=workflow).order_by('last_modified').first()
         if latest_version is None:
