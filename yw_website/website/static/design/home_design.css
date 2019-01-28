@@ -11,10 +11,29 @@
 
 .workflow-details {
 	font-size: 14px;
+	display: hidden;
+	margin-bottom: 20px;
 }
 
+.more-details-button {
+	border: solid black 1px;
+	border-radius: 4px;
+	padding: 5px;
+	background-color: rgb(235, 235, 235);
+	color: #000000;
+}
+
+.more-details-button:hover {
+	background-color: rgb(187, 187, 187);
+	color: #000000;
+	text-decoration: none;
+	
+}
 .details-button {
-	width: 120px;
+	width: 180px;
+	border: black solid 1px;
+	background: lightgrey;
+	color: black;
 }
 
 .tab {

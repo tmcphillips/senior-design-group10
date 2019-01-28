@@ -27,15 +27,30 @@
         {% for document in document_list %}
             <li>
                 <div class = "title">
-                    <a href="{% url 'detailed_workflow' document.id %}">{{ document.title|linebreaks }}</a> 
+                    {{ document.title|linebreaks }}
                 </div>
                 <div id="graph{{ forloop.counter }}" class = workflow-image></div>
-                <div class = "workflow-details">
+
+                <div class = "workflow-details" id="description">
                     <b>Description: </b>{{ document.description }}
                 </div>
-                <button class="details-button" type="button">View Details</button>
+                <div style = "text-align:center">
+                    <a class = "more-details-button" href="{% url 'detailed_workflow' document.id %}"> View Details</a>
+                </div>      
+                <!-- <button class="details-button" onClick = "description_view()">View Details</button> -->
 
             </li>
+            <script>
+                function description_view(){
+                    var description = document.getElementById("description");
+                    if (description.style.display === "none") {
+                        description.style.display = "block";
+                    }
+                    else {
+                        description.style.display = "none";
+                    }
+                }
+            </script>
             <script type="text/javascript">
                 graph = `{{ document.graph|safe }}`
             </script>
