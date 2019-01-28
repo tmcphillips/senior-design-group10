@@ -28,6 +28,16 @@
        <b>Uploaded At: </b>{{version.last_modified}}    
     </div>
 
+    <ol id="elementStyle">
+        <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
+            <li>
+                <div id="graph1" class = workflow-image></div>
+            </li>
+            <script type="text/javascript">
+                graph = `{{ version.yw_graph_output|safe }}`
+            </script>
+            <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
+    </ol>
     <form method="POST"> 
         {% csrf_token %}
         <select name="version_id">
