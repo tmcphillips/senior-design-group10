@@ -28,7 +28,7 @@ def home(request):
 
     return render(request, 'pages/home_page.html', { 'workflow_list': workflows, 'host': host  })
 
-@login_required()
+@login_required(login_url='/accounts/login/')
 def my_workflows(request):
     workflow_list = Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
     for workflow in workflow_list:
