@@ -29,6 +29,9 @@
                 <div class = "title">
                     <a href="{% url 'detailed_workflow' workflow.id workflow.version_id %}">{{ workflow.title|linebreaks }}</a> 
                 </div>
+                <div class = "last_modified"> 
+                    {{ workflow.version_modified }}
+                </div>
                 <div id="graph{{ forloop.counter }}" class = workflow-image></div>
                 <div class = "workflow-details">
                     <b>Description: </b>{{ workflow.description }}

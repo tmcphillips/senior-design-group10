@@ -20,6 +20,7 @@ def home(request):
         else:
             workflow.graph = latest_version.yw_graph_output
             workflow.version_id = latest_version.id
+            workflow.version_modified = latest_version.last_modified
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get('page')
