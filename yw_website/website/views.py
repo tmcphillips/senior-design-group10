@@ -60,7 +60,7 @@ def detailed_workflow(request, workflow_id, version_id):
             return render(request, 'pages/detailed_workflow.html', info)
         elif request.method == "POST":
             new_version = request.POST['version_id']
-            return redirect('/detailed_workflow/{}/{}/'.format(workflow_id, new_version))
+            return redirect('/detailed_workflow/{}/version/{}/'.format(workflow_id, new_version))
     
     except ObjectDoesNotExist:
         return Response(status=404, data={'error':'workflow not found'})
