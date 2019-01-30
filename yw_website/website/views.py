@@ -15,6 +15,7 @@ def home(request):
     workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
         latest_version = Version.objects.filter(workflow=workflow).order_by('last_modified').first()
+        # TODO: every workflow should have at least one version
         if latest_version is None:
             workflow_list = workflow_list.exclude(pk=workflow.id)
         else:
@@ -62,12 +63,13 @@ def detailed_workflow(request, workflow_id, version_id):
             return redirect('/detailed_workflow/{}/{}/'.format(workflow_id, new_version))
     
     except ObjectDoesNotExist:
-      return redirect(home)
+        return Response(status=404, data={'error':'workflow not found'})
 
 def run_detail(request, run_id):
     try:
         document = Run.objects.get(pk=run_id)
     except Run.DoesNotExist:
-        return redirect(home)
+        return Response(status=404, data={'error':'run not found'})
+
     return render(request, 'pages/run_detail.html', { 'document': document })
 

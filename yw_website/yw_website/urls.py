@@ -44,7 +44,7 @@ urlpatterns = [
     ###
     path('', yw_website_views.home, name='home'),
     path('my_workflows/', yw_website_views.my_workflows, name='my_workflows'),
-    path('detailed_workflow/<int:workflow_id>/<int:version_id>/', yw_website_views.detailed_workflow, name='detailed_workflow'),
+    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/', yw_website_views.detailed_workflow, name='detailed_workflow'),
     path('run_detail/<int:run_id>/', yw_website_views.run_detail, name='run_detail'),
 
     ###
