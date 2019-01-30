@@ -10,25 +10,18 @@
 
 {% block main_content %}
 
-    {% include 'includeable/searchbar.html' %}
     <div class="dns">
-        DNS: {{host}} 
-    </div>
-
-    <div class="tab">
-        {% block page_name %}{% endblock %}
+        {{host}}
+        <span class="tooltiptext"> Use this as the server address for the YesWorkflow config file</span>
     </div>
 
     <div class="list">
 
-        <!-- Content to be paginated must be assigned to the document_list keyword argument -->
-        {% include 'includeable/paginator.html' with document_list=document_list %}
-
         <!-- Content to workflow list_view must be assigned to the document_list keyword argument -->
-        {% include 'includeable/workflow_list.html' with document_list=document_list %}
+        {% include 'includeable/workflow_list.html' with workflow_list=workflow_list %}
 
         <!-- Content to be paginated must be assigned to the document_list keyword argument -->
-        {% include 'includeable/paginator.html' with document_list=document_list %}
+        {% include 'includeable/paginator.html' with document_list=workflow_list %}
 
     </div>
 

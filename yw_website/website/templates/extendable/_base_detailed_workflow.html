@@ -1,0 +1,58 @@
+{% extends 'extendable/__base_template.html' %}
+
+{% block inherits_from_base_scripts %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+    <script src="{{ STATIC_PREFIX }}scripts/viz.js"></script>
+    <script src="{{ STATIC_PREFIX }}scripts/d3.min.js"></script>
+    <script src="{{ STATIC_PREFIX }}scripts/d3-graphviz.min.js"></script>
+{% endblock %}
+
+{% block main_content %}
+
+<div class = box>
+    <link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
+    <div class = title>
+        {{ workflow.title}}
+    </div>
+    <div class = text> 
+        {% for version_ in versions %}
+            {% if version_.id == version.id %}
+                <text>Version #{{ forloop.counter }}</text>
+            {%  endif %}
+        {% endfor %}
+    </div>
+    <div class = outside_data>
+        <b>Description: </b>{{workflow.description}}
+        <br>
+       <b>Uploaded At: </b>{{version.last_modified}}    
+    </div>
+
+    <ol id="elementStyle">
+        <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
+            <li>
+                <div id="graph1" class = workflow-image></div>
+            </li>
+            <script type="text/javascript">
+                graph = `{{ version.yw_graph_output|safe }}`
+            </script>
+            <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
+    </ol>
+    <form method="POST"> 
+        {% csrf_token %}
+        <select name="version_id">
+        {% for version_ in versions %}
+            {% if version_.id != version.id %}
+                <option value="{{version_.id}}">Version #{{ forloop.counter }}</option>
+            {%  endif %}
+        {% endfor %}
+        </select>
+        <input type="submit"  value="View Different Version" />
+    </form>
+    
+    <div class="list">
+        {% include 'includeable/run_list.html' with run_list=run_list %}
+    </div>
+<div>
+
+{% endblock %}

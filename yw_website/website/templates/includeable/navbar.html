@@ -1,7 +1,11 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href={% static "design/nav_bar.css" %}>
-
-<nav class="navbar navbar-inverse">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <nav class="navbar navbar-default">
     <div class="container-fluid">
 
         <div class="navbar-header"> 
@@ -11,30 +15,30 @@
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav navbar-nav">
                 <li class="">
-                    <a href="{% url 'home' %}">
-                        Home
-                    </a>
-                </li>
-                <li class="">
                     <a href="{% url 'my_workflows' %}">
                         My Workflows
                     </a>
                 </li>
                 {% if request.user.is_superuser %}
-                <li class="">
+                <li>
                         <a href="{% url 'admin:index' %}">
                             Admin
                         </a>
                 </li>
                 {% endif %}
+                <li>
+                    <input type="text" placeholder="Search">
+                    <button type="button">Go</button>
+                    
+                </li>
             </ul>
             
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %}"> {{user.get_username}} | Logout </a>
+                        <a href="{% url 'account_logout' %}"> {{user.get_username}} | Logout </a>
                     {% else %}
-                        <a href="{% url 'login' %}"> Login </a>
+                        <a href="{% url 'account_login' %}"> Login </a>
                     {% endif %}
                 </li>
             </ul>

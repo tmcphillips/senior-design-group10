@@ -1,41 +1,62 @@
 {% load static %}
 
 {% comment %}
- <!-- Content to be paginated must be assigned to the document_list keyword argument when including
+ <!-- Content to be paginated must be assigned to the workflow_list keyword argument when including
         
     Example:
-    {% include 'includeable/paginator.html' with document_list=<pageable_object> %}
+    {% include 'includeable/paginator.html' with workflow_list=<pageable_object> %}
 
 
-    The 'document_list' object must be a list like object with each 'document' element 
+    The 'workflow_list' object must be a list like object with each 'workflow' element 
     having the following attributes.
 
-    document:
+    workflow:
         title       {string}
         description {string}
         graph       {string}    /* graphviz string representation */
-        
+        version_id  {int}
  -->
 {% endcomment %}
 
 
-{% if document_list %}
+{% if workflow_list %}
 
     <ol id="elementStyle">
         <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
 
-        {% for document in document_list %}
+        {% for workflow in workflow_list %}
             <li>
                 <div class = "title">
-                    <a href="{% url 'detailed_workflow' document.id %}">{{ document.title|linebreaks }}</a> 
+                    {{ workflow.title|linebreaks }}
                 </div>
+                <div class = "last_modified"> 
+                    {{ workflow.version_modified }}
+                </div>
+
                 <div id="graph{{ forloop.counter }}" class = workflow-image></div>
-                <div class = "workflow-details">
-                    <b>Description: </b>{{ document.description }}
+
+                <div class = "workflow-details" id="description">
+                    <b>Description: </b>{{ workflow.description }}
                 </div>
+
+                <div style = "text-align:center">
+                    <a class = "more-details-button" href="{% url 'detailed_workflow' workflow.id workflow.version_id %}"> View Details</a>
+                </div>      
+                <!-- <button class="details-button" onClick = "description_view()">View Description</button> -->
             </li>
+            <script>
+                function description_view(){
+                    var description = document.getElementById("description");
+                    if (description.style.display === "none") {
+                        description.style.display = "block";
+                    }
+                    else {
+                        description.style.display = "none";
+                    }
+                }
+            </script>
             <script type="text/javascript">
-                graph = `{{ document.graph|safe }}`
+                graph = `{{ workflow.graph|safe }}`
             </script>
             <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
         {% endfor %}
@@ -44,6 +65,6 @@
 
 {% else %}
 
-    <p>There are no documents in the system.</p>
+    <p>There are no workflows in the system.</p>
 
 {% endif %}  
