@@ -27,16 +27,34 @@
         {% for workflow in workflow_list %}
             <li>
                 <div class = "title">
-                    <a href="{% url 'detailed_workflow' workflow.id workflow.version_id %}">{{ workflow.title|linebreaks }}</a> 
+                    {{ workflow.title|linebreaks }}
                 </div>
                 <div class = "last_modified"> 
                     {{ workflow.version_modified }}
                 </div>
+
                 <div id="graph{{ forloop.counter }}" class = workflow-image></div>
-                <div class = "workflow-details">
+
+                <div class = "workflow-details" id="description">
                     <b>Description: </b>{{ workflow.description }}
                 </div>
+
+                <div style = "text-align:center">
+                    <a class = "more-details-button" href="{% url 'detailed_workflow' workflow.id workflow.version_id %}"> View Details</a>
+                </div>      
+                <!-- <button class="details-button" onClick = "description_view()">View Description</button> -->
             </li>
+            <script>
+                function description_view(){
+                    var description = document.getElementById("description");
+                    if (description.style.display === "none") {
+                        description.style.display = "block";
+                    }
+                    else {
+                        description.style.display = "none";
+                    }
+                }
+            </script>
             <script type="text/javascript">
                 graph = `{{ workflow.graph|safe }}`
             </script>

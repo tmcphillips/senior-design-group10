@@ -10,14 +10,9 @@
 
 {% block main_content %}
 
-    {% include 'includeable/searchbar.html' %}
     <div class="dns">
         {{host}}
         <span class="tooltiptext"> Use this as the server address for the YesWorkflow config file</span>
-    </div>
-
-    <div class="tab">
-        {% block page_name %}{% endblock %}
     </div>
 
     <div class="list">
