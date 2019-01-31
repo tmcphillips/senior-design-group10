@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'website.apps.WebsiteConfig',
+    'yw_website.apps.website',
     'rest_framework',
     'allauth',
     'allauth.account',

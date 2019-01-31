@@ -19,52 +19,13 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
-import website.views as views
-from website.views import *
-
-###
-# DATABASE PATHS
-###
-router = routers.DefaultRouter()
-router.register('workflows', WorkflowViewSet)
-router.register('tags', TagViewSet)
-router.register('versions', VersionViewSet)
-router.register('runs', RunViewSet)
-router.register('files', FileViewSet)
-router.register('runfiles', RunFileViewSet)
-router.register('tagworkflows', TagWorkflowViewSet)
-router.register('tagversions', TagVersionViewSet)
-router.register('tagruns', TagRunViewSet)
-router.register('tagfiles', TagWorkflowViewSet)
-
 urlpatterns = [
-    ###
-    # YESWORKFLOW WEBSERVER PATHS
-    ###
-    path('', views.home, name='home'),
-    path('my_workflows/', views.my_workflows, name='my_workflows'),
-    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/',
-         views.detailed_workflow, name='detailed_workflow'),
-    path('run_detail/<int:run_id>/', views.run_detail, name='run_detail'),
-
-    ###
-    # YESWORKFLOW SAVE PATHS
-    ###
-    path('save/', views.create_workflow, name='create'),
-    path('save/<int:workflow_id>/', views.update_workflow, name='update'),
-    path('save/ping/', views.yw_save_ping, name='ping'),
-
-    ###
-    # REST API PATHS
-    ###
-    path('api/v1/', include(router.urls)),
-
     ###
     # USER PATHS
     ###
     path('admin/', admin.site.urls,),
     path('accounts/', include('allauth.urls')),
-
+    path('', include('yw_website.apps.website.urls')),
 ]
 
 if settings.DEBUG:

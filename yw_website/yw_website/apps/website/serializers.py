@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from website.models import *
+from .models import *
 
 
 class TagSerializer(serializers.ModelSerializer):

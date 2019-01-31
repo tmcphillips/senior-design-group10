@@ -18,8 +18,8 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from website.models import *
-from website.serializers import *
+from .models import *
+from .serializers import *
 
 
 #############################################################
