@@ -19,9 +19,8 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
-from website import views as yw_website_views
-from yw_db.views import *
-from yw_rest_services import views as yw_rest_services_views
+import website.views as views
+from website.views import *
 
 ### 
 # DATABASE PATHS
@@ -42,17 +41,17 @@ urlpatterns = [
     ### 
     # YESWORKFLOW WEBSERVER PATHS
     ###
-    path('', yw_website_views.home, name='home'),
-    path('my_workflows/', yw_website_views.my_workflows, name='my_workflows'),
-    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/', yw_website_views.detailed_workflow, name='detailed_workflow'),
-    path('run_detail/<int:run_id>/', yw_website_views.run_detail, name='run_detail'),
+    path('', views.home, name='home'),
+    path('my_workflows/', views.my_workflows, name='my_workflows'),
+    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/', views.detailed_workflow, name='detailed_workflow'),
+    path('run_detail/<int:run_id>/', views.run_detail, name='run_detail'),
 
     ###
     # YESWORKFLOW SAVE PATHS
     ###
-    path('save/', yw_rest_services_views.create_workflow, name='create'),
-    path('save/<int:workflow_id>/', yw_rest_services_views.update_workflow, name='update'),
-    path('save/ping/', yw_rest_services_views.yw_save_ping, name='ping'),
+    path('save/', views.create_workflow, name='create'),
+    path('save/<int:workflow_id>/', views.update_workflow, name='update'),
+    path('save/ping/', views.yw_save_ping, name='ping'),
 
     ###
     # REST API PATHS

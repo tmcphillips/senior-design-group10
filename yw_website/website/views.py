@@ -8,9 +8,25 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import generic
 from django.contrib.auth.decorators import login_required
-from yw_db.models import Run, Version, Workflow
 
 
+from website.models import *
+from website.serializers import *
+
+import datetime
+
+from django.utils import timezone
+from rest_framework import permissions, viewsets
+from rest_framework.decorators import (action, api_view, parser_classes,
+                                       permission_classes)
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+
+#############################################################
+#### Website Views
+#############################################################
 def home(request):
     workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
@@ -73,3 +89,134 @@ def run_detail(request, run_id):
 
     return render(request, 'pages/run_detail.html', { 'document': document })
 
+#############################################################
+#### REST API Views
+#############################################################
+
+@api_view(['get',])
+@permission_classes((permissions.AllowAny,))
+def yw_save_ping(request):
+    return Response(status=200, data={"data":"You connected to yw web components."})
+
+@api_view(['post'])
+@permission_classes((permissions.AllowAny,))
+def create_workflow(request):
+    username = User.objects.filter(username=request.data.get('username', None))
+    if not username:
+        return Response(status=500, data={'error':'bad username'})
+    username = username[0]
+    w = Workflow(
+        user=username,
+        title=request.data.get('title', 'Title'),
+        description=request.data.get('description','Description')
+    )
+    w.save()
+    v = Version(
+        workflow=w,
+        script_check_sum=request.data.get('script_checksum', ''),
+        yw_model_check_sum=request.data.get('model_checksum', ''),
+        yw_model_output=request.data.get('model', ''),
+        yw_graph_output=request.data.get('graph', ''),
+        last_modified=datetime.datetime.now(tz=timezone.utc)
+    )
+    v.save()
+    r = Run(
+        version = v,
+        yw_recon_output = request.data.get('recon', ''),
+        run_time_stamp = datetime.datetime.now(tz=timezone.utc)
+    )
+    r.save()
+    wdata = WorkflowSerializer(w).data
+    wdata['id'] = w.id
+    vdata = VersionSerializer(v).data
+    vdata['id'] = v.id
+    rdata = RunSerializer(r).data
+    rdata['id'] = r.id
+    return Response(status=200, data={
+        "workflow": wdata,
+        "version": vdata,
+        'run': rdata
+        })
+
+@api_view(['post'])
+@permission_classes((permissions.AllowAny,))
+def update_workflow(request, workflow_id):
+    try:
+        w = Workflow.objects.get(pk=workflow_id)
+    except Workflow.DoesNotExist:
+        return Response(status=500, data={'error':'Workflow does not exist'})
+
+    if 'model_checksum' not in request.data:
+        return Response(status=500, data={'error':'No model checksum was recieved'})
+
+    v, _ = Version.objects.update_or_create(
+        workflow=w,
+        yw_model_check_sum=request.data.get('model_checksum', ''),
+        defaults={
+            'script_check_sum':request.data.get('script_checksum', ''),
+            'yw_model_output':request.data.get('model', ''),
+            'yw_graph_output':request.data.get('graph', ''),
+            'last_modified':datetime.datetime.now(tz=timezone.utc)
+        }
+    )
+    r = Run(
+        version = v,
+        yw_recon_output = request.data.get('recon', ''),
+        run_time_stamp = datetime.datetime.now(tz=timezone.utc)
+    )
+    r.save()
+    wdata = WorkflowSerializer(w).data
+    wdata['id'] = w.id
+    vdata = VersionSerializer(v).data
+    vdata['id'] = v.id
+    rdata = RunSerializer(r).data
+    rdata['id'] = r.id
+
+    return Response(status=200, data={
+        "workflow": wdata,
+        "version": vdata,
+        'run': rdata
+        })
+
+#############################################################
+#### Database Views
+#############################################################
+class WorkflowViewSet(viewsets.ModelViewSet):
+    queryset = Workflow.objects.all()
+    serializer_class = WorkflowSerializer
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+class VersionViewSet(viewsets.ModelViewSet):
+    queryset = Version.objects.all()
+    serializer_class = VersionSerializer
+
+class RunViewSet(viewsets.ModelViewSet):
+    queryset = Run.objects.all()
+    serializer_class = RunSerializer
+
+class FileViewSet(viewsets.ModelViewSet):
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+
+class RunFileViewSet(viewsets.ModelViewSet):
+    queryset = RunFile.objects.all()
+    serializer_class = RunFileSerializer
+
+class TagWorkflowViewSet(viewsets.ModelViewSet):
+    queryset = TagWorkflow.objects.all()
+    serializer_class = TagWorkflowSerializer
+
+class TagVersionViewSet(viewsets.ModelViewSet):
+    queryset = TagVersion.objects.all()
+    serializer_class = TagVersionSerializer
+
+class TagRunViewSet(viewsets.ModelViewSet):
+    queryset = TagRun.objects.all()
+    serializer_class = TagRunSerializer
+
+class TagFileSet(viewsets.ModelViewSet):
+    queryset = TagFile.objects.all()
+    serializer_class = TagFileSerializer

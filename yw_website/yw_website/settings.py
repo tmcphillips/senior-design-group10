@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'website.apps.WebsiteConfig',
     'rest_framework',
-    'yw_db',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

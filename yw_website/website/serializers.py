@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from yw_db.models import *
+from website.models import *
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
