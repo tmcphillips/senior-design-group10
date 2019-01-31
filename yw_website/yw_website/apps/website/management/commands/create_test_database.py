@@ -11,7 +11,7 @@ DUMMY_GRAPH_STRING = """digraph Workflow {
     subgraph cluster_workflow_box_outer { label=""; color=black; penwidth=2
     subgraph cluster_workflow_box_inner { label=""; penwidth=0
     node[shape=box style=filled fillcolor="#CCFFCC" peripheries=1 fontname=Helvetica]
-    node[shape=box style=filled fillolor="#CCFFCC" peripheries=2 fontname=Helvetica]
+    node[shape=box style=filled fillcolor="#CCFFCC" peripheries=2 fontname=Helvetica]
     validate_scientificName_field_of_data
     validate_eventDate_field_of_data
     edge[fontname=Helvetica]
