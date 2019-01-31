@@ -5,6 +5,8 @@ cd ./yw_website/
 
 python manage.py makemigrations
 python manage.py migrate 
+python3 manage.py makemigrations website
+python3 manage.py migrate website
 python manage.py create_test_database
 python manage.py test
 python manage.py runserver
