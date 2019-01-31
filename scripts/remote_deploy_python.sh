@@ -7,8 +7,8 @@ pip3 install -r requirements.txt
 cd ./yw_website/
 python manage.py makemigrations
 python manage.py migrate 
-python3 manage.py makemigrations website
-python3 manage.py migrate website
+python manage.py makemigrations website
+python manage.py migrate website
 python manage.py test
 sudo python manage.py runserver https://147.222.165.82:80&
 EOF
