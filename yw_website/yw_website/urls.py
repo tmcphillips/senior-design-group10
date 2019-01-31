@@ -22,7 +22,7 @@ from rest_framework import routers
 import website.views as views
 from website.views import *
 
-### 
+###
 # DATABASE PATHS
 ###
 router = routers.DefaultRouter()
@@ -38,12 +38,13 @@ router.register('tagruns', TagRunViewSet)
 router.register('tagfiles', TagWorkflowViewSet)
 
 urlpatterns = [
-    ### 
+    ###
     # YESWORKFLOW WEBSERVER PATHS
     ###
     path('', views.home, name='home'),
     path('my_workflows/', views.my_workflows, name='my_workflows'),
-    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/', views.detailed_workflow, name='detailed_workflow'),
+    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/',
+         views.detailed_workflow, name='detailed_workflow'),
     path('run_detail/<int:run_id>/', views.run_detail, name='run_detail'),
 
     ###
