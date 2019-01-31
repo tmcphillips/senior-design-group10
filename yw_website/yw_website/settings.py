@@ -42,9 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'website.apps.WebsiteConfig',
+    'yw_website.apps.website',
     'rest_framework',
-    'yw_db',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -154,4 +153,4 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
 
 # Replace in production environment
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

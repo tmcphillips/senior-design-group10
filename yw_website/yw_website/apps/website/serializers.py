@@ -1,45 +1,55 @@
 from rest_framework import serializers
-from yw_db.models import *
+
+from .models import *
+
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tag 
+        model = Tag
         fields = '__all__'
+
 
 class WorkflowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workflow
         fields = '__all__'
 
+
 class VersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Version
         fields = '__all__'
+
 
 class RunSerializer(serializers.ModelSerializer):
     class Meta:
         model = Run
         fields = '__all__'
 
+
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
         fields = '__all__'
 
+
 class RunFileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RunFile 
+        model = RunFile
         fields = '__all__'
+
 
 class TagWorkflowSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagWorkflow
         fields = '__all__'
 
+
 class TagVersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagVersion
         fields = '__all__'
+
 
 class TagRunSerializer(serializers.ModelSerializer):
     class Meta:
