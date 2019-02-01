@@ -1,6 +1,6 @@
 from autofixture import AutoFixture
 from django.core.management.base import BaseCommand
-from website.models import Workflow, Version, Tag, Run, File, RunFile, TagWorkflow, TagVersion, TagRun, TagFile
+from yw_website.apps.website.models import Workflow, Version, Tag, Run, File, RunFile, TagWorkflow, TagVersion, TagRun, TagFile
 import uuid
 
 # Graphviz output string for an example workflow
