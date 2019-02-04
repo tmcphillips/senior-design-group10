@@ -7,7 +7,6 @@
 	background-color: white;
     margin:auto;
     margin-top: 10px;
-   /* margin-right: 50px;*/
 	width: 60%;
 	max-width:95%; 
 	overflow-x: scroll; 
@@ -47,6 +46,7 @@ th, td {
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
+
 .box {
 	margin:auto;
 	text-align: center;
@@ -74,21 +74,15 @@ th, td {
 }
 
 #elementStyle li {
-	/*display: table;*/
 	text-align: center;
 	list-style-type: none;
-    /*padding: 10px;*/
 	border: 1px dashed;
-	/*border: transparent;*/
 	width: 95%;
-
 }
 
 
 
 .title {
-	/*position: relative;*/
-	/*display: inline;*/
 	margin-left: 23%;
 	margin-right: 23%;
 	align-self: center;
