@@ -23,10 +23,11 @@ urlpatterns = [
     # YESWORKFLOW WEBSERVER PATHS
     ###
     path('', home, name='home'),
-    path('my_workflows/', my_workflows, name='my_workflows'),
+    path('my_workflows/', my_workflows, name='my_workflows'),        
     path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/',
          detailed_workflow, name='detailed_workflow'),
     path('run_detail/<int:run_id>/', run_detail, name='run_detail'),
+    path('search/', search, name='search'),
 
     ###
     # YESWORKFLOW SAVE PATHS
