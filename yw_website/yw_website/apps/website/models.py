@@ -19,7 +19,7 @@ class Tag(models.Model):
         (FILE, "File"),
     )
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=32)
     tag_type = models.CharField(
         max_length=1, choices=TAG_CHOICES, default=WORKFLOW)
 
