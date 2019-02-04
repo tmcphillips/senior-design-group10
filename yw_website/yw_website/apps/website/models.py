@@ -44,15 +44,9 @@ class Version(models.Model):
 
 
 class Script(models.Model):
-    script_check_sum = models.CharField(max_length=128)
-    script = models.FileField(
-        upload_to='workflow_scripts/', null=True, default=None)
-
-
-class VersionScript(models.Model):
     version = models.ForeignKey(Version, on_delete=models.CASCADE, blank=False)
-    script = models.ForeignKey(Script, on_delete=models.CASCADE, blank=False)
-
+    script_check_sum = models.CharField(max_length=128)
+    script = models.TextField()
 
 class Run(models.Model):
     version = models.ForeignKey(Version, on_delete=models.CASCADE, blank=False)
