@@ -6,7 +6,6 @@ from django.test.client import Client
 
 from .models import Workflow
 
-
 class DBTestCase(TestCase):
     def setUp(self):
         self.w = Workflow.objects.create()
