@@ -37,6 +37,13 @@ def home(request):
             workflow.graph = latest_version.yw_graph_output
             workflow.version_id = latest_version.id
             workflow.version_modified = latest_version.last_modified
+            workflow_tags = []
+            associated_tags = TagWorkflow.objects.all().filter(workflow=workflow)
+
+
+            for tag in associated_tags:
+                workflow_tags.append(Tag.objects.all().filter(pk=tag.tag_id).values_list('title', flat=True))
+            workflow.tags = workflow_tags.values_list('title', flat=True)
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get('page')
