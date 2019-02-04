@@ -42,11 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'yw_website.apps.website',
     'rest_framework',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'haystack',
+    'yw_website.apps.website',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +105,11 @@ DATABASES = {
     }
 }
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

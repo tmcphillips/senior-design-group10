@@ -96,26 +96,6 @@ def run_detail(request, run_id):
 
     return render(request, 'pages/run_detail.html', {'run': run})
 
-def search(request):
-    workflow_list = Workflow.objects.all().exclude(version__isnull=True).filter(title__contains=request.POST['user_search'])
-    for workflow in workflow_list:
-        latest_version = Version.objects.filter(
-            workflow=workflow).order_by('last_modified').first()
-        # TODO: every workflow should have at least one version
-        if latest_version is None:
-            workflow_list = workflow_list.exclude(pk=workflow.id)
-        else:
-            workflow.graph = latest_version.yw_graph_output
-            workflow.version_id = latest_version.id
-            workflow.version_modified = latest_version.last_modified
-            workflow.tags = Tag.objects.all().select_related('workflow').filter(pk=workflow.id).values_list('title', flat=True)
-
-    paginator = Paginator(workflow_list, 10)
-    page = request.GET.get('page')
-    workflows = paginator.get_page(page)
-    host = request.get_host()
-
-    return render(request, 'pages/home_page.html', {'workflow_list': workflows, 'host': host})
 #############################################################
 # REST API Views
 #############################################################

@@ -26,7 +26,13 @@
                         </a>
                 </li>
                 {% endif %}
-                {% include 'includeable/searchbar.html' %}
+               <li>
+                   <li class = "search">
+                       <a href="{% url 'haystack_search'%}">
+                           Search
+                       </a>
+                   </li>
+               </li>
             </ul>
             
             <ul class="nav navbar-nav navbar-right">

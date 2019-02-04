@@ -1,8 +1,0 @@
-<li>
-    <form class="search" action="{% url 'search' %}" method='post'>
-        {% csrf_token %}
-        <input type="search" placeholder="Enter Search." name="user_search" 
-            value='{{ query }}' required>
-        <button type="submit">Search</button>
-    </form>
-</li>
