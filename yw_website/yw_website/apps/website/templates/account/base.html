@@ -7,43 +7,51 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/detailed_design.css">
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+
     
     {% include 'includeable/navbar.html' %}
-  <head>
-    <title>{% block head_title %}{% endblock %}</title>
-    {% block extra_head %}
-    {% endblock %}
-  </head>
-  <body>
-    {% block body %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}account/login_page.css">
+  <div class = 'all'>
+    <head>
+      <title >{% block head_title %}{% endblock %}</title>
+      {% block extra_head %}
+      {% endblock %}
+    </head>
+    <body>
+      {% block body %}
 
-    {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-
-    <div>
-      <strong>Menu:</strong>
-      <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-        {% else %}
-        <li><a href="{% url 'account_login' %}">Sign In</a></li>
-        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-        {% endif %}
-      </ul>
-    </div>
-    {% block content %}
-    {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-    {% endblock %}
-  </body>
+      {% if messages %}
+      <div>
+        <strong>Messages:</strong>
+        <ul>
+          {% for message in messages %}
+          <li>{{message}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <div class = 'options'>
+        <ul>
+          {% if user.is_authenticated %}
+          <div class = 'link'>
+          <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+          | 
+          <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+          </div>
+          {% else %}
+          <div class = 'link'>
+          <li><a href="{% url 'account_login' %}">Sign In</a></li>
+          |
+          <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+          </div>
+          {% endif %}
+        </ul>
+      </div>
+      {% block content %}
+      {% endblock %}
+      {% endblock %}
+      {% block extra_body %} 
+      {% endblock %}
+    </body>
+  </div>
 </html>

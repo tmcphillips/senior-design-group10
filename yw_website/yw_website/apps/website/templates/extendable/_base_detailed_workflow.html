@@ -15,17 +15,12 @@
     <div class = title>
         {{ workflow.title}}
     </div>
-    <div class = text> 
+    <div class = version> 
         {% for version_ in versions %}
             {% if version_.id == version.id %}
                 <text>Version #{{ forloop.counter }}</text>
             {%  endif %}
         {% endfor %}
-    </div>
-    <div class = outside_data>
-        <b>Description: </b>{{workflow.description}}
-        <br>
-       <b>Uploaded At: </b>{{version.last_modified}}    
     </div>
 
     <ol id="elementStyle">
@@ -38,6 +33,14 @@
             </script>
             <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
     </ol>
+
+    <div class = outside_data>
+        <b>Description: </b>{{workflow.description}}
+        <br>
+       <b>Uploaded At: </b>{{version.last_modified}}    
+    </div>
+
+    <div class = version>
     <form method="POST"> 
         {% csrf_token %}
         <select name="version_id">
@@ -49,7 +52,8 @@
         </select>
         <input type="submit"  value="View Different Version" />
     </form>
-    
+    </div>
+    Runs For Choosen Version:
     <div class="list">
         {% include 'includeable/run_list.html' with run_list=run_list %}
     </div>
