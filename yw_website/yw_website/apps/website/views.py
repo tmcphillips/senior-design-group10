@@ -37,6 +37,7 @@ def home(request):
             workflow.graph = latest_version.yw_graph_output
             workflow.version_id = latest_version.id
             workflow.version_modified = latest_version.last_modified
+            workflow.tags = Tag.objects.all().select_related('workflow').filter(pk=workflow.id).values_list('title', flat=True)
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get('page')
@@ -121,7 +122,6 @@ def create_workflow(request):
     w.save()
     v = Version(
         workflow=w,
-        script_check_sum=request.data.get('script_checksum', ''),
         yw_model_check_sum=request.data.get('model_checksum', ''),
         yw_model_output=request.data.get('model', ''),
         yw_graph_output=request.data.get('graph', ''),
@@ -133,6 +133,7 @@ def create_workflow(request):
         yw_recon_output=request.data.get('recon', ''),
         run_time_stamp=datetime.datetime.now(tz=timezone.utc)
     )
+    #TODO: Add support for grabbing script and file data
     r.save()
     wdata = WorkflowSerializer(w).data
     wdata['id'] = w.id
@@ -162,7 +163,6 @@ def update_workflow(request, workflow_id):
         workflow=w,
         yw_model_check_sum=request.data.get('model_checksum', ''),
         defaults={
-            'script_check_sum': request.data.get('script_checksum', ''),
             'yw_model_output': request.data.get('model', ''),
             'yw_graph_output': request.data.get('graph', ''),
             'last_modified': datetime.datetime.now(tz=timezone.utc)

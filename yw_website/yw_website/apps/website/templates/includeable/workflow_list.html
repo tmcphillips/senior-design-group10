@@ -26,6 +26,9 @@
 
         {% for workflow in workflow_list %}
             <li>
+                <div classs = "tags">
+                    Tags: {{ workflow.tags | join:", " }}
+                </div>
                 <div class = "title">
                     {{ workflow.title|linebreaks }}
                 </div>
