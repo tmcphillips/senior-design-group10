@@ -1,0 +1,36 @@
+/* Login Page Style*/
+.options {
+	position: relative;
+	right: 20px;
+}
+
+.link {
+	color: blue;
+}
+
+ul {
+  list-style-type: none;
+  display: inline-block;
+}
+
+
+li {
+	display: inline-block;
+}
+body {
+	color: black;
+}
+
+.all {
+	border-style: solid;
+	align-self: center;
+	text-align: center;
+    padding: 40px 30px;
+    border-color: grey;
+	background-color: white;
+    margin:auto;
+    margin-top: 5%;
+	width:45%;
+	max-width:100%; 
+	height:90%;
+}

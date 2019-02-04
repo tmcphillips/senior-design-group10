@@ -1,2 +1,23 @@
 {% extends 'extendable/__base_template.html' %}
+{% load static %}
+
+{% block main_content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'design/run_page_design.css' %}">
+    <div class = box >
+    	<div class = border>
+    	<br>
+    	<h2> Run Details:</h2>
+    	<br> 
+    	Parent Workflow: {{run.version.workflow.title}}
+		<br> 
+		Time Stamp: {{run.run_time_stamp}}
+		<br>
+		Script Check Sum: {{run.version.script_check_sum}}
+		<br>
+		Last Modified: {{run.version.last_modified}}
+		<br>
+		</div>
+    </div>
+
+{% endblock %}
 

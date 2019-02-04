@@ -1,4 +1,6 @@
 {% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/detailed_design.css">
 
 {% comment %}
  <!-- Content to be paginated must be assigned to the document_list keyword argument when including
@@ -24,8 +26,8 @@
     <ol id="elementStyle">
         {% for run in run_list %}
             <li>
-                <div class = "title">
-                    <a href="{% url 'run_detail' run.id %}">{{ run.id|linebreaks }}</a> 
+                <div class = "table_title">
+                    <a href="{% url 'run_detail' run.id %}">Run#{{ run.id }}</a> 
                 </div>
                 <div class = "workflow-details">
                     <b>Time Stamp: </b>{{ run.run_time_stamp }}

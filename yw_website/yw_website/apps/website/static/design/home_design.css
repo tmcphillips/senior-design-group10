@@ -3,10 +3,10 @@
 .list {
 	text-align: center;
 	align-items:center;
-    padding: 20px 40px 10px 0px;; 
+    padding: 20px 40px 10px 0px;
     background-color: white;
-    margin:0 10%;
-	width:80%;
+    margin:5% 10%;
+	width: 80%;
 	min-height:500px;
 	height: 80%;
 }
@@ -59,19 +59,19 @@
 	border-width: 1px;	
 	border-radius: 5px;
 	padding: 5px;
-	/*text-align: right;*/
+	top: 25px;
 }
 
 .dns .tooltiptext {
   visibility: hidden;
   position: absolute;
-  padding: 5px 0;
+  padding: 5px;
   border-radius: 5px;
-  color: #fff;
-  width: 200px;
+  color: grey;
+  width: 500px;
   bottom: 100%;
   left: 50%; 
-  margin-left: -90px;
+  margin-left: -220px;
 
 }
 

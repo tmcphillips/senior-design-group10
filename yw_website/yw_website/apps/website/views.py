@@ -89,11 +89,11 @@ def detailed_workflow(request, workflow_id, version_id):
 
 def run_detail(request, run_id):
     try:
-        document = Run.objects.get(pk=run_id)
+        run = Run.objects.get(pk=run_id)
     except Run.DoesNotExist:
         return Response(status=404, data={'error': 'run not found'})
 
-    return render(request, 'pages/run_detail.html', {'document': document})
+    return render(request, 'pages/run_detail.html', {'run': run})
 
 #############################################################
 # REST API Views
