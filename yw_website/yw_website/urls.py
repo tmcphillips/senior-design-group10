@@ -25,6 +25,7 @@ urlpatterns = [
     ###
     path('admin/', admin.site.urls,),
     path('accounts/', include('allauth.urls')),
+    path('search/', include('haystack.urls'), name='haystack_search'),
     path('', include('yw_website.apps.website.urls')),
 ]
 
