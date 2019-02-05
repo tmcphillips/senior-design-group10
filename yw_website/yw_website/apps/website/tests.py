@@ -3,8 +3,9 @@ import uuid
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
-
+import json
 from .models import Workflow
+import serializers
 
 class DBTestCase(TestCase):
     def setUp(self):
@@ -52,8 +53,18 @@ class YwSaveTestCase(TestCase):
         data['model_checksum'] = '2341234123423'
         data['graph'] = 'test_graph'
         data['recon'] = 'test_recon'
+        data['tags'] = [{'title':'tag_1'}, {'title':'tag_2'}, {'title':'tag_3'}]
+        
+        json_data = json.dumps(data)
+        print(json_data)
 
+        data_2 = [  {'title':'tag_1'}, 
+                    {'title':'tag_2'}, 
+                    {'title':'tag_3'}]
+        ts = TagSerializer(data=data_2)
+        
         response = self.client.post(route, data)
+        
         self.assertEquals(response.status_code, 200,
                           msg="Could not upload a workflow")
 

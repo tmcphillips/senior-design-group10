@@ -20,6 +20,7 @@ from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
+import json
 
 
 #############################################################
@@ -114,25 +115,11 @@ def create_workflow(request):
     if not username:
         return Response(status=500, data={'error': 'bad username'})
     username = username[0]
-    w = Workflow(
-        user=username,
-        title=request.data.get('title', 'Title'),
-        description=request.data.get('description', 'Description')
-    )
-    w.save()
-    v = Version(
-        workflow=w,
-        yw_model_check_sum=request.data.get('model_checksum', ''),
-        yw_model_output=request.data.get('model', ''),
-        yw_graph_output=request.data.get('graph', ''),
-        last_modified=datetime.datetime.now(tz=timezone.utc)
-    )
-    v.save()
-    r = Run(
-        version=v,
-        yw_recon_output=request.data.get('recon', ''),
-        run_time_stamp=datetime.datetime.now(tz=timezone.utc)
-    )
+    ws = YesWorkflowSaveSerializer(data=request.data)
+    
+    if ws.is_valid():
+        print("Yes")
+    print(ws.data)
     #TODO: Add support for grabbing script and file data
     r.save()
     wdata = WorkflowSerializer(w).data
