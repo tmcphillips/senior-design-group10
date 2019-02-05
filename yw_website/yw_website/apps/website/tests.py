@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.test.client import Client
 import json
 from .models import Workflow
-import serializers
+from .serializers import *
 
 class DBTestCase(TestCase):
     def setUp(self):
@@ -46,23 +46,27 @@ class YwSaveTestCase(TestCase):
     def test_save_upload(self):
         route = '/save/'
         data = {}
-        data['username'] = self.username
-        data['title'] = 'test_title'
-        data['description'] = 'test_description'
-        data['model'] = 'test_model'
-        data['model_checksum'] = '2341234123423'
-        data['graph'] = 'test_graph'
-        data['recon'] = 'test_recon'
-        data['tags'] = [{'title':'tag_1'}, {'title':'tag_2'}, {'title':'tag_3'}]
-        
+        data["username"] = self.username
+        data["title"] = "test_title"
+        data["description"] = "test_description"
+        data["model"] = "test_model"
+        data["model_checksum"] = "2341234123423"
+        data["graph"] = "test_graph"
+        data["recon"] = "test_recon"
+        data["tag"] = [{"title":"tag_1"}, {"title":"tag_2"}, {"title":"tag_3"}]
+
         json_data = json.dumps(data)
         print(json_data)
 
-        data_2 = [  {'title':'tag_1'}, 
-                    {'title':'tag_2'}, 
-                    {'title':'tag_3'}]
+        data_2 = {'title':'tag_1'}
         ts = TagSerializer(data=data_2)
-        
+        if ts.is_valid():
+            print("yes")
+        print(ts.validated_data)
+        print(ts.errors)
+        print(ts.data)
+        json_stirng = json.dumps(data)
+        print(json_stirng)
         response = self.client.post(route, data)
         
         self.assertEquals(response.status_code, 200,

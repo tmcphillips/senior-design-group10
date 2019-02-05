@@ -115,8 +115,9 @@ def create_workflow(request):
     if not username:
         return Response(status=500, data={'error': 'bad username'})
     username = username[0]
+    print(request.data)
     ws = YesWorkflowSaveSerializer(data=request.data)
-    
+
     if ws.is_valid():
         print("Yes")
     print(ws.data)

@@ -7,7 +7,7 @@ from .models import *
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ('title')
+        fields = '__all__'
 
 
 class WorkflowSerializer(serializers.ModelSerializer):
@@ -71,7 +71,7 @@ class YesWorkflowSaveSerializer(serializers.Serializer):
     model_checksum = serializers.CharField(required=False, allow_blank=True, max_length=128)
     graph = serializers.CharField(required=False, allow_blank=False)
     recon = serializers.CharField(required=False, allow_blank=True)
-    tags = TagSerializer(many=True)
+    tag = TagSerializer(required=False, many=True)
 
     # tags = serializers.ListField(
     #     child=serializers.CharField(required=False, allow_blank=True, max_length=32)
