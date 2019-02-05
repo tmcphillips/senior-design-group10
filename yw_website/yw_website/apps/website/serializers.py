@@ -10,8 +10,7 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TempTagSerializer(serializers.Serializer):
-    title = serializers.CharField()       
-    child=serializers.CharField(required=False, allow_blank=True, max_length=32)
+    title = serializers.CharField(required=False, allow_blank=True, max_length=32)
 
 
 class WorkflowSerializer(serializers.ModelSerializer):
@@ -75,12 +74,15 @@ class YesWorkflowSaveSerializer(serializers.Serializer):
     model_checksum = serializers.CharField(required=False, allow_blank=True, max_length=128)
     graph = serializers.CharField(required=False, allow_blank=False)
     recon = serializers.CharField(required=False, allow_blank=True)
-    tags = serializers.ListField(
-        child=serializers.CharField(required=False, allow_blank=True, max_length=32)
-    )
-    scripts = serializers.ListField(
-        child=serializers.CharField(required=False, allow_blank=True, max_length=32)
-    )
+    tags = TagSerializer(many=True)
+    # scripts = serializers.ListField(
+    #     child=serializers.CharField(required=False, allow_blank=True, max_length=32)
+    # )
+
+    class Meta:
+        model = Workflow
+        fields =('id','username','title','description','model','model_checksum', 'graph', 'recon', 'tags')
+
 
     def create(self, validated_data):
         w = Workflow(

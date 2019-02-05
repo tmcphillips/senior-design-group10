@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from django import forms
 from django.conf import settings
@@ -11,6 +12,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import (action, api_view, parser_classes,
                                        permission_classes)
@@ -20,7 +22,6 @@ from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
-import json
 
 
 #############################################################
@@ -108,15 +109,19 @@ def yw_save_ping(request):
     return Response(status=200, data={"data": "You connected to yw web components."})
 
 
+@csrf_exempt
 @api_view(['post'])
 @permission_classes((permissions.AllowAny,))
 def create_workflow(request):
+    data = request.POST.dict()
+    data['tags'] = request.POST.getlist('tags')
+
     username = User.objects.filter(username=request.data.get('username', None))
     if not username:
         return Response(status=500, data={'error': 'bad username'})
     username = username[0]
     print(request.data)
-    ws = YesWorkflowSaveSerializer(data=request.data)
+    ws = YesWorkflowSaveSerializer(data=data)
 
     if ws.is_valid():
         print("Yes")
