@@ -3,7 +3,9 @@ import uuid
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
+from rest_framework.test import APIClient
 import json
+import datetime
 from .models import Workflow
 from .serializers import *
 
@@ -27,7 +29,7 @@ class DBTestCase(TestCase):
 
 class YwSaveTestCase(TestCase):
     def setUp(self):
-        self.client = Client()
+        self.client = APIClient()
         self.username = str(uuid.uuid1())
         self.user = User.objects.create_user(
             username=self.username, password='12345')
@@ -45,6 +47,8 @@ class YwSaveTestCase(TestCase):
 
     def test_save_upload(self):
         route = '/save/'
+        now = datetime.datetime.now()
+        datetime_format = '%Y-%m-%dT%H-%M'
         data = {}
         data["username"] = self.username
         data["title"] = "test_title"
@@ -54,21 +58,25 @@ class YwSaveTestCase(TestCase):
         data["graph"] = "test_graph"
         data["recon"] = "test_recon"
         data["tags"] = [{"title":"tag_1"}, {"title":"tag_2"}, {"title":"tag_3"}]
-    
+        data["scripts"] = [{"name":"script_1", "checksum":"abcde", "content":"script_1_content"},
+                            {"name":"script_2", "checksum":"abcde", "content":"script_2_content"},
+                            {"name":"script_3", "checksum":"abcde", "content":"script_3_content"}]
+        data["files"] = [{"name":"file_name_1", "checksum":"abc", "size":3, "uri":"file_uri1"},
+                        {"name":"file_name_2", "checksum":"abcd", "size":9, "uri":"file_uri2"}]
 
-        json_data = json.dumps(data)
-        print(json_data)
+        # json_data = json.dumps(data)
+        # print(json_data)
 
         data_2 = {'title':'tag_1'}
-        ts = TagSerializer(data=data_2)
-        if ts.is_valid():
-            print("yes")
-        print(ts.validated_data)
-        print(ts.errors)
-        print(ts.data)
-        json_stirng = json.dumps(data)
-        print(json_stirng)
-        response = self.client.post(route, data)
+        # ts = TagSerializer(data=data_2)
+        # if ts.is_valid():
+        #     print("yes")
+        # print(ts.validated_data)
+        # print(ts.errors)
+        # print(ts.data)
+        # json_stirng = json.dumps(data)
+        # print(json_stirng)
+        response = self.client.post(route, data, format='json')
         
         self.assertEquals(response.status_code, 200,
                           msg="Could not upload a workflow")

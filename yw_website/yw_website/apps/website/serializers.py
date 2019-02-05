@@ -9,9 +9,10 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = '__all__'
 
-class TempTagSerializer(serializers.Serializer):
-    title = serializers.CharField(required=False, allow_blank=True, max_length=32)
-
+class ScriptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Script
+        exclude = ('version',)
 
 class WorkflowSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,22 +67,18 @@ class TagFileSerializer(serializers.ModelSerializer):
         model = TagFile
         fields = '__all__'
 
-class YesWorkflowSaveSerializer(serializers.Serializer):
-    username = serializers.StringRelatedField()
-    title = serializers.CharField(required=False, allow_blank=True, max_length=255)
-    description = serializers.CharField(required=False, allow_blank=True)
+class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     model = serializers.CharField(required=False, allow_blank=False)
     model_checksum = serializers.CharField(required=False, allow_blank=True, max_length=128)
     graph = serializers.CharField(required=False, allow_blank=False)
     recon = serializers.CharField(required=False, allow_blank=True)
     tags = TagSerializer(many=True)
-    # scripts = serializers.ListField(
-    #     child=serializers.CharField(required=False, allow_blank=True, max_length=32)
-    # )
+    scripts = ScriptSerializer(many=True)
+    files = FileSerializer(many=True)
 
     class Meta:
         model = Workflow
-        fields =('id','username','title','description','model','model_checksum', 'graph', 'recon', 'tags')
+        fields =('title','description','model','model_checksum', 'graph', 'recon', 'tags', 'scripts', 'files' )
 
 
     def create(self, validated_data):

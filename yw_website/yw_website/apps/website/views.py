@@ -113,31 +113,39 @@ def yw_save_ping(request):
 @api_view(['post'])
 @permission_classes((permissions.AllowAny,))
 def create_workflow(request):
-    data = request.POST.dict()
-    data['tags'] = request.POST.getlist('tags')
+    # data = request.POST.dict()
+    # data['tags'] = request.POST.getlist('tags')
+    # data['scripts'] = request.POST.getlist('scripts')
+    # data['files'] = request.POST.getlist('files')
+
+    # data = JSONParser.parse(data)
+    data = request.data
+
+    print(Workflow().get_deferred_fields())
 
     username = User.objects.filter(username=request.data.get('username', None))
     if not username:
         return Response(status=500, data={'error': 'bad username'})
     username = username[0]
-    print(request.data)
+    # print(request.data)
     ws = YesWorkflowSaveSerializer(data=data)
 
     if ws.is_valid():
         print("Yes")
-    print(ws.data)
-    #TODO: Add support for grabbing script and file data
-    r.save()
-    wdata = WorkflowSerializer(w).data
-    wdata['id'] = w.id
-    vdata = VersionSerializer(v).data
-    vdata['id'] = v.id
-    rdata = RunSerializer(r).data
-    rdata['id'] = r.id
+    # print(ws.data)
+    print(ws.validated_data)
+    # print(ws.errors)
+
+    # wdata = WorkflowSerializer(w).data
+    # wdata['id'] = w.id
+    # vdata = VersionSerializer(v).data
+    # vdata['id'] = v.id
+    # rdata = RunSerializer(r).data
+    # rdata['id'] = r.id
     return Response(status=200, data={
-        "workflow": wdata,
-        "version": vdata,
-        'run': rdata
+        # "workflow": wdata,
+        # "version": vdata,
+        # 'run': rdata
     })
 
 
