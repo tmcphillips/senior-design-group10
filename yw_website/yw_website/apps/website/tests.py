@@ -53,7 +53,8 @@ class YwSaveTestCase(TestCase):
         data["model_checksum"] = "2341234123423"
         data["graph"] = "test_graph"
         data["recon"] = "test_recon"
-        data["tag"] = [{"title":"tag_1"}, {"title":"tag_2"}, {"title":"tag_3"}]
+        data["tags"] = [{"title":"tag_1"}, {"title":"tag_2"}, {"title":"tag_3"}]
+    
 
         json_data = json.dumps(data)
         print(json_data)
