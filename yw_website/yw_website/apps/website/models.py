@@ -35,7 +35,7 @@ class Version(models.Model):
     workflow = models.ForeignKey(
         Workflow, on_delete=models.CASCADE, blank=False)
 
-    yw_model_check_sum = models.CharField(max_length=128)
+    yw_model_checksum = models.CharField(max_length=128)
 
     yw_model_output = models.TextField()
     yw_graph_output = models.TextField()
@@ -44,9 +44,10 @@ class Version(models.Model):
 
 
 class Script(models.Model):
+    name = models.TextField()
     version = models.ForeignKey(Version, on_delete=models.CASCADE, blank=False)
-    script_check_sum = models.CharField(max_length=128)
-    script = models.TextField()
+    checksum = models.CharField(max_length=128)
+    content = models.TextField()
 
 class Run(models.Model):
     version = models.ForeignKey(Version, on_delete=models.CASCADE, blank=False)
@@ -56,11 +57,11 @@ class Run(models.Model):
 
 
 class File(models.Model):
-    file_checksum = models.CharField(
+    checksum = models.CharField(
         max_length=128, primary_key=True, default=None)
-    input_data = models.FileField(
-        upload_to="recon_files/", null=True, default=None)
-    file_size = models.IntegerField(default=0)
+    size = models.IntegerField(default=0)
+    name = models.TextField()
+    uri = models.TextField()
 
     last_modified = models.DateTimeField(default=timezone.now())
 

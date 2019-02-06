@@ -2,9 +2,12 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.test.client import Client
-
+from rest_framework.test import APIClient
+import json
+import datetime
 from .models import Workflow
+from .serializers import *
+import copy
 
 class DBTestCase(TestCase):
     def setUp(self):
@@ -12,7 +15,7 @@ class DBTestCase(TestCase):
         self.w.save()
 
     def test_workflow_save(self):
-        c = Client()
+        c = APIClient()
 
         route = "/api/v1/workflows/{}/".format(self.w.id)
         response = c.get(route)
@@ -26,10 +29,26 @@ class DBTestCase(TestCase):
 
 class YwSaveTestCase(TestCase):
     def setUp(self):
-        self.client = Client()
+        self.client = APIClient()
         self.username = str(uuid.uuid1())
         self.user = User.objects.create_user(
             username=self.username, password='12345')
+
+        self.data = {}
+        self.data["username"] = self.username
+        self.data["title"] = "test_title"
+        self.data["description"] = "test_description"
+        self.data["model"] = "test_model"
+        self.data["model_checksum"] = str(uuid.uuid1())
+        self.data["graph"] = "test_graph"
+        self.data["recon"] = "test_recon"
+        self.data["tags"] = ["tag_1", "tag_2", "tag_3"]
+        self.data["scripts"] = [{"name":"script_1", "checksum":str(uuid.uuid1()), "content":"script_1_content"},
+                            {"name":"script_2", "checksum":str(uuid.uuid1()), "content":"script_2_content"},
+                            {"name":"script_3", "checksum":str(uuid.uuid1()), "content":"script_3_content"}]
+        self.data["files"] = [{"name":"file_name_1", "checksum":str(uuid.uuid1()), "size":3, "uri":"file_uri1", "last_modified":datetime.datetime.now()},
+                        {"name":"file_name_2", "checksum":str(uuid.uuid1()), "size":9, "uri":"file_uri2", "last_modified":datetime.datetime.now()}]
+
 
     def test_yw_ping(self):
         route = '/save/ping/'
@@ -44,65 +63,55 @@ class YwSaveTestCase(TestCase):
 
     def test_save_upload(self):
         route = '/save/'
-        data = {}
-        data['username'] = self.username
-        data['title'] = 'test_title'
-        data['description'] = 'test_description'
-        data['model'] = 'test_model'
-        data['model_checksum'] = '2341234123423'
-        data['graph'] = 'test_graph'
-        data['recon'] = 'test_recon'
-
-        response = self.client.post(route, data)
+        response = self.client.post(route, self.data, format='json')
+        
         self.assertEquals(response.status_code, 200,
                           msg="Could not upload a workflow")
 
+    def test_bad_save_upload(self):
+        route = '/save/'
+        data = copy.deepcopy(self.data)
         data['username'] = 'nousername'
-        bad_response = self.client.post(route, data)
+        bad_response = self.client.post(route, data, format='json')
         self.assertNotEqual(bad_response.status_code, 200,
                             msg="Bad username unaccounted by save path")
+        data['username'] = self.username
+        data['tags'] = 'bad_tag_data'
+        bad_response = self.client.post(route, data, format='json')
+        self.assertNotEqual(bad_response.status_code, 200,
+                            msg="Bad tag json format")
+        data['scripts'] = []
+        bad_response = self.client.post(route, data, format='json')
+        self.assertNotEqual(bad_response.status_code, 200,
+                            msg="One script needed for valid request")
 
     def test_workflow_update(self):
         route = '/save/'
-        data = {}
-        data['username'] = self.username
-        data['title'] = 'test_title'
-        data['description'] = 'test_description'
-        data['model'] = 'test_model'
-        data['model_checksum'] = 'a'
-        data['graph'] = 'test_graph'
-        data['recon'] = 'test_recon'
+        data = copy.deepcopy(self.data)
+        response = self.client.post(route, data, format='json')
+        first_workflow_id = response.data['workflowId']
+        first_version_num = response.data['versionNumber']
 
-        response = self.client.post(route, data)
-        first_workflow_id = response.data['workflow']['id']
-        first_version_id = response.data['version']['id']
+        data['model_checksum'] = str(uuid.uuid1())
+        data["files"] = [{"name":"file_name_3", "checksum":str(uuid.uuid1()), "size":3, "uri":"file_uri1", "last_modified":datetime.datetime.now()},
+                        {"name":"file_name_4", "checksum":str(uuid.uuid1()), "size":9, "uri":"file_uri2", "last_modified":datetime.datetime.now()}]
 
-        data['model_checksum'] = 'b'
-        data['workflow_id'] = first_workflow_id
         route = '/save/{}/'.format(first_workflow_id)
 
-        response = self.client.post(route, data)
-        second_workflow_id = response.data['workflow']['id']
-        second_version_id = response.data['version']['id']
+        response = self.client.post(route, data, format='json')
+        second_workflow_id = response.data['workflowId']
+        second_version_num = response.data['versionNumber']
 
         self.assertEqual(first_workflow_id, second_workflow_id,
                          msg="A new workflow was created for the same workflow.")
-        self.assertNotEqual(first_version_id, second_version_id,
+        self.assertNotEqual(first_version_num, second_version_num,
                             msg="Version was not incremented when a new model checksum was uploaded")
 
     def test_bad_workflow_update(self):
-        data = {}
+        data = copy.deepcopy(self.data)
         data['workflow_id'] = -1
-        data['username'] = self.username
-        data['title'] = 'test_title'
-        data['description'] = 'test_description'
-        data['model'] = 'test_model'
-        data['model_checksum'] = 'a'
-        data['graph'] = 'test_graph'
-        data['recon'] = 'test_recon'
-
         route = '/save/{}/'.format(data['workflow_id'])
 
-        response = self.client.post(route, data)
+        response = self.client.post(route, data, format='json')
         self.assertEqual(response.status_code, 404,
                          msg="Workflow does not exist")
