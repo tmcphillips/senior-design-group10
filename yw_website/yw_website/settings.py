@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'rest_framework.authtoken',
+    'rest_auth.registration',
+    'rest_auth',
     'haystack',
     'yw_website.apps.website',
 ]
