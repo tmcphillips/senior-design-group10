@@ -117,7 +117,15 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
 
         files = FileSerializer(validated_data.get('files'), many=True)
         for file in files.data:
-            f = File(checksum=file.get('checksum'), size=file.get('size'), name=file.get('name'), uri=file.get('uri'), last_modified=file.get('last_modified'))
+            f, _ = File.objects.update_or_create(
+                checksum=file.get('checksum'),
+                defaults={                
+                    'size':file.get('size'),
+                    'name':file.get('name'),
+                    'uri':file.get('uri'),
+                    'last_modified':file.get('last_modified')
+                }
+            )
             f.save()
 
         return w.pk, v.pk, r.pk
