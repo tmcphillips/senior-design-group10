@@ -58,7 +58,7 @@ class Run(models.Model):
 
 class File(models.Model):
     checksum = models.CharField(
-        max_length=128, primary_key=True, default=None)
+        max_length=128, primary_key=True)
     size = models.IntegerField(default=0)
     name = models.TextField()
     uri = models.TextField()
