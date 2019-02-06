@@ -80,6 +80,10 @@ class YwSaveTestCase(TestCase):
         bad_response = self.client.post(route, data, format='json')
         self.assertNotEqual(bad_response.status_code, 200,
                             msg="Bad tag json format")
+        data['scripts'] = []
+        bad_response = self.client.post(route, data, format='json')
+        self.assertNotEqual(bad_response.status_code, 200,
+                            msg="One script needed for valid request")
 
     def test_workflow_update(self):
         route = '/save/'

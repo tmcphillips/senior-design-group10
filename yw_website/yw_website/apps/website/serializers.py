@@ -68,20 +68,24 @@ class TagFileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class YesWorkflowSaveSerializer(serializers.ModelSerializer):
-    model = serializers.CharField(required=False, allow_blank=False)
-    model_checksum = serializers.CharField(required=False, allow_blank=True, max_length=128)
-    graph = serializers.CharField(required=False, allow_blank=False)
-    recon = serializers.CharField(required=False, allow_blank=True)
+    model = serializers.CharField(required=True, allow_blank=False)
+    model_checksum = serializers.CharField(required=True, allow_blank=True, max_length=128)
+    graph = serializers.CharField(required=True, allow_blank=False)
+    recon = serializers.CharField(required=True, allow_blank=True)
     tags = serializers.ListField(
         child=serializers.CharField(required=False, allow_blank=True, max_length=32)
     )
-    scripts = ScriptSerializer(many=True)
+    scripts = ScriptSerializer(required=True, many=True)
     files = FileSerializer(many=True)
 
     class Meta:
         model = Workflow
         fields =('title','description','model','model_checksum', 'graph', 'recon', 'tags', 'scripts', 'files' )
-
+   
+    def validate_scripts(self, attrs):
+        if len(attrs) == 0:
+            raise serializers.ValidationError('at least one script required')
+        return attrs
 
     def create(self, validated_data):
         w = Workflow(
