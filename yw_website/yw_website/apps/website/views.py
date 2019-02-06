@@ -144,36 +144,19 @@ def update_workflow(request, workflow_id):
     except Workflow.DoesNotExist:
         return Response(status=500, data={'error': 'Workflow does not exist'})
 
-    if 'model_checksum' not in request.data:
-        return Response(status=500, data={'error': 'No model checksum was recieved'})
+    ws = YesWorkflowSaveSerializer(data=request.data, context={'workflow_id':workflow_id})
 
-    v, _ = Version.objects.update_or_create(
-        workflow=w,
-        yw_model_check_sum=request.data.get('model_checksum', ''),
-        defaults={
-            'yw_model_output': request.data.get('model', ''),
-            'yw_graph_output': request.data.get('graph', ''),
-            'last_modified': datetime.datetime.now(tz=timezone.utc)
-        }
-    )
-    r = Run(
-        version=v,
-        yw_recon_output=request.data.get('recon', ''),
-        run_time_stamp=datetime.datetime.now(tz=timezone.utc)
-    )
-    r.save()
-    wdata = WorkflowSerializer(w).data
-    wdata['id'] = w.id
-    vdata = VersionSerializer(v).data
-    vdata['id'] = v.id
-    rdata = RunSerializer(r).data
-    rdata['id'] = r.id
-
-    return Response(status=200, data={
-        "workflow": wdata,
-        "version": vdata,
-        'run': rdata
-    })
+    if ws.is_valid():
+        w_id, v_id, r_num, new_version = ws.update(ws.validated_data)
+        w = Workflow.objects.get(pk=w_id)
+        v = Version.objects.get(pk=v_id)
+        version_num = len(Version.objects.filter(workflow=w))
+        run_num = len(Run.objects.filter(version=v))
+        return Response(status=200, data={'workflowId': w_id, 'versionNumber': version_num, 'runNumber': run_num, 'newVersion':new_version})
+    else:
+        return Response(status=500, data={
+            'error': ws.errors
+        })
 
 #############################################################
 # Database Views

@@ -106,7 +106,6 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         r.save()
 
         tags = TagSerializer(validated_data.get('tags'), many=True)
-        print(tags.data)
         for tag in tags.data:
             t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
             t.save()
@@ -122,9 +121,47 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             f.save()
 
         return w.pk, v.pk, r.pk
-        # v.save()
-        # r = Run(
-        #     version=v,
-        #     yw_recon_output=request.data.get('recon', ''),
-        #     run_time_stamp=datetime.datetime.now(tz=timezone.utc)
-        # )
+    
+    def update(self, validated_data):
+        w = Workflow.objects.get(pk=self.context.get('workflow_id'))
+        v, new_version = Version.objects.update_or_create(
+            workflow=w,
+            yw_model_checksum=validated_data.get('model_checksum'),
+            defaults={
+                'yw_model_output': validated_data.get('model'),
+                'yw_graph_output': validated_data.get('graph'),
+                'last_modified':datetime.datetime.now(tz=timezone.utc)
+            }
+        )
+        v.save()
+        r = Run(
+            version=v,
+            run_time_stamp=datetime.datetime.now(tz=timezone.utc),
+            yw_recon_output=validated_data.get('recon')
+        )
+        r.save()
+
+        tags = TagSerializer(validated_data.get('tags'), many=True)
+        for tag in tags.data:
+            t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
+            t.save()
+
+        scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
+        for script in scripts.data:
+            s = Script(name=script.get('name'), version=v, checksum=script.get('checksum'), content=script.get('content'))
+            s.save()
+
+        files = FileSerializer(validated_data.get('files'), many=True)
+        for file in files.data:
+            f, _ = File.objects.update_or_create(
+                checksum=file.get('checksum'),
+                defaults={                
+                    'size':file.get('size'),
+                    'name':file.get('name'),
+                    'uri':file.get('uri'),
+                    'last_modified':file.get('last_modified')
+                }
+            )
+            f.save()
+
+        return w.pk, v.pk, r.pk, new_version

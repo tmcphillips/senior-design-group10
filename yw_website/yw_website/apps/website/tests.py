@@ -53,15 +53,15 @@ class YwSaveTestCase(TestCase):
         data["title"] = "test_title"
         data["description"] = "test_description"
         data["model"] = "test_model"
-        data["model_checksum"] = "2341234123423"
+        data["model_checksum"] = str(uuid.uuid1())
         data["graph"] = "test_graph"
         data["recon"] = "test_recon"
         data["tags"] = ["tag_1", "tag_2", "tag_3"]
-        data["scripts"] = [{"name":"script_1", "checksum":"abcde", "content":"script_1_content"},
-                            {"name":"script_2", "checksum":"abcde", "content":"script_2_content"},
-                            {"name":"script_3", "checksum":"abcde", "content":"script_3_content"}]
-        data["files"] = [{"name":"file_name_1", "checksum":"abc", "size":3, "uri":"file_uri1", "last_modified":now},
-                        {"name":"file_name_2", "checksum":"abcd", "size":9, "uri":"file_uri2", "last_modified":now}]
+        data["scripts"] = [{"name":"script_1", "checksum":str(uuid.uuid1()), "content":"script_1_content"},
+                            {"name":"script_2", "checksum":str(uuid.uuid1()), "content":"script_2_content"},
+                            {"name":"script_3", "checksum":str(uuid.uuid1()), "content":"script_3_content"}]
+        data["files"] = [{"name":"file_name_1", "checksum":str(uuid.uuid1()), "size":3, "uri":"file_uri1", "last_modified":now},
+                        {"name":"file_name_2", "checksum":str(uuid.uuid1()), "size":9, "uri":"file_uri2", "last_modified":now}]
 
         response = self.client.post(route, data, format='json')
         
@@ -69,41 +69,51 @@ class YwSaveTestCase(TestCase):
                           msg="Could not upload a workflow")
 
         data['username'] = 'nousername'
-        bad_response = self.client.post(route, data)
+        bad_response = self.client.post(route, data, format='json')
         self.assertNotEqual(bad_response.status_code, 200,
                             msg="Bad username unaccounted by save path")
         data['username'] = self.username
         data['tags'] = 'bad_tag_data'
-        bad_response = self.client.post(route, data)
+        bad_response = self.client.post(route, data, format='json')
         self.assertNotEqual(bad_response.status_code, 200,
                             msg="Bad tag json format")
 
     def test_workflow_update(self):
         route = '/save/'
         data = {}
-        data['username'] = self.username
-        data['title'] = 'test_title'
-        data['description'] = 'test_description'
-        data['model'] = 'test_model'
-        data['model_checksum'] = 'a'
-        data['graph'] = 'test_graph'
-        data['recon'] = 'test_recon'
+        now = datetime.datetime.now()
+        data["username"] = self.username
+        data["title"] = "test_title"
+        data["description"] = "test_description"
+        data["model"] = "test_model"
+        data["model_checksum"] = str(uuid.uuid1())
+        data["graph"] = "test_graph"
+        data["recon"] = "test_recon"
+        data["tags"] = ["tag_1", "tag_2", "tag_3"]
+        data["scripts"] = [{"name":"script_1", "checksum":str(uuid.uuid1()), "content":"script_1_content"},
+                            {"name":"script_2", "checksum":str(uuid.uuid1()), "content":"script_2_content"},
+                            {"name":"script_3", "checksum":str(uuid.uuid1()), "content":"script_3_content"}]
+        data["files"] = [{"name":"file_name_1", "checksum":str(uuid.uuid1()), "size":3, "uri":"file_uri1", "last_modified":now},
+                        {"name":"file_name_2", "checksum":str(uuid.uuid1()), "size":9, "uri":"file_uri2", "last_modified":now}]
 
-        response = self.client.post(route, data)
-        first_workflow_id = response.data['workflow']['id']
-        first_version_id = response.data['version']['id']
 
-        data['model_checksum'] = 'b'
-        data['workflow_id'] = first_workflow_id
+        response = self.client.post(route, data, format='json')
+        first_workflow_id = response.data['workflowId']
+        first_version_num = response.data['versionNumber']
+
+        data['model_checksum'] = str(uuid.uuid1())
+        data["files"] = [{"name":"file_name_3", "checksum":str(uuid.uuid1()), "size":3, "uri":"file_uri1", "last_modified":now},
+                        {"name":"file_name_4", "checksum":str(uuid.uuid1()), "size":9, "uri":"file_uri2", "last_modified":now}]
+
         route = '/save/{}/'.format(first_workflow_id)
 
-        response = self.client.post(route, data)
-        second_workflow_id = response.data['workflow']['id']
-        second_version_id = response.data['version']['id']
+        response = self.client.post(route, data, format='json')
+        second_workflow_id = response.data['workflowId']
+        second_version_num = response.data['versionNumber']
 
         self.assertEqual(first_workflow_id, second_workflow_id,
                          msg="A new workflow was created for the same workflow.")
-        self.assertNotEqual(first_version_id, second_version_id,
+        self.assertNotEqual(first_version_num, second_version_num,
                             msg="Version was not incremented when a new model checksum was uploaded")
 
     def test_bad_workflow_update(self):
@@ -113,7 +123,7 @@ class YwSaveTestCase(TestCase):
         data['title'] = 'test_title'
         data['description'] = 'test_description'
         data['model'] = 'test_model'
-        data['model_checksum'] = 'a'
+        data['model_checksum'] = str(uuid.uuid1())
         data['graph'] = 'test_graph'
         data['recon'] = 'test_recon'
 
