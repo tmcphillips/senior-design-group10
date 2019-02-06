@@ -1,6 +1,17 @@
 from autofixture import AutoFixture
 from django.core.management.base import BaseCommand
-from yw_website.apps.website.models import Workflow, Version, Tag, Run, File, RunFile, TagWorkflow, TagVersion, TagRun, TagFile
+from yw_website.apps.website.models import (
+    Workflow,
+    Version,
+    Tag,
+    Run,
+    File,
+    RunFile,
+    TagWorkflow,
+    TagVersion,
+    TagRun,
+    TagFile,
+)
 import uuid
 
 # Graphviz output string for an example workflow
@@ -47,23 +58,28 @@ DUMMY_GRAPH_STRING = """digraph Workflow {
 
 class Command(BaseCommand):
 
-    help = 'create_test_database creates mock entries into the YesWorkflow database. This command should only be run in a test environment.'
+    help = "create_test_database creates mock entries into the YesWorkflow database. This command should only be run in a test environment."
 
     def add_arguments(self, parser):
-        parser.add_argument('--entries', type=int, dest='entries',
-                            help='Number of mock entries to create. Default is 10.')
+        parser.add_argument(
+            "--entries",
+            type=int,
+            dest="entries",
+            help="Number of mock entries to create. Default is 10.",
+        )
 
     def _create_tags(self):
         tag_fixture = AutoFixture(Tag)
         _ = tag_fixture.create(self.num_entries)
 
     def _create_workflows(self):
-        workflow_fixture = AutoFixture(Workflow, field_values={'user': None})
+        workflow_fixture = AutoFixture(Workflow, field_values={"user": None})
         _ = workflow_fixture.create(self.num_entries)
 
     def _create_versions(self):
         version_fixture = AutoFixture(
-            Version, field_values={'yw_graph_output': DUMMY_GRAPH_STRING})
+            Version, field_values={"yw_graph_output": DUMMY_GRAPH_STRING}
+        )
         _ = version_fixture.create(self.num_entries)
 
     def _create_runs(self):
@@ -73,7 +89,9 @@ class Command(BaseCommand):
     def _create_files(self):
         for i in range(0, self.num_entries):
             files_fixture = AutoFixture(
-                File, field_values={'file_checksum': str(uuid.uuid4()), 'input_data': None})
+                File,
+                field_values={"file_checksum": str(uuid.uuid4()), "input_data": None},
+            )
             _ = files_fixture.create_one()
 
     def _create_run_files(self):
@@ -97,8 +115,8 @@ class Command(BaseCommand):
         _ = tagversionfixture.create(self.num_entries)
 
     def handle(self, *args, **options):
-        if type(options['entries']) == int and options['entries'] >= 0:
-            self.num_entries = options['entries']
+        if type(options["entries"]) == int and options["entries"] >= 0:
+            self.num_entries = options["entries"]
         else:
             self.num_entries = 10
 

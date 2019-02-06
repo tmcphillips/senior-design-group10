@@ -4,8 +4,7 @@ from django.utils import timezone
 
 
 class Tag(models.Model):
-    parent_tag = models.ForeignKey(
-        'self', on_delete=models.DO_NOTHING, null=True)
+    parent_tag = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True)
 
     FILE = "f"
     WORKFLOW = "w"
@@ -20,8 +19,7 @@ class Tag(models.Model):
     )
 
     title = models.CharField(max_length=32)
-    tag_type = models.CharField(
-        max_length=1, choices=TAG_CHOICES, default=WORKFLOW)
+    tag_type = models.CharField(max_length=1, choices=TAG_CHOICES, default=WORKFLOW)
 
 
 class Workflow(models.Model):
@@ -32,8 +30,7 @@ class Workflow(models.Model):
 
 
 class Version(models.Model):
-    workflow = models.ForeignKey(
-        Workflow, on_delete=models.CASCADE, blank=False)
+    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, blank=False)
 
     yw_model_checksum = models.CharField(max_length=128)
 
@@ -49,6 +46,7 @@ class Script(models.Model):
     checksum = models.CharField(max_length=128)
     content = models.TextField()
 
+
 class Run(models.Model):
     version = models.ForeignKey(Version, on_delete=models.CASCADE, blank=False)
 
@@ -57,8 +55,7 @@ class Run(models.Model):
 
 
 class File(models.Model):
-    checksum = models.CharField(
-        max_length=128, primary_key=True, default=None)
+    checksum = models.CharField(max_length=128, primary_key=True, default=None)
     size = models.IntegerField(default=0)
     name = models.TextField()
     uri = models.TextField()
@@ -76,11 +73,10 @@ class RunFile(models.Model):
 
 class TagWorkflow(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, blank=False)
-    workflow = models.ForeignKey(
-        Workflow, on_delete=models.CASCADE, blank=False)
+    workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, blank=False)
 
     class Meta:
-        unique_together = ('tag', 'workflow')
+        unique_together = ("tag", "workflow")
 
 
 class TagVersion(models.Model):
@@ -88,7 +84,7 @@ class TagVersion(models.Model):
     version = models.ForeignKey(Version, on_delete=models.CASCADE, blank=False)
 
     class Meta:
-        unique_together = ('tag', 'version')
+        unique_together = ("tag", "version")
 
 
 class TagRun(models.Model):
@@ -96,7 +92,7 @@ class TagRun(models.Model):
     run = models.ForeignKey(Run, on_delete=models.CASCADE, blank=False)
 
     class Meta:
-        unique_together = ('tag', 'run')
+        unique_together = ("tag", "run")
 
 
 class TagFile(models.Model):
@@ -104,4 +100,4 @@ class TagFile(models.Model):
     file = models.ForeignKey(File, on_delete=models.CASCADE, blank=False)
 
     class Meta:
-        unique_together = ('tag', 'file')
+        unique_together = ("tag", "file")
