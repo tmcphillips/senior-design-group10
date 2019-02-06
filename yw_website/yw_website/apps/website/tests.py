@@ -2,7 +2,6 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.test.client import Client
 from rest_framework.test import APIClient
 import json
 import datetime
@@ -15,7 +14,7 @@ class DBTestCase(TestCase):
         self.w.save()
 
     def test_workflow_save(self):
-        c = Client()
+        c = APIClient()
 
         route = "/api/v1/workflows/{}/".format(self.w.id)
         response = c.get(route)
