@@ -39,7 +39,8 @@ def home(request):
             workflow.graph = latest_version.yw_graph_output
             workflow.version_id = latest_version.id
             workflow.version_modified = latest_version.last_modified
-            workflow.tags = Tag.objects.all().select_related('workflow').filter(pk=workflow.id).values_list('title', flat=True)
+            workflow.tags = Tag.objects.all().select_related('workflow').filter(
+                pk=workflow.id).values_list('title', flat=True)
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get('page')
@@ -113,40 +114,26 @@ def yw_save_ping(request):
 @api_view(['post'])
 @permission_classes((permissions.AllowAny,))
 def create_workflow(request):
-    # data = request.POST.dict()
-    # data['tags'] = request.POST.getlist('tags')
-    # data['scripts'] = request.POST.getlist('scripts')
-    # data['files'] = request.POST.getlist('files')
-
-    # data = JSONParser.parse(data)
-    data = request.data
-
-    print(Workflow().get_deferred_fields())
-
+    #TODO: Replace username with user auth token
     username = User.objects.filter(username=request.data.get('username', None))
+
     if not username:
         return Response(status=500, data={'error': 'bad username'})
-    username = username[0]
-    # print(request.data)
-    ws = YesWorkflowSaveSerializer(data=data)
+
+    ws = YesWorkflowSaveSerializer(data=request.data)
 
     if ws.is_valid():
-        print("Yes")
-    # print(ws.data)
-    print(ws.validated_data)
-    # print(ws.errors)
+        w_id, v_id, r_num = ws.create(ws.validated_data)
+        w = Workflow.objects.get(pk=w_id)
+        v = Version.objects.get(pk=v_id)
+        version_num = len(Version.objects.filter(workflow=w))
+        run_num = len(Run.objects.filter(version=v))
 
-    # wdata = WorkflowSerializer(w).data
-    # wdata['id'] = w.id
-    # vdata = VersionSerializer(v).data
-    # vdata['id'] = v.id
-    # rdata = RunSerializer(r).data
-    # rdata['id'] = r.id
-    return Response(status=200, data={
-        # "workflow": wdata,
-        # "version": vdata,
-        # 'run': rdata
-    })
+        return Response(status=200, data={'workflowId': w_id, 'versionNumber': version_num, 'runNumber': run_num})
+    else:
+        return Response(status=500, data={
+            'error': ws.errors
+        })
 
 
 @api_view(['post'])

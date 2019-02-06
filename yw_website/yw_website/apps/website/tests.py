@@ -48,7 +48,6 @@ class YwSaveTestCase(TestCase):
     def test_save_upload(self):
         route = '/save/'
         now = datetime.datetime.now()
-        datetime_format = '%Y-%m-%dT%H-%M'
         data = {}
         data["username"] = self.username
         data["title"] = "test_title"
@@ -57,25 +56,13 @@ class YwSaveTestCase(TestCase):
         data["model_checksum"] = "2341234123423"
         data["graph"] = "test_graph"
         data["recon"] = "test_recon"
-        data["tags"] = [{"title":"tag_1"}, {"title":"tag_2"}, {"title":"tag_3"}]
+        data["tags"] = ["tag_1", "tag_2", "tag_3"]
         data["scripts"] = [{"name":"script_1", "checksum":"abcde", "content":"script_1_content"},
                             {"name":"script_2", "checksum":"abcde", "content":"script_2_content"},
                             {"name":"script_3", "checksum":"abcde", "content":"script_3_content"}]
-        data["files"] = [{"name":"file_name_1", "checksum":"abc", "size":3, "uri":"file_uri1"},
-                        {"name":"file_name_2", "checksum":"abcd", "size":9, "uri":"file_uri2"}]
+        data["files"] = [{"name":"file_name_1", "checksum":"abc", "size":3, "uri":"file_uri1", "last_modified":now},
+                        {"name":"file_name_2", "checksum":"abcd", "size":9, "uri":"file_uri2", "last_modified":now}]
 
-        # json_data = json.dumps(data)
-        # print(json_data)
-
-        data_2 = {'title':'tag_1'}
-        # ts = TagSerializer(data=data_2)
-        # if ts.is_valid():
-        #     print("yes")
-        # print(ts.validated_data)
-        # print(ts.errors)
-        # print(ts.data)
-        # json_stirng = json.dumps(data)
-        # print(json_stirng)
         response = self.client.post(route, data, format='json')
         
         self.assertEquals(response.status_code, 200,
@@ -85,6 +72,11 @@ class YwSaveTestCase(TestCase):
         bad_response = self.client.post(route, data)
         self.assertNotEqual(bad_response.status_code, 200,
                             msg="Bad username unaccounted by save path")
+        data['username'] = self.username
+        data['tags'] = 'bad_tag_data'
+        bad_response = self.client.post(route, data)
+        self.assertNotEqual(bad_response.status_code, 200,
+                            msg="Bad tag json format")
 
     def test_workflow_update(self):
         route = '/save/'
