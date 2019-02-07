@@ -15,7 +15,7 @@ script:
   - python3 manage.py create_test_database
   - python3 manage.py rebuild_index --noinput
   - python3 manage.py test
-  - python3 manage.py runserver
+
 
 matrix:
   fast_finish: true
