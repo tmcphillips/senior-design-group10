@@ -10,6 +10,10 @@ script:
   - cd ./yw_website/
   - python3 manage.py makemigrations
   - python3 manage.py migrate --noinput
+  - python3 manage.py makemigrations website
+  - python3 manage.py migrate website --noinput
+  - python3 manage.py create_test_database
+  - python3 manage.py rebuild_index --noinput
   - python3 manage.py test
 
 deploy:
