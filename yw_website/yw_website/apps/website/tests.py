@@ -101,7 +101,7 @@ class YwSaveTestCase(TestCase):
 
         response = self.client.post(route, data, format='json')
         self.assertEqual(200, response.status_code,
-                         msg=f"Returned {response.status_code}: {response.data}")
+                         msg="Returned {}: {}".format(response.status_code, response.data))
        
         second_workflow_id = response.data['workflowId']
         second_version_num = response.data['versionNumber']
