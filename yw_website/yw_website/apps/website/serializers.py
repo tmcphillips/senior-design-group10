@@ -19,7 +19,6 @@ class WorkflowSerializer(serializers.ModelSerializer):
         model = Workflow
         fields = '__all__'
 
-
 class VersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Version
@@ -81,10 +80,12 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     graph = serializers.CharField(required=True, allow_blank=False)
     recon = serializers.CharField(required=True, allow_blank=True)
     tags = serializers.ListField(
-        child=serializers.CharField(required=False, allow_blank=True, max_length=32)
+        child=serializers.CharField(required=False, allow_blank=True, max_length=32), default=None, allow_null=True
     )
+    title = serializers.CharField(required=False, default='', allow_blank=True, allow_null=False)
+    description = serializers.CharField(required=False, default='', allow_blank=True, allow_null=False)
     scripts = ScriptSerializer(required=True, many=True)
-    files = FileSerializer(many=True)
+    files = FileSerializer(many=True, default=None, allow_null=True)
 
     class Meta:
         model = Workflow
@@ -118,10 +119,11 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         r.save()
 
         tags = TagSerializer(validated_data.get('tags'), many=True)
-        for tag in tags.data:
-            t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
-            t.save()
-
+        if tags:
+            for tag in tags.data:
+                t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
+                t.save()
+ 
         scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
         for script in scripts.data:
             s = Script(name=script.get('name'), version=v, checksum=script.get('checksum'), content=script.get('content'))
@@ -162,9 +164,10 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         r.save()
 
         tags = TagSerializer(validated_data.get('tags'), many=True)
-        for tag in tags.data:
-            t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
-            t.save()
+        if tags:    
+            for tag in tags.data:
+                t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
+                t.save()
 
         scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
         for script in scripts.data:
