@@ -19,7 +19,6 @@ class WorkflowSerializer(serializers.ModelSerializer):
         model = Workflow
         fields = '__all__'
 
-
 class VersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Version
@@ -33,9 +32,17 @@ class RunSerializer(serializers.ModelSerializer):
 
 
 class FileSerializer(serializers.ModelSerializer):
+    lastModified = serializers.DateTimeField(source='last_modified')
+    
     class Meta:
         model = File
-        fields = '__all__'
+        fields = (
+            'checksum',
+            'size',
+            'name',
+            'uri',
+            'lastModified',
+        )
 
 
 class RunFileSerializer(serializers.ModelSerializer):
@@ -69,18 +76,20 @@ class TagFileSerializer(serializers.ModelSerializer):
 
 class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     model = serializers.CharField(required=True, allow_blank=False)
-    model_checksum = serializers.CharField(required=True, allow_blank=True, max_length=128)
+    modelChecksum = serializers.CharField(required=True, allow_blank=True, max_length=128)
     graph = serializers.CharField(required=True, allow_blank=False)
     recon = serializers.CharField(required=True, allow_blank=True)
     tags = serializers.ListField(
-        child=serializers.CharField(required=False, allow_blank=True, max_length=32)
+        child=serializers.CharField(required=False, allow_blank=True, max_length=32), default=None, allow_null=True
     )
+    title = serializers.CharField(required=False, default='', allow_blank=True, allow_null=False)
+    description = serializers.CharField(required=False, default='', allow_blank=True, allow_null=False)
     scripts = ScriptSerializer(required=True, many=True)
-    files = FileSerializer(many=True)
+    files = FileSerializer(many=True, default=None, allow_null=True)
 
     class Meta:
         model = Workflow
-        fields =('title','description','model','model_checksum', 'graph', 'recon', 'tags', 'scripts', 'files' )
+        fields = ('title','description','model','modelChecksum', 'graph', 'recon', 'tags', 'scripts', 'files' )
    
     def validate_scripts(self, attrs):
         if len(attrs) == 0:
@@ -96,7 +105,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         w.save()
         v = Version(
             workflow=w,
-            yw_model_checksum=validated_data.get('model_checksum'),
+            yw_model_checksum=validated_data.get('modelChecksum'),
             yw_model_output=validated_data.get('model'),
             yw_graph_output=validated_data.get('graph'),
             last_modified=datetime.datetime.now(tz=timezone.utc)
@@ -110,10 +119,11 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         r.save()
 
         tags = TagSerializer(validated_data.get('tags'), many=True)
-        for tag in tags.data:
-            t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
-            t.save()
-
+        if tags:
+            for tag in tags.data:
+                t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
+                t.save()
+ 
         scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
         for script in scripts.data:
             s = Script(name=script.get('name'), version=v, checksum=script.get('checksum'), content=script.get('content'))
@@ -127,7 +137,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                     'size':file.get('size'),
                     'name':file.get('name'),
                     'uri':file.get('uri'),
-                    'last_modified':file.get('last_modified')
+                    'last_modified':file.get('lastModified')
                 }
             )
             f.save()
@@ -138,7 +148,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         w = Workflow.objects.get(pk=self.context.get('workflow_id'))
         v, new_version = Version.objects.update_or_create(
             workflow=w,
-            yw_model_checksum=validated_data.get('model_checksum'),
+            yw_model_checksum=validated_data.get('modelChecksum'),
             defaults={
                 'yw_model_output': validated_data.get('model'),
                 'yw_graph_output': validated_data.get('graph'),
@@ -154,9 +164,10 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         r.save()
 
         tags = TagSerializer(validated_data.get('tags'), many=True)
-        for tag in tags.data:
-            t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
-            t.save()
+        if tags:    
+            for tag in tags.data:
+                t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
+                t.save()
 
         scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
         for script in scripts.data:
@@ -171,7 +182,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                     'size':file.get('size'),
                     'name':file.get('name'),
                     'uri':file.get('uri'),
-                    'last_modified':file.get('last_modified')
+                    'last_modified':file.get('lastModified')
                 }
             )
             f.save()

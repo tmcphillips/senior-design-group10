@@ -63,7 +63,7 @@ class File(models.Model):
     name = models.TextField()
     uri = models.TextField()
 
-    last_modified = models.DateTimeField(default=timezone.now())
+    last_modified = models.DateTimeField()
 
 
 class RunFile(models.Model):
