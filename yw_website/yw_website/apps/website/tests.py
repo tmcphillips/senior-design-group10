@@ -66,7 +66,7 @@ class YwSaveTestCase(TestCase):
         response = self.client.post(route, self.data, format='json')
         
         self.assertEquals(response.status_code, 200,
-                          msg=f"Could not upload a workflow: {response.data.get('error')}")
+                          msg="Could not upload a workflow: {}".format(response.data.get('error')))
 
     def test_bad_save_upload(self):
         route = '/save/'
