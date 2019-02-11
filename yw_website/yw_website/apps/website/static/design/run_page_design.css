@@ -26,6 +26,10 @@
 	text-align: left;
 }
 
-h2 {
+h2, h4 {
+	text-align: center;
+}
+
+.checkbox {
 	text-align: center;
 }

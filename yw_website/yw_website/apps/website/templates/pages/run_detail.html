@@ -6,7 +6,15 @@
     <div class = box >
     	<div class = border>
     	<br>
-    	<h2> Run Details:</h2>
+    	<h2> Run #{{ run.pk}}</h2>
+    	<h4> Version # {{ run.version.pk}}</h4>
+    	<div class = checkbox>
+	    	<select>
+	    		{% for run in run_list %}
+	  				<option value={{run.pk}}>{{run.pk}}</option>
+	  			{% endfor %}
+	  		</select>
+	  	</div>
 		    <div class = text>
 		    	<br> 
 		    	<b>Parent Workflow: </b> {{run.version.workflow.title}}
