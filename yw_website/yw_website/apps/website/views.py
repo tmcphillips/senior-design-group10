@@ -1,6 +1,7 @@
 import datetime
 import json
 
+from haystack.query import SearchQuerySet
 from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -26,13 +27,16 @@ from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
+from .forms import WorkflowSearchForm
 
 
 #############################################################
 # Website Views
 #############################################################
 def home(request):
-    workflow_list = Workflow.objects.all().exclude(version__isnull=True)
+    form = WorkflowSearchForm(request.GET)
+    workflow_list = form.search()
+
     for workflow in workflow_list:
         latest_version = (
             Version.objects.filter(workflow=workflow).order_by("last_modified").first()
@@ -50,6 +54,7 @@ def home(request):
                 .filter(pk=workflow.id)
                 .values_list("title", flat=True)
             )
+
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get("page")
