@@ -102,21 +102,11 @@ th, td {
     color: grey;
 }
 
-select {
-    align-self: left;
-    position: relative;
-    width: 20%;
-    padding: 16px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #f1f1f1;
-}
-
 /* Dropdown Button */
 .dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 10px;
     font-size: 16px;
     border: none;
 }
@@ -152,4 +142,7 @@ select {
 .dropdown:hover .dropdown-content {display: block;}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown:hover .dropbtn {
+    background-color: #000000;
+    color: #ffffff;
+}

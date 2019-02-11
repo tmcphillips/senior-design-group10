@@ -17,13 +17,22 @@
     </div>
 
     {% if versions %}
-        <div class = version> 
-            {% for version_ in versions %}
-                {% if version_.id == version.id %}
-                    <text>Version #{{ forloop.counter }}</text>
-                {% endif %}
-            {% endfor %}
-        </div>
+        <div class="dropdown">
+                <button class="dropbtn">
+                    {% for version_ in versions %}
+                        {% if version_.id == version.id %}
+                            <text>Version #{{ forloop.counter }}</text>
+                        {% endif %}
+                    {% endfor %}
+                </button>
+                <div class="dropdown-content">
+                    {% for version_ in versions %}
+                        {% if version_.id != version.id %}
+                            <a href="{% url 'detailed_workflow' workflow.id version_.id %}">Version #{{ forloop.counter }}</a>
+                        {%  endif %}
+                    {% endfor %}
+                </div>
+            </div>
     {% endif %}
 
     <ol id="elementStyle">
@@ -43,18 +52,6 @@
        <b>Uploaded At: </b>{{version.last_modified}}    
     </div>
 
-    {% if versions|length > 1 %}
-    <div class="dropdown">
-        <button class="dropbtn">Dropdown</button>
-        <div class="dropdown-content">
-            {% for version_ in versions %}
-                {% if version_.id != version.id %}
-                    <a href="{% url 'detailed_workflow' workflow.id version_.id %}">Version #{{ forloop.counter }}</a>
-                {%  endif %}
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
     <div class = title>
         Runs For Choosen Version:
     </div>
