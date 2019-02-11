@@ -7,15 +7,19 @@
     	<div class = border>
     	<br>
     	<h2> Run Details:</h2>
-    	<br> 
-    	Parent Workflow: {{run.version.workflow.title}}
-		<br> 
-		Time Stamp: {{run.run_time_stamp}}
-		<br>
-		Script Check Sum: {{run.version.script_check_sum}}
-		<br>
-		Last Modified: {{run.version.last_modified}}
-		<br>
+		    <div class = text>
+		    	<br> 
+		    	<b>Parent Workflow: </b> {{run.version.workflow.title}}
+				<br>
+				<b>Last Modified: </b> {{run.version.last_modified}}
+				<br>
+				<b>Associated Files:</b>
+				<br>
+				{% for file in file_list %}
+					 -{{ file.file_name}}
+				 	<br>
+				{% endfor %}
+			</div>
 		</div>
     </div>
 
