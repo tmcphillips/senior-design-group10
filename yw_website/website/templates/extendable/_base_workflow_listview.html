@@ -1,0 +1,34 @@
+{% extends 'extendable/__base_template.html' %}
+
+{% block inherits_from_base_scripts %}
+    {% load static %}
+    {% get_static_prefix as STATIC_PREFIX %}
+    <script src="{{ STATIC_PREFIX }}scripts/viz.js"></script>
+    <script src="{{ STATIC_PREFIX }}scripts/d3.min.js"></script>
+    <script src="{{ STATIC_PREFIX }}scripts/d3-graphviz.min.js"></script>
+{% endblock %}
+
+{% block main_content %}
+
+    <div class="dns">
+        DNS: {{host}} 
+    </div>
+
+    <!-- <div class="tab">
+        {% block page_name %}{% endblock %}
+    </div> --> -->
+
+    <div class="list">
+
+        <!-- Content to be paginated must be assigned to the document_list keyword argument -->
+        {% include 'includeable/paginator.html' with document_list=document_list %}
+
+        <!-- Content to workflow list_view must be assigned to the document_list keyword argument -->
+        {% include 'includeable/workflow_list.html' with document_list=document_list %}
+
+        <!-- Content to be paginated must be assigned to the document_list keyword argument -->
+        {% include 'includeable/paginator.html' with document_list=document_list %}
+
+    </div>
+
+{% endblock %}

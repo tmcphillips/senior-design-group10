@@ -30,32 +30,40 @@
                     Tags: {{ workflow.tags | join:", " }}
                 </div>
                 <div class = "title">
-                    {{ workflow.title|linebreaks }}
+                        {{ workflow.title|linebreaks }}
+                    
                 </div>
                 <div class = "last_modified"> 
                     {{ workflow.version_modified }}
                 </div>
 
-                <div id="graph{{ forloop.counter }}" class = workflow-image></div>
+                <!-- <div id="graph{{ forloop.counter }}" class = workflow-image></div> -->
 
-                <div class = "workflow-details" id="description">
+                
+                <div  class = "workflow-description" id="description">
                     <b>Description: </b>{{ workflow.description }}
                 </div>
+                <div >                
+                    <input id = "description-button" type="button" value = "Read More..." class = "expand-description-button" onClick="description_view()" ></input>
+                </div>
 
-                <div style = "text-align:center">
-                    <a class = "more-details-button" href="{% url 'detailed_workflow' workflow.id workflow.version_id %}"> View Details</a>
-                </div>      
-                <!-- <button class="details-button" onClick = "description_view()">View Description</button> -->
             </li>
             <script>
                 function description_view(){
                     var description = document.getElementById("description");
-                    if (description.style.display === "none") {
-                        description.style.display = "block";
+                    var button = document.getElementById("description-button")
+                    if (window.getComputedStyle(description, null).getPropertyValue("height") === '60px') {
+                        description.style.height = "auto";
+                        button.value = "Read Less..."
                     }
                     else {
-                        description.style.display = "none";
+                        description.style.height = "60px";
+                        button.value = "Read More..."
                     }
+                }
+
+                document.getElementById("content").onclick = function() {
+                    this.style.height = 'auto';
                 }
             </script>
             <script type="text/javascript">
