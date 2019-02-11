@@ -6,12 +6,12 @@
     <div class = box >
     	<div class = border>
     	<br>
-    	<h2> Run #{{ run.pk}}</h2>
-    	<h6> Version # {{ run.version.pk}}</h6>
+    	<h2> Run {{ run.pk}}</h2>
+    	<h6> Version {{ run.version.pk}}</h6>
     	<div class = checkbox>
     		<form method="post">
 	  			{% csrf_token %}
-    		Change To Run #
+    		Change To Run
 	    	<select>
 	    		{% for run in run_list %}
 	  				<option value="{{run.pk}}">{{run.pk}}</option>
