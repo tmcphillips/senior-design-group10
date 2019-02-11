@@ -7,13 +7,20 @@
     	<div class = border>
     	<br>
     	<h2> Run #{{ run.pk}}</h2>
-    	<h4> Version # {{ run.version.pk}}</h4>
+    	<h6> Version # {{ run.version.pk}}</h6>
     	<div class = checkbox>
+    		<form method="post">
+	  			{% csrf_token %}
+    		Change To Run #
 	    	<select>
 	    		{% for run in run_list %}
-	  				<option value={{run.pk}}>{{run.pk}}</option>
+	  				<option value="{{run.pk}}">{{run.pk}}</option>
 	  			{% endfor %}
 	  		</select>
+	  		
+			   <button class = button type="submit">Go</button>
+			</form>
+
 	  	</div>
 		    <div class = text>
 		    	<br> 

@@ -117,7 +117,6 @@ def run_detail(request, run_id):
     try:
         run = Run.objects.get(pk=run_id)
         file_list = RunFile.objects.filter(run=run_id)
-        # version = Version.objects.get()
         run_list = Run.objects.filter(version=run.version)
     except Run.DoesNotExist:
         return Response(status=404, data={"error": "run not found"})

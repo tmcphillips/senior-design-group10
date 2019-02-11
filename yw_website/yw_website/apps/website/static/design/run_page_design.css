@@ -26,10 +26,14 @@
 	text-align: left;
 }
 
-h2, h4 {
+h2, h6 {
 	text-align: center;
 }
 
 .checkbox {
 	text-align: center;
+}
+
+.button {
+	border-radius: 5px;
 }
