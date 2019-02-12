@@ -1,5 +1,5 @@
 let options = {
-    "zoom":false,
+    "zoom":true,
     "tweenPaths":false,
     "tweenShapes":false,
     "convertEqualSidedPolygons":false,

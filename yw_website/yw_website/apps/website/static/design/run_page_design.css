@@ -1,7 +1,7 @@
 
 .box {
 	margin:auto;
-	text-align: center;
+	text-align: left;
 	background-color: white;
 	width: 90%;
 	padding-bottom: 3%;
@@ -10,9 +10,30 @@
 
 .border {
 	margin:auto;
-	text-align: center;
+	text-align: left;
 	width: 95%;
 	height: 95%;
 	padding-bottom: 3%;
+	padding-left: 3%;
 	border-style: dotted;
+}
+
+.text {
+	padding-right: 30%;
+}
+
+.back-button {
+	text-align: left;
+}
+
+h2, h6 {
+	text-align: center;
+}
+
+.checkbox {
+	text-align: center;
+}
+
+.button {
+	border-radius: 5px;
 }
