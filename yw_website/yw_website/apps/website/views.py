@@ -1,22 +1,13 @@
-import datetime
-import json
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.files.storage import FileSystemStorage
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpResponse
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
-from django.utils import timezone
-from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import (action, api_view, parser_classes,
                                        permission_classes)
-from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
