@@ -24,7 +24,7 @@ from rest_framework.decorators import (
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from haystack.inputs import AutoQuery, Exact, Clean
 from .models import *
 from .serializers import *
 from .forms import WorkflowSearchForm
@@ -36,6 +36,12 @@ from .forms import WorkflowSearchForm
 def home(request):
     form = WorkflowSearchForm(request.GET)
     workflow_list = form.search()
+    q = request.GET['q']
+    aq = AutoQuery(q)
+    sqs = SearchQuerySet().filter(content=aq).models(Workflow, Version, Tag, Script, Run)
+    print(sqs.stats_results())
+    print(sqs.count())
+    result = sqs[0]
 
     for workflow in workflow_list:
         latest_version = (
