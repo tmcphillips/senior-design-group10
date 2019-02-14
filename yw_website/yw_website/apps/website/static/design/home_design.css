@@ -3,18 +3,21 @@
 .list {
 	text-align: center;
 	align-items:center;
-    padding: 20px 40px 10px 0px;
+    padding: 20px 40px 10px 0px;; 
     background-color: white;
-    margin:5% 10%;
-	width: 80%;
+    margin:0 10%;
+	width:80%;
 	min-height:500px;
 	height: 80%;
 }
 
-.workflow-details {
+.workflow-description {
 	font-size: 14px;
-	display: hidden;
-	margin-bottom: 20px;
+	/* display: hidden; */
+	margin-bottom: -3px;
+	height: 60px;
+	overflow:hidden;
+	display:inline-block
 }
 
 .more-details-button {
@@ -25,12 +28,27 @@
 	color: #000000;
 }
 
+
 .more-details-button:hover {
 	background-color: rgb(187, 187, 187);
 	color: #000000;
 	text-decoration: none;
 	
 }
+
+
+.expand-description-button {
+	color: lightseagreen;
+	font-size: 12px;
+	padding: 0px;
+	background-color: transparent;
+	border: none;
+}
+
+.expand-description-button:focus {
+	outline: none;
+}
+
 .details-button {
 	width: 180px;
 	border: black solid 1px;
@@ -52,26 +70,27 @@
 
 .dns {
 	position: relative;
-	display: inline;
 	margin-left: 75%;
-	color: grey;
+	color: black;
+	background-color: white;
+	width: fit-content;
 	border-style: solid;
 	border-width: 1px;	
 	border-radius: 5px;
 	padding: 5px;
-	top: 25px;
+	/*text-align: right;*/
 }
 
 .dns .tooltiptext {
   visibility: hidden;
   position: absolute;
-  padding: 5px;
+  padding: 5px 0;
   border-radius: 5px;
-  color: grey;
-  width: 500px;
+  color: #fff;
+  width: 200px;
   bottom: 100%;
   left: 50%; 
-  margin-left: -220px;
+  margin-left: -90px;
 
 }
 
@@ -81,7 +100,7 @@
 
 
 .title {
-	text-align: center;
+	text-align: left;
 	font-size: 16px;
 	font-weight: bold;
 	color: rgb(5, 97, 92);
@@ -92,18 +111,23 @@
 	text-align: left;
 	list-style-type: none;
     padding: 10px;
-	border: 1px dashed;
+	border: 1px solid;
+	border-radius: 5px;
 	width: 100%;
+	margin: 0 0 15px 0;
+	box-shadow: 5px 5px;
+	background: rgb(250, 249, 249);
 }
 
 img {
     margin: 5px;
 	max-width: 100%;
 	max-height: 50%;
+	
 }
-
 
 svg {
 	width: 100%;
-	max-height: 20em;
+	height: 100%;
+	margin: 10px 0	
 }
