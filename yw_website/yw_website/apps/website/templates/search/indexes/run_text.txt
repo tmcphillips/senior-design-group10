@@ -1,0 +1,2 @@
+{{ object.run_time_stamp }}
+{{ object.yw_recon_output }}

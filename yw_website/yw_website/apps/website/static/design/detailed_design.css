@@ -1,104 +1,148 @@
 
 .list {
-	border-style: solid;
-	border-color: grey;
-	text-align: center;
+    border-style: solid;
+    border-color: grey;
+    text-align: center;
     padding: 40px 30px;
-	background-color: white;
+    background-color: white;
     margin:auto;
     margin-top: 10px;
-	width: 60%;
-	max-width:95%; 
-	overflow-x: scroll; 
-	height:500px;
+    width: 60%;
+    max-width:95%; 
+    overflow-x: scroll; 
+    height:500px;
 }
 
 h2 {
-	margin: 25px;
+    margin: 25px;
 }
 
 
 img {
-	margin: 10px;
-	max-width: 90%
+    margin: 10px;
+    max-width: 90%
 }
 
 .runs {
-	text-align: center;
-	background-color: white;
+    text-align: center;
+    background-color: white;
     padding: 20px 30px; 
     margin:auto;
     margin-top: 30px;
-	max-width:100%; 
-	overflow-y: scroll; 
-	height:500px;
+    max-width:100%; 
+    overflow-y: scroll; 
+    height:500px;
 }
 
 table {
-	margin: 10px;
+    margin: 10px;
     border-collapse: collapse;
     background-color: white;
     width: 100%;
 }
 
 th, td {
-	padding: 8px;
+    padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
 .box {
-	margin:auto;
-	text-align: center;
-	background-color: white;
-	width: 90%;
-	padding-bottom: 20px;
+    margin:auto;
+    text-align: center;
+    background-color: white;
+    width: 90%;
+    padding-bottom: 20px;
 }
 
 .version {
-	font-weight: bold;
-	padding-top: 10px;
-	padding-bottom: 10px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .outside_data {
-	padding: 10px 10px; 
-	margin-left: 3%;
-	margin-right: 4.9%;
-	align-self: center;
-	color: black;
-	border-style: solid;
-	border-width: 1px;	
-	border-radius: 5px;
-	top: 25px;
+    padding: 10px 10px; 
+    margin-left: 3%;
+    margin-right: 4.9%;
+    align-self: center;
+    color: black;
+    border-style: solid;
+    border-width: 1px;	
+    border-radius: 5px;
+    top: 25px;
 }
 
 #elementStyle li {
-	text-align: center;
-	list-style-type: none;
-	border: 1px dashed;
-	width: 95%;
+    text-align: center;
+    list-style-type: none;
+    border: 1px dashed;
+    width: 95%;
 }
 
 
 
 .title {
-	margin-left: 23%;
-	margin-right: 23%;
-	align-self: center;
-	color: black;
-	border: transparent;
-	border-bottom: black;
-	border-style: solid;
-	border-width: 1px;	
-	padding: 5px;
-	margin-bottom: 10px;
-	top: 25px;
+    margin-left: 23%;
+    margin-right: 23%;
+    align-self: center;
+    color: black;
+    border: transparent;
+    border-bottom: black;
+    border-style: solid;
+    border-width: 1px;	
+    padding: 5px;
+    margin-bottom: 10px;
+    top: 25px;
 
 }
 
 .table_title {
-	align-self: center;
-	color: grey;
+    align-self: center;
+    color: grey;
 }
 
+/* Dropdown Button */
+.dropbtn {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+}
+  
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+  
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+  
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+  
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #000000;
+    color: #ffffff;
+}

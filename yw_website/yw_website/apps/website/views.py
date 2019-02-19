@@ -1,55 +1,42 @@
-import datetime
-import json
-
-from django import forms
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.files.storage import FileSystemStorage
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpResponse
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
-from django.utils import timezone
-from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
-from rest_framework.decorators import (
-    action,
-    api_view,
-    parser_classes,
-    permission_classes,
-)
-from rest_framework.parsers import JSONParser
+from rest_framework.decorators import (action, api_view, parser_classes,
+                                       permission_classes)
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
+from .utils import search_and_create_query_set
 
 
 #############################################################
 # Website Views
 #############################################################
 def home(request):
-    workflow_list = Workflow.objects.all().exclude(version__isnull=True)
+    if 'q' in request.GET:
+        workflow_list = search_and_create_query_set(request.GET['q'])
+    else:
+        workflow_list = Workflow.objects.all().exclude(version__isnull=True)
+
     for workflow in workflow_list:
         latest_version = (
             Version.objects.filter(workflow=workflow).order_by("last_modified").first()
         )
-        # TODO: every workflow should have at least one version
-        if latest_version is None:
-            workflow_list = workflow_list.exclude(pk=workflow.id)
-        else:
-            workflow.graph = latest_version.yw_graph_output
-            workflow.version_id = latest_version.id
-            workflow.version_modified = latest_version.last_modified
-            workflow.tags = (
-                Tag.objects.all()
-                .select_related("workflow")
-                .filter(pk=workflow.id)
-                .values_list("title", flat=True)
-            )
+
+        workflow.graph = latest_version.yw_graph_output
+        workflow.version_id = latest_version.id
+        workflow.version_modified = latest_version.last_modified
+        workflow.tags = (
+            Tag.objects.all()
+            .select_related("workflow")
+            .filter(pk=workflow.id)
+            .values_list("title", flat=True)
+        )
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get("page")
