@@ -108,9 +108,9 @@ class Command(BaseCommand):
 
         self._create_workflows()
         self._create_tags()
-        self._create_scripts()
         self._create_versions()
         self._create_runs()
+        self._create_scripts()
         self._create_files()
         self._create_run_files()
         self._create_tag_workflow()
