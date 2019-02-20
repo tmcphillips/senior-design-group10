@@ -8,27 +8,26 @@
 		<h3>Edit Workflow: </h3>
 		Title: <input type="text" name="title" value="{{workflow.title}}" style="width: 40%;"><br><br>
 		Description: <br><br>
-		<textarea rows="6" type="text" name="description" style="width: 40%;"> {{workflow.description}} </textarea>
+		<textarea rows="6" type="text" name="description" style="width: 40%;">{{workflow.description}}</textarea>
 		<br><br>
 		Add Tags: <input type="text" id="tags" style="width: 8%;" />
 	    <input type="button" id="addTag" value="+" style="border-radius: 10px;" />
-	    <p id="tag"> </p>
+	    <input type="hidden" id="tagArray" name="tagArray"> <br>
+	    <p id = newtags> </p>
+	    {% for tag in workflowTags %}
+	    	{{ tag.tag.title}},
+	    {% endfor %}
 		<br><br>
 		<script>
-			var tag_arr = []
+			var tag_arr = new Array()
 			document.getElementById("addTag").onclick = function() {
 				var x = document.getElementById("tags").value;
 				if (x) {
 					tag_arr.push(x)
-					document.getElementById("tag").innerHTML = tag_arr;
+					document.getElementById("tagArray").value = tag_arr;
+					document.getElementById("newtags").innerHTML = tag_arr;
 				}
 				document.getElementById("tags").value = "";
-				// var form = document.getElementById("editForm");
-	   //  		var input = document.createElement("input");
-	   //  		input.type = "text";
-	   //  		var br = document.createElement("br");
-	   //  		form.appendChild(input);
-	   //  		form.appendChild(br);
 
 			}
 	    </script>

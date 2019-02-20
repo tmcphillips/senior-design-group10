@@ -31,7 +31,7 @@
                 </div>
                 <div class = "title">
                     {{ workflow.title|linebreaks }}
-                    <form method="POST" action=" {% url 'edit_page' workflow.id workflow.version_id %}" style="align-self: right; margin-right: 2%; border-radius: 10px;">
+                    <form method="get" action=" {% url 'edit_page' workflow.id workflow.version_id %}" style="align-self: right; margin-right: 2%; border-radius: 10px;">
                         {% csrf_token %}
                         <button type="submit"> Edit</button>
                     </form>

@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.utils import timezone
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
@@ -90,17 +90,34 @@ def my_workflows(request):
 
 def edit_workflow(request, workflow_id, version_id):
     workflow = Workflow.objects.get(pk=workflow_id)
+    workflowTags = TagWorkflow.objects.filter(workflow=workflow_id)
     if request.method == "POST":
         form = request.POST
         title = request.POST.get("title")
-        tags = request.POST.get("tag_arr")
+        tags = request.POST.getlist("tagArray")
+        t = ''.join(tags)
+        tStr = str(t)
+        tagArr = tStr.split(',')
+        if tags:
+            newTag = tagArr
+            if len(tagArr) > 1:
+                for tag in tagArr:
+                    t1 = Tag(title=tag, tag_type ="w")
+                    t1.save()
+                    t2 = TagWorkflow(tag=t1, workflow=workflow)
+                    t2.save()
+            else:
+                stringTag = tagArr[0]
+                t1 = Tag(title=stringTag, tag_type ="w")
+                t1.save()
+                t2 = TagWorkflow(tag=t1, workflow=workflow)
+                t2.save()
         description = request.POST.get("description")
         workflow.title = title
         workflow.description = description
         workflow.save()
-        return render(request, "pages/home_page.html", {"workflow": workflow})
-    # tags = Tag.objects.filter(workflow=workflow)
-    return render(request, "pages/edit_page.html", {"workflow": workflow})
+        return redirect('my_workflows')
+    return render(request, "pages/edit_page.html", {"workflow": workflow, "workflowTags": workflowTags})
 
 
 def detailed_workflow(request, workflow_id, version_id):
