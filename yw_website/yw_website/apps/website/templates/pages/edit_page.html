@@ -2,11 +2,12 @@
 {% load static %}
 
 {% block main_content %}
+<link rel="stylesheet" type="text/css" href={% static "design/edit_page_design.css" %}>
 <form id="EditForm" method="POST">
 	{% csrf_token %}
-	<div class="edit" style="margin-left: 3%">
+	<div class="edit">
 		<h3>Edit Workflow: </h3>
-		Title: <input type="text" name="title" value="{{workflow.title}}" style="width: 40%;"><br><br>
+		Title: <input type="text" name="title" value="{{workflow.title}}" style="width: 37%;"><br><br>
 		Description: <br><br>
 		<textarea rows="6" type="text" name="description" style="width: 40%;">{{workflow.description}}</textarea>
 		<br><br>

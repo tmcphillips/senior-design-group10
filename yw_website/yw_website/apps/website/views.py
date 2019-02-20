@@ -32,6 +32,7 @@ from .serializers import *
 # Website Views
 #############################################################
 def home(request):
+    edit = False
     workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
         latest_version = (
@@ -57,12 +58,13 @@ def home(request):
     host = request.get_host()
 
     return render(
-        request, "pages/home_page.html", {"workflow_list": workflows, "host": host}
+        request, "pages/home_page.html", {"workflow_list": workflows, "host": host, "edit":edit}
     )
 
 
 @login_required(login_url="/accounts/login/")
 def my_workflows(request):
+    edit = True
     workflow_list = (
         Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
     )
@@ -85,7 +87,7 @@ def my_workflows(request):
         request, "pages/edit_page.html", {"workflow_list": workflows, "host": host}
     )
     return render(
-        request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host}
+        request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host, "edit": edit}
     )
 
 def edit_workflow(request, workflow_id, version_id):
