@@ -1,0 +1,39 @@
+{% extends 'extendable/__base_template.html' %}
+{% load static %}
+
+{% block main_content %}
+<form id="EditForm" method="POST">
+	{% csrf_token %}
+	<div class="edit" style="margin-left: 3%">
+		<h3>Edit Workflow: </h3>
+		Title: <input type="text" name="title" value="{{workflow.title}}" style="width: 40%;"><br><br>
+		Description: <br><br>
+		<textarea rows="6" type="text" name="description" style="width: 40%;"> {{workflow.description}} </textarea>
+		<br><br>
+		Add Tags: <input type="text" id="tags" style="width: 8%;" />
+	    <input type="button" id="addTag" value="+" style="border-radius: 10px;" />
+	    <p id="tag"> </p>
+		<br><br>
+		<script>
+			var tag_arr = []
+			document.getElementById("addTag").onclick = function() {
+				var x = document.getElementById("tags").value;
+				if (x) {
+					tag_arr.push(x)
+					document.getElementById("tag").innerHTML = tag_arr;
+				}
+				document.getElementById("tags").value = "";
+				// var form = document.getElementById("editForm");
+	   //  		var input = document.createElement("input");
+	   //  		input.type = "text";
+	   //  		var br = document.createElement("br");
+	   //  		form.appendChild(input);
+	   //  		form.appendChild(br);
+
+			}
+	    </script>
+	    <button type= "submit"> Save</button>
+	    <a class = "more-details-button" href="{% url 'my_workflows'%}"> Back</a>
+    </div>
+</form>
+{% endblock %}

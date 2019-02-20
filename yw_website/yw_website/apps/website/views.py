@@ -80,10 +80,27 @@ def my_workflows(request):
     page = request.GET.get("page")
     workflows = paginator.get_page(page)
     host = request.get_host()
-
-    return render(
-        request, "pages/home_page.html", {"workflow_list": workflows, "host": host}
+    if request.method == "POST":
+        render(
+        request, "pages/edit_page.html", {"workflow_list": workflows, "host": host}
     )
+    return render(
+        request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host}
+    )
+
+def edit_workflow(request, workflow_id, version_id):
+    workflow = Workflow.objects.get(pk=workflow_id)
+    if request.method == "POST":
+        form = request.POST
+        title = request.POST.get("title")
+        tags = request.POST.get("tag_arr")
+        description = request.POST.get("description")
+        workflow.title = title
+        workflow.description = description
+        workflow.save()
+        return render(request, "pages/home_page.html", {"workflow": workflow})
+    # tags = Tag.objects.filter(workflow=workflow)
+    return render(request, "pages/edit_page.html", {"workflow": workflow})
 
 
 def detailed_workflow(request, workflow_id, version_id):
