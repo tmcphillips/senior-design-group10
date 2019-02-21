@@ -60,14 +60,14 @@ You can build a new jar file from the above repository by following these steps:
 1. Set up a development environment for yw-prototypes [Setting up YesWorkflow dev Environment](https://github.com/aniehuser/senior-design-group10#setting-up-yesworkflow-dev-environment)
 2. Open up a command prompt and navigate to the directory you cloned yw-prototypes into.
 3. Run `mvn package`
-    1. If you run into issues with tests from YwClient failing, you likely are running an old version YesWorkflow WebComponents on `localhost:8000`. You can close terminate this process and the tests will be ignored
+    1. If you run into issues with tests from YwClient failing, you likely are running an old version YesWorkflow WebComponents on `localhost:8000`. You can terminate this process and the tests will be ignored.
 4. The new jar will be placed in the path `<path-to-yw-prototypes>/yw-prototypes/out/artifacts` folder.
 
 You can now execute YesWorkflow CLI as normal. 
 
 ### YesWorkflow Save Command and Configurations
 
-YesWorkflow CLI's Save command works by executing and aggregating all YesWorkflow commands and then sending important data up to your deployed YesWorkflow WebComponents server. To use, one can type in the command prompt
+YesWorkflow CLI's Save command works by executing and aggregating all YesWorkflow commands and then sending important data up to your deployed YesWorkflow WebComponents instance. To use, one can type in the command prompt
 
 ```
 java -jar yesworkflow.jar save my_scripty.py
@@ -76,6 +76,11 @@ java -jar yesworkflow.jar save my_scripty.py
 You can set configurations manually in the command prompt
 ```
 java -jar yesworkflow.jar save my_scripty.py -c save.serveraddress=http://localhost:8000/
+```
+
+For multiple manual configurations, use `-c` flag again
+```
+java -jar yesworkflow.jar save my_scripty.py -c save.serveraddress=http://localhost:8000/ -c graph.dotfile=out.txt
 ```
 
 or you can set configurations in a text file named `yw.properties` that you must place in the same directory as your yesworkflow jar file.
@@ -142,7 +147,7 @@ save.tags=fun,science,bill-nye
 
 #### Some things to note
 
-YesWorkflow save calls all subsequent commands (extract, model, graph, recon). When calling graph, by default, there will be a dump of a graphviz string to terminal output. To hide this output when calling YesWorkflow save, I recommend using the following configuration
+YesWorkflow save calls all subsequent commands (extract, model, graph, recon). When calling graph, by default, there will be a dump of a graphviz string to terminal output. To hide this output when calling YesWorkflow save, it's recommended that you use the following configuration
 ```
 graph.dotfile=out.txt
 ```
