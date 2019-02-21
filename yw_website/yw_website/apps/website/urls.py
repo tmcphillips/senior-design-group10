@@ -1,5 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import include, path
 from rest_framework import routers
+from yw_website.settings import STATIC_ROOT, STATIC_URL
 
 from .views import *
 
@@ -40,3 +42,5 @@ urlpatterns = [
     ###
     path('api/v1/', include(router.urls)),
 ]
+
+# print(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
