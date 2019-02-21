@@ -58,7 +58,7 @@ class Run(models.Model):
 
 class File(models.Model):
     checksum = models.CharField(
-        max_length=128, primary_key=True)
+        max_length=128)
     size = models.IntegerField(default=0)
     name = models.TextField()
     uri = models.TextField()
@@ -69,9 +69,6 @@ class File(models.Model):
 class RunFile(models.Model):
     run = models.ForeignKey(Run, on_delete=models.CASCADE, blank=False)
     file = models.ForeignKey(File, on_delete=models.CASCADE, blank=False)
-
-    uri = models.CharField(max_length=255)
-    file_name = models.CharField(max_length=255)
 
 
 class TagWorkflow(models.Model):
