@@ -6,12 +6,13 @@
     <script src="{{ STATIC_PREFIX }}scripts/viz.js"></script>
     <script src="{{ STATIC_PREFIX }}scripts/d3.min.js"></script>
     <script src="{{ STATIC_PREFIX }}scripts/d3-graphviz.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/detailed_design.css">
+
 {% endblock %}
 
 {% block main_content %}
 
 <div class = box>
-    <link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
     <div class = title>
         {{ workflow.title}}
     </div>
@@ -52,8 +53,8 @@
        <b>Uploaded At: </b>{{version.last_modified}}    
     </div>
 
-    <div class = title>
-        Runs For Choosen Version:
+    <div class = run-text>
+        Runs associated with current version:
     </div>
     
     <div class="list">
