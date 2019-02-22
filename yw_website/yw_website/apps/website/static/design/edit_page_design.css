@@ -1,4 +1,30 @@
 .edit {
 	margin-left: 3%;
 	margin-right: 3%;
+	text-align: left;
+}
+
+.tagInput {
+	width: 40%;
+}
+
+.title1 {
+	width: 90%;
+	font-weight: 3px;
+	text-align: left;
+	color: black;
+}
+
+textarea {
+	width: 40%;
+}
+
+
+input {
+	width: 40%;
+}
+
+.addTag {
+	width: 5%;
+	border-radius: 10px;
 }

@@ -32,7 +32,7 @@ from .serializers import *
 # Website Views
 #############################################################
 def home(request):
-    edit = False
+    edit = True
     workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
         latest_version = (
@@ -56,7 +56,6 @@ def home(request):
     page = request.GET.get("page")
     workflows = paginator.get_page(page)
     host = request.get_host()
-
     return render(
         request, "pages/home_page.html", {"workflow_list": workflows, "host": host, "edit":edit}
     )
@@ -64,7 +63,7 @@ def home(request):
 
 @login_required(login_url="/accounts/login/")
 def my_workflows(request):
-    edit = True
+    edit = False
     workflow_list = (
         Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
     )
@@ -82,35 +81,31 @@ def my_workflows(request):
     page = request.GET.get("page")
     workflows = paginator.get_page(page)
     host = request.get_host()
-    if request.method == "POST":
-        render(
-        request, "pages/edit_page.html", {"workflow_list": workflows, "host": host}
-    )
     return render(
         request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host, "edit": edit}
     )
 
 def edit_workflow(request, workflow_id, version_id):
     workflow = Workflow.objects.get(pk=workflow_id)
-    workflowTags = TagWorkflow.objects.filter(workflow=workflow_id)
+    workflow_tags = TagWorkflow.objects.filter(workflow=workflow_id)
     if request.method == "POST":
         form = request.POST
         title = request.POST.get("title")
         tags = request.POST.getlist("tagArray")
         t = ''.join(tags)
-        tStr = str(t)
-        tagArr = tStr.split(',')
+        t_str = str(t)
+        tag_arr = t_str.split(',')
         if tags:
-            newTag = tagArr
-            if len(tagArr) > 1:
-                for tag in tagArr:
+            new_tag = tag_arr
+            if len(tag_arr) > 1:
+                for tag in tag_arr:
                     t1 = Tag(title=tag, tag_type ="w")
                     t1.save()
                     t2 = TagWorkflow(tag=t1, workflow=workflow)
                     t2.save()
             else:
-                stringTag = tagArr[0]
-                t1 = Tag(title=stringTag, tag_type ="w")
+                string_tag = tag_arr[0]
+                t1 = Tag(title=string_tag, tag_type ="w")
                 t1.save()
                 t2 = TagWorkflow(tag=t1, workflow=workflow)
                 t2.save()
@@ -119,7 +114,7 @@ def edit_workflow(request, workflow_id, version_id):
         workflow.description = description
         workflow.save()
         return redirect('my_workflows')
-    return render(request, "pages/edit_page.html", {"workflow": workflow, "workflowTags": workflowTags})
+    return render(request, "pages/edit_page.html", {"workflow": workflow, "workflow_tags": workflow_tags})
 
 
 def detailed_workflow(request, workflow_id, version_id):

@@ -7,12 +7,18 @@
 	{% csrf_token %}
 	<div class="edit">
 		<h3>Edit Workflow: </h3>
-		Title: <input type="text" name="title" value="{{workflow.title}}" style="width: 37%;"><br><br>
+		<div class="title1">
+			Title: <input type="text" name="title" value="{{workflow.title}}"><br><br>
+		</div>
 		Description: <br><br>
-		<textarea rows="6" type="text" name="description" style="width: 40%;">{{workflow.description}}</textarea>
+		<div class="description">
+			<textarea rows="6" type="text" name="description">{{workflow.description}}</textarea>
+		</div>
 		<br><br>
-		Add Tags: <input type="text" id="tags" style="width: 8%;" />
-	    <input type="button" id="addTag" value="+" style="border-radius: 10px;" />
+		<div class='tagInput'>
+				Add Tags: <input type="text" id="tags" />
+	    	<input type="button" class="addTag" id="addTag" value="+"/>
+	    </div>
 	    <input type="hidden" id="tagArray" name="tagArray"> <br>
 	    <p id = newtags> </p>
 	    {% for tag in workflowTags %}
@@ -32,7 +38,7 @@
 
 			}
 	    </script>
-	    <button type= "submit"> Save</button>
+	    <button type= "submit" style="border-radius: 5px;"> Save</button>
 	    <a class = "more-details-button" href="{% url 'my_workflows'%}"> Back</a>
     </div>
 </form>
