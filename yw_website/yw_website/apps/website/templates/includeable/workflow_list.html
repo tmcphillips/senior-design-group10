@@ -1,5 +1,3 @@
-{% load static %}
-
 {% comment %}
  <!-- Content to be paginated must be assigned to the workflow_list keyword argument when including
         
@@ -33,8 +31,6 @@
                 <div class = "last_modified"> 
                     {{ workflow.version_modified }}
                 </div>
-
-                <div id="graph{{ forloop.counter }}" class = workflow-image></div>
 
                 <div class = "workflow-details" id="description">
                     <b>Description: </b>{{ workflow.description }}
