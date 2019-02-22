@@ -19,8 +19,9 @@
 
 {% if workflow_list %}
 
-    <ol id="elementStyle">
+    <div>
         {% for workflow in workflow_list %}
+        <a href="{% url 'detailed_workflow' workflow.id workflow.version_id %}" style="text-decoration: none; color:inherit;">
             <div class="card">
                 <div classs = "tags">
                     Tags: {{ workflow.tags | join:", " }}
@@ -36,7 +37,6 @@
                     <b>Description: </b>{{ workflow.description }}
                 </div>
 
-                <a href="{% url 'detailed_workflow' workflow.id workflow.version_id %}">Click me </a>
 
                 <!-- <button class="details-button" onClick = "description_view()">View Description</button> -->
             </div class="card">
@@ -51,9 +51,10 @@
                     }
                 }
             </script>
+         </a>
         {% endfor %}
 
-    </ol>
+        </div>
 
 {% else %}
 
