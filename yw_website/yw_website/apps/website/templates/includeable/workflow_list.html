@@ -21,7 +21,7 @@
 
     <ol id="elementStyle">
         {% for workflow in workflow_list %}
-            <li>
+            <div class="card">
                 <div classs = "tags">
                     Tags: {{ workflow.tags | join:", " }}
                 </div>
@@ -36,11 +36,10 @@
                     <b>Description: </b>{{ workflow.description }}
                 </div>
 
-                <div style = "text-align:center">
-                    <a class = "more-details-button" href="{% url 'detailed_workflow' workflow.id workflow.version_id %}"> View Details</a>
-                </div>      
+                <a href="{% url 'detailed_workflow' workflow.id workflow.version_id %}">Click me </a>
+
                 <!-- <button class="details-button" onClick = "description_view()">View Description</button> -->
-            </li>
+            </div class="card">
             <script>
                 function description_view(){
                     var description = document.getElementById("description");
