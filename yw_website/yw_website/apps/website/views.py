@@ -32,7 +32,7 @@ from .serializers import *
 # Website Views
 #############################################################
 def home(request):
-    edit = True
+    edit = False
     workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
         latest_version = (
@@ -63,7 +63,7 @@ def home(request):
 
 @login_required(login_url="/accounts/login/")
 def my_workflows(request):
-    edit = False
+    edit = True
     workflow_list = (
         Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
     )
