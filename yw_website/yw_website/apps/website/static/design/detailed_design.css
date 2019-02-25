@@ -137,3 +137,15 @@ svg {
     background-color: #000000;
     color: #ffffff;
 }
+
+.tags{
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 15%;
+    white-space: nowrap;
+}
+
+span.tags:hover {
+    overflow: visible;
+}

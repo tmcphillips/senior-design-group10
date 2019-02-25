@@ -54,7 +54,10 @@
     </ol>
 
     <div class=outside_data>
-        <b>Tags: </b> {{ tags | join:", " }}
+        <b>Tags: </b> 
+        {% for tag in tags %}
+            <span class="tags"> {{tag}}{% if not forloop.last %},{% endif %} </span>
+        {% endfor %}
         <br>
         <b>Description: </b>{{workflow.description}}
         <br>
