@@ -7,20 +7,20 @@
 	{% csrf_token %}
 	<div class="edit">
 		<h3>Edit Workflow: </h3>
-		<div class= title1>
+		<div class=title1>
 			Title: <input type="text" name="title" value="{{workflow.title}}"><br><br>
 		</div>
 		Description: <br><br>
-		<div class= description>
+		<div class=description>
 			<textarea rows="6" type="text" name="description">{{workflow.description}}</textarea>
 		</div>
 		<br><br>
-		<div class= tagInput>
+		<div class=tagInput>
 				Add Tags: <input type="text" id="tags" />
 	    	<input type="button" class="addTag" id="addTag" value="+"/>
 	    </div>
 	    <input type="hidden" id="tagArray" name="tagArray"> <br>
-	    <p id = newtags> </p>
+	    <p id=newtags> </p>
 	    {% for tag in workflowTags %}
 	    	{{ tag.tag.title}},
 	    {% endfor %}
@@ -38,9 +38,9 @@
 
 			}
 	    </script>
-	    <div class = buttons>
-	    	<button type= "submit"> Save</button>
-	    	<a class = "more-details-button" href="{% url 'my_workflows'%}"> Back</a>
+	    <div class=buttons>
+	    	<button type="submit"> Save</button>
+	    	<a class="more-details-button" href="{% url 'my_workflows'%}"> Back</a>
 		</div>
     </div>
 </form>
