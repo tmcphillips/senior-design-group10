@@ -1,6 +1,6 @@
 from autofixture import AutoFixture
 from django.core.management.base import BaseCommand
-from yw_website.apps.website.models import Workflow, Version, Tag, Run, File, RunFile, TagWorkflow, TagVersion, TagRun, TagFile
+from yw_website.apps.website.models import *
 import uuid
 
 # Graphviz output string for an example workflow
@@ -61,9 +61,13 @@ class Command(BaseCommand):
         workflow_fixture = AutoFixture(Workflow, field_values={'user': None})
         _ = workflow_fixture.create(self.num_entries)
 
+    def _create_scripts(self):
+        script_fixture = AutoFixture(Script, field_values={'checksum':str(uuid.uuid4())})
+        _ = script_fixture.create(self.num_entries)
+
     def _create_versions(self):
         version_fixture = AutoFixture(
-            Version, field_values={'yw_graph_output': DUMMY_GRAPH_STRING})
+            Version, field_values={'yw_graph_output': DUMMY_GRAPH_STRING, 'yw_model_checksum':str(uuid.uuid4())})
         _ = version_fixture.create(self.num_entries)
 
     def _create_runs(self):
@@ -106,6 +110,7 @@ class Command(BaseCommand):
         self._create_tags()
         self._create_versions()
         self._create_runs()
+        self._create_scripts()
         self._create_files()
         self._create_run_files()
         self._create_tag_workflow()

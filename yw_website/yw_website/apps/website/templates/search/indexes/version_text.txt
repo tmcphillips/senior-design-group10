@@ -1,0 +1,4 @@
+{{ object.yw_model_checksum }}
+{{ object.yw_model_output }}
+{{ object.yw_graph_output }}
+

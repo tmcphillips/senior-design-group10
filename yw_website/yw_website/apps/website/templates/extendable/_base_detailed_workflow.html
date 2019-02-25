@@ -6,6 +6,8 @@
     <script src="{{ STATIC_PREFIX }}scripts/viz.js"></script>
     <script src="{{ STATIC_PREFIX }}scripts/d3.min.js"></script>
     <script src="{{ STATIC_PREFIX }}scripts/d3-graphviz.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/detailed_design.css">
+
 {% endblock %}
 
 {% block main_content %}
@@ -15,16 +17,29 @@
     <div class = workflow_id>
         Workflow Id: {{ workflow.id }}
     </div>
+
     <div class = title>
         {{ workflow.title}}
     </div>
-    <div class = version> 
-        {% for version_ in versions %}
-            {% if version_.id == version.id %}
-                <text>Version #{{ forloop.counter }}</text>
-            {%  endif %}
-        {% endfor %}
-    </div>
+
+    {% if versions %}
+        <div class="dropdown">
+                <button class="dropbtn">
+                    {% for version_ in versions %}
+                        {% if version_.id == version.id %}
+                            <text>Version #{{ forloop.counter }}</text>
+                        {% endif %}
+                    {% endfor %}
+                </button>
+                <div class="dropdown-content">
+                    {% for version_ in versions %}
+                        {% if version_.id != version.id %}
+                            <a href="{% url 'detailed_workflow' workflow.id version_.id %}">Version #{{ forloop.counter }}</a>
+                        {%  endif %}
+                    {% endfor %}
+                </div>
+            </div>
+    {% endif %}
 
     <ol id="elementStyle">
         <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
@@ -43,20 +58,10 @@
        <b>Uploaded At: </b>{{version.last_modified}}    
     </div>
 
-    <div class = version>
-    <form method="POST"> 
-        {% csrf_token %}
-        <select name="version_id">
-        {% for version_ in versions %}
-            {% if version_.id != version.id %}
-                <option value="{{version_.id}}">Version #{{ forloop.counter }}</option>
-            {%  endif %}
-        {% endfor %}
-        </select>
-        <input type="submit"  value="View Different Version" />
-    </form>
+    <div class = run-text>
+        Runs associated with current version:
     </div>
-    Runs For Choosen Version:
+    
     <div class="list">
         {% include 'includeable/run_list.html' with run_list=run_list %}
     </div>
