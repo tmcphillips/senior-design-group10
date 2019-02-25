@@ -1,0 +1,15 @@
+.search {
+    margin: 0;
+    font-family: Verdana;
+    text-align: justify;
+    border-spacing: 0 1em;
+}
+
+tr {
+    margin: 100px;
+    vertical-align: -webkit-baseline-middle;
+}
+
+ul {
+    list-style: none;
+}

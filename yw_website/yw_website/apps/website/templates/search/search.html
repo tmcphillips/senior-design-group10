@@ -1,8 +1,11 @@
 {% block content %}
-    <h2>Search</h2>
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'design/search.css' %}">
+    <h2 style="font-family: Verdana, Geneva, Tahoma, sans-serif">Search</h2>
 
     <form method="get" action=".">
-        <table>
+        <table class="search">
             {{ form.as_table }}
             <tr>
                 <td>&nbsp;</td>
@@ -13,7 +16,7 @@
         </table>
 
         {% if query %}
-            <h3>Results</h3>
+            <h3 style="font-family: Verdana, Geneva, Tahoma, sans-serif">Results</h3>
 
             {% for result in page.object_list %}
                 <p>
