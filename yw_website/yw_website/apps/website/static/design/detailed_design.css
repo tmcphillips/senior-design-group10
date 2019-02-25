@@ -102,3 +102,10 @@ th, td {
 	color: grey;
 }
 
+.workflow_id {
+	text-align: right;
+	margin-right: 2%;
+	padding-top: 1%;
+	color: grey;
+}
+
