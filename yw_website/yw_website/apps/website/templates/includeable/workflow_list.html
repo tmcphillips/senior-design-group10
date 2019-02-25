@@ -35,14 +35,17 @@ Content to be paginated must be assigned to the workflow_list keyword argument w
                 <div  class = "workflow-description" id="description">
                     <b>Description: </b>{{ workflow.description }}
                 </div>
+
                 <div >                
                     <input id = "description-button" type="button" value = "Read More..." class = "expand-description-button" onClick="description_view()" ></input>
                 </div>
                 <div class = "tags-label">
                         Tags:
+                        {% for tag in workflow.tags %}
                         <div class = "tags">
-                            {{ workflow.tags | join:", " }}
+                            <a id = "tag" href="{% url 'haystack_search'%}">{{ tag }}</a>
                         </div>
+                        {% endfor %}
                     </div>
 
             </li>

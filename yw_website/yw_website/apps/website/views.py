@@ -45,10 +45,11 @@ def home(request):
             workflow.version_id = latest_version.id
             workflow.version_modified = latest_version.last_modified
             workflow.tags = (
-                Tag.objects.all()
-                .select_related("workflow")
-                .filter(pk=workflow.id)
-                .values_list("title", flat=True)
+                "Tag 1", "Tag 2"
+                # Tag.objects.all()
+                # .select_related("workflow")
+                # .filter(pk=workflow.id)
+                # .values_list("title", flat=True)
             )
 
     paginator = Paginator(workflow_list, 10)
