@@ -12,6 +12,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.utils import timezone
 from django.views import generic
+from django.core.paginator import Paginator
+from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import (
@@ -33,7 +35,10 @@ from .serializers import *
 #############################################################
 def home(request):
     edit = False
-    workflow_list = Workflow.objects.all().exclude(version__isnull=True)
+    if 'q' in request.GET:
+        workflow_list = search_and_create_query_set(request.GET['q'])
+    else:
+        workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
         latest_version = (
             Version.objects.filter(workflow=workflow).order_by("last_modified").first()

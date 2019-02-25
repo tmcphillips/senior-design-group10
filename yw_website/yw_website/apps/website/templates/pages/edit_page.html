@@ -1,8 +1,9 @@
 {% extends 'extendable/__base_template.html' %}
-{% load static %}
 
+{% block inherits_from_base_scripts %}
+	<link rel="stylesheet" type="text/css" href={% static "design/edit_page_design.css" %}>
+{% endblock%}
 {% block main_content %}
-<link rel="stylesheet" type="text/css" href={% static "design/edit_page_design.css" %}>
 <form id="EditForm" method="POST">
 	{% csrf_token %}
 	<div class="edit">

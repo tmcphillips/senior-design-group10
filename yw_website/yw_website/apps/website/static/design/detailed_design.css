@@ -109,3 +109,12 @@ th, td {
 	color: grey;
 }
 
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #000000;
+    color: #ffffff;
+}
+
