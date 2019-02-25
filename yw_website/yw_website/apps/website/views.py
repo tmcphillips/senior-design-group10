@@ -18,11 +18,11 @@ from .utils import search_and_create_query_set
 # Website Views
 #############################################################
 def home(request):
+    edit = False
     if 'q' in request.GET:
         workflow_list = search_and_create_query_set(request.GET['q'])
     else:
         workflow_list = Workflow.objects.all().exclude(version__isnull=True)
-
     for workflow in workflow_list:
         latest_version = (
             Version.objects.filter(workflow=workflow).order_by("last_modified").first()
@@ -31,25 +31,23 @@ def home(request):
         workflow.graph = latest_version.yw_graph_output
         workflow.version_id = latest_version.id
         workflow.version_modified = latest_version.last_modified
+
         workflow.tags = (
-            Tag.objects.all()
-            .select_related("workflow")
-            .filter(pk=workflow.id)
-            .values_list("title", flat=True)
+            TagWorkflow.objects.filter(workflow=workflow).values_list("tag__title", flat=True)
         )
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get("page")
     workflows = paginator.get_page(page)
     host = request.get_host()
-
     return render(
-        request, "pages/home_page.html", {"workflow_list": workflows, "host": host}
+        request, "pages/home_page.html", {"workflow_list": workflows, "host": host, "edit":edit}
     )
 
 
 @login_required(login_url="/accounts/login/")
 def my_workflows(request):
+    edit = True
     workflow_list = (
         Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
     )
@@ -67,10 +65,40 @@ def my_workflows(request):
     page = request.GET.get("page")
     workflows = paginator.get_page(page)
     host = request.get_host()
-
     return render(
-        request, "pages/home_page.html", {"workflow_list": workflows, "host": host}
+        request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host, "edit": edit}
     )
+
+def edit_workflow(request, workflow_id, version_id):
+    workflow = Workflow.objects.get(pk=workflow_id)
+    workflow_tags = TagWorkflow.objects.filter(workflow=workflow_id)
+    if request.method == "POST":
+        form = request.POST
+        title = request.POST.get("title")
+        tags = request.POST.getlist("tagArray")
+        t = ''.join(tags)
+        t_str = str(t)
+        tag_arr = t_str.split(',')
+        if tags:
+            new_tag = tag_arr
+            if len(tag_arr) > 1:
+                for tag in tag_arr:
+                    t1 = Tag(title=tag, tag_type ="w")
+                    t1.save()
+                    t2 = TagWorkflow(tag=t1, workflow=workflow)
+                    t2.save()
+            else:
+                string_tag = tag_arr[0]
+                t1 = Tag(title=string_tag, tag_type ="w")
+                t1.save()
+                t2 = TagWorkflow(tag=t1, workflow=workflow)
+                t2.save()
+        description = request.POST.get("description")
+        workflow.title = title
+        workflow.description = description
+        workflow.save()
+        return redirect('my_workflows')
+    return render(request, "pages/edit_page.html", {"workflow": workflow, "workflow_tags": workflow_tags})
 
 
 def detailed_workflow(request, workflow_id, version_id):

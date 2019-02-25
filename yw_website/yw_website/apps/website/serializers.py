@@ -123,7 +123,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             for tag in tags.data:
                 t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
                 t.save()
- 
+                tw = TagWorkflow(tag=t, workflow=w)
+                tw.save()
+
         scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
         for script in scripts.data:
             s = Script(name=script.get('name'), version=v, checksum=script.get('checksum'), content=script.get('content'))
@@ -141,7 +143,8 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                 }
             )
             f.save()
-
+            rf = RunFile(run=r, file=f)
+            rf.save()
         return w.pk, v.pk, r.pk
     
     def update(self, validated_data):
@@ -168,6 +171,8 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             for tag in tags.data:
                 t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
                 t.save()
+                tw = TagWorkflow(tag=t, workflow=w)
+                tw.save()
 
         scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
         for script in scripts.data:
@@ -186,5 +191,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                 }
             )
             f.save()
+            rf = RunFile(run=r, file=f)
+            rf.save()
 
         return w.pk, v.pk, r.pk, new_version
