@@ -1,7 +1,7 @@
 {% load static %}
 
 {% comment %}
- <!-- Content to be paginated must be assigned to the workflow_list keyword argument when including
+Content to be paginated must be assigned to the workflow_list keyword argument when including
         
     Example:
     {% include 'includeable/paginator.html' with workflow_list=<pageable_object> %}
@@ -15,7 +15,6 @@
         description {string}
         graph       {string}    /* graphviz string representation */
         version_id  {int}
- -->
 {% endcomment %}
 
 
@@ -26,19 +25,12 @@
 
         {% for workflow in workflow_list %}
             <li>
-                <div classs = "tags">
-                    Tags: {{ workflow.tags | join:", " }}
-                </div>
-                <div class = "title">
+                <a class = "title" href="{% url 'detailed_workflow' workflow.id workflow.version_id %}"">
                         {{ workflow.title|linebreaks }}
-                    
-                </div>
-                <div class = "last_modified"> 
+                </a>
+                <div class = "last-modified"> 
                     {{ workflow.version_modified }}
                 </div>
-
-                <!-- <div id="graph{{ forloop.counter }}" class = workflow-image></div> -->
-
                 
                 <div  class = "workflow-description" id="description">
                     <b>Description: </b>{{ workflow.description }}
@@ -46,6 +38,12 @@
                 <div >                
                     <input id = "description-button" type="button" value = "Read More..." class = "expand-description-button" onClick="description_view()" ></input>
                 </div>
+                <div class = "tags-label">
+                        Tags:
+                        <div class = "tags">
+                            {{ workflow.tags | join:", " }}
+                        </div>
+                    </div>
 
             </li>
             <script>

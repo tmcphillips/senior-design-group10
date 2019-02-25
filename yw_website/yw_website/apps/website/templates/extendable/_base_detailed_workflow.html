@@ -15,7 +15,7 @@
     <div class = title>
         {{ workflow.title}}
     </div>
-    <div class = version> 
+    <div class = "version"> 
         {% for version_ in versions %}
             {% if version_.id == version.id %}
                 <text>Version #{{ forloop.counter }}</text>
@@ -23,37 +23,45 @@
         {% endfor %}
     </div>
 
-    <ol id="elementStyle">
         <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
-            <li>
-                <div id="graph1" class = workflow-image></div>
-            </li>
+            <div id="graph1" class = workflow-image></div>
             <script type="text/javascript">
                 graph = `{{ version.yw_graph_output|safe }}`
             </script>
             <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
-    </ol>
+
 
     <div class = outside_data>
-        <b>Description: </b>{{workflow.description}}
-        <br>
-       <b>Uploaded At: </b>{{version.last_modified}}    
+        <div class= "uploaded-at">
+            <b>Uploaded At: </b>{{version.last_modified}}
+        </div>
+        <div class = "description">
+            <b>Description: </b>{{workflow.description}}
+        </div>
+           
     </div>
 
-    <div class = version>
-    <form method="POST"> 
-        {% csrf_token %}
-        <select name="version_id">
-        {% for version_ in versions %}
-            {% if version_.id != version.id %}
-                <option value="{{version_.id}}">Version #{{ forloop.counter }}</option>
+    <div class = "version-list">
+        <form method="POST"> 
+            {% csrf_token %}
+            <select name="version_id">
+            {% for version_ in versions %}
+                {% if version_.id != version.id %}
+                    <option value="{{version_.id}}">Version #{{ forloop.counter }}</option>
+                {%  endif %}
+            {% endfor %}
+            </select>
+            <input type="submit"  value="Go" />
+        </form>
+    </div>
+    <div class="run-list">
+            {% for version_ in versions %}
+            {% if version_.id == version.id %}
+                <text>Runs for version #{{ forloop.counter }}</text>
             {%  endif %}
         {% endfor %}
-        </select>
-        <input type="submit"  value="View Different Version" />
-    </form>
     </div>
-    Runs For Choosen Version:
+   
     <div class="list">
         {% include 'includeable/run_list.html' with run_list=run_list %}
     </div>

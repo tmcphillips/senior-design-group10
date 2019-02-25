@@ -3,9 +3,9 @@
 .list {
 	text-align: center;
 	align-items:center;
-    padding: 20px 40px 10px 0px;
+    padding: 0 40px 10px 0px;
     background-color: white;
-    margin:5% 10%;
+    margin: 0 10%;
 	width: 80%;
 	min-height:500px;
 	height: 80%;
@@ -104,6 +104,31 @@
 	font-size: 16px;
 	font-weight: bold;
 	color: rgb(5, 97, 92);
+	margin: 0 0;
+}
+
+.tags-label {
+	font-size: 12px;
+	margin: 10px 0 0 0;
+}
+.tags {
+	border: 1px solid rgb(5, 97, 92);;
+	display: inline-block;
+	padding: 0 5px;
+	font-size: 12px;
+	background: #d5e5e4;
+
+}
+.last-modified {
+	margin: 0 0 10px 0;
+	font-size: 14px;
+}
+#elementStyle p {
+	margin: 0 0 -3px 0;
+}
+.tags:hover {
+	background: #9fbdbb;
+	cursor: pointer;
 }
 
 #elementStyle li {

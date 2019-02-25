@@ -1,9 +1,7 @@
 
 .list {
-	border-style: solid;
-	border-color: grey;
+
 	text-align: center;
-    padding: 40px 30px;
 	background-color: white;
     margin:auto;
     margin-top: 10px;
@@ -17,6 +15,17 @@ h2 {
 	margin: 25px;
 }
 
+.description{
+	text-align: left;
+}
+.uploaded-at{
+	font-size: 16px;
+	text-align: left;
+	margin-bottom: 10px;
+}
+.workflow-image {
+	margin-top: 25px;
+}
 
 img {
 	margin: 10px;
@@ -57,9 +66,28 @@ th, td {
 
 .version {
 	font-weight: bold;
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding: 0 10px;
+	margin: 0 0 10px 0;
+	border: 1px solid;
+	display: inline;
 }
+
+.run-list {
+	font: 16px black;
+	width: 100%;
+	font-family: Verdana,sans-serif;
+}
+
+.run-list:hover {
+	text-decoration: none;
+	font: black;
+}
+.version-list {
+	font-weight: bold;
+	padding: 0 1px;
+	display: inline;
+}
+
 
 .outside_data {
 	padding: 10px 10px; 
@@ -76,29 +104,25 @@ th, td {
 #elementStyle li {
 	text-align: center;
 	list-style-type: none;
-	border: 1px dashed;
-	width: 95%;
+	border: 1px solid;
+	width: 100%;
+	display: inline-flex;
 }
 
 
 
 .title {
-	margin-left: 23%;
-	margin-right: 23%;
-	align-self: center;
+	margin-left: 25%;
+	margin-right: 25%;
+	text-align: center;
 	color: black;
-	border: transparent;
-	border-bottom: black;
-	border-style: solid;
-	border-width: 1px;	
+	border-bottom: solid 1px black;
 	padding: 5px;
 	margin-bottom: 10px;
-	top: 25px;
-
 }
 
-.table_title {
+.table-title {
 	align-self: center;
-	color: grey;
+	color: black;
 }
 
