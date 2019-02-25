@@ -122,6 +122,13 @@ svg {
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #ddd;}
 
+.workflow_id {
+	text-align: right;
+	margin-right: 2%;
+	padding-top: 1%;
+	color: grey;
+}
+
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
 

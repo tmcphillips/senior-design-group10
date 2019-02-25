@@ -28,6 +28,12 @@
                 </div>
                 <div class = "title">
                     {{ workflow.title|linebreaks }}
+                    {% if edit == True %}
+                        <form method="get" action=" {% url 'edit_page' workflow.id workflow.version_id %}">
+                            {% csrf_token %}
+                            <button type="submit"> Edit</button>
+                        </form>
+                    {% endif%}
                 </div>
                 <div class = "last_modified"> 
                     {{ workflow.version_modified }}
@@ -36,10 +42,7 @@
                 <div class = "workflow-details" id="description">
                     <b>Description: </b>{{ workflow.description }}
                 </div>
-
-
-                <!-- <button class="details-button" onClick = "description_view()">View Description</button> -->
-            </div class="card">
+            </div>
             <script>
                 function description_view(){
                     var description = document.getElementById("description");
