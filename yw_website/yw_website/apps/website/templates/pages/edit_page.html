@@ -24,7 +24,7 @@
 	    {% for tag in workflowTags %}
 	    	{{ tag.tag.title}},
 	    {% endfor %}
-		<br><br>
+		<br>
 		<script>
 			var tag_arr = new Array()
 			document.getElementById("addTag").onclick = function() {
@@ -38,8 +38,10 @@
 
 			}
 	    </script>
-	    <button type= "submit" style="border-radius: 5px;"> Save</button>
-	    <a class = "more-details-button" href="{% url 'my_workflows'%}"> Back</a>
+	    <div class = buttons>
+	    	<button type= "submit"> Save</button>
+	    	<a class = "more-details-button" href="{% url 'my_workflows'%}"> Back</a>
+		</div>
     </div>
 </form>
 {% endblock %}
