@@ -36,7 +36,10 @@ def search_and_create_query_set(q):
             workflows.add(version.workflow_id)
         # TODO: Add searching to files
     queries = [Q(pk=key) for key in workflows]
-    query = queries.pop()
-    for item in queries:
-        query |= item
-    return Workflow.objects.filter(query).exclude(version__isnull=True)
+    if len(queries) > 0:
+        query = queries.pop()
+        for item in queries:
+            query |= item
+        return Workflow.objects.filter(query).exclude(version__isnull=True)
+    else:
+        return Workflow.objects.none()
