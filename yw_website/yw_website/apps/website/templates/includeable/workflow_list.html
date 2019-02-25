@@ -1,5 +1,3 @@
-{% load static %}
-
 {% comment %}
  <!-- Content to be paginated must be assigned to the workflow_list keyword argument when including
         
@@ -21,11 +19,10 @@
 
 {% if workflow_list %}
 
-    <ol id="elementStyle">
-        <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
-
+    <div>
         {% for workflow in workflow_list %}
-            <li>
+        <a href="{% url 'detailed_workflow' workflow.id workflow.version_id %}" style="text-decoration: none; color:inherit;">
+            <div class="card">
                 <div classs = "tags">
                     Tags: {{ workflow.tags | join:", " }}
                 </div>
@@ -36,17 +33,13 @@
                     {{ workflow.version_modified }}
                 </div>
 
-                <div id="graph{{ forloop.counter }}" class = workflow-image></div>
-
                 <div class = "workflow-details" id="description">
                     <b>Description: </b>{{ workflow.description }}
                 </div>
 
-                <div style = "text-align:center">
-                    <a class = "more-details-button" href="{% url 'detailed_workflow' workflow.id workflow.version_id %}"> View Details</a>
-                </div>      
+
                 <!-- <button class="details-button" onClick = "description_view()">View Description</button> -->
-            </li>
+            </div class="card">
             <script>
                 function description_view(){
                     var description = document.getElementById("description");
@@ -58,13 +51,10 @@
                     }
                 }
             </script>
-            <script type="text/javascript">
-                graph = `{{ workflow.graph|safe }}`
-            </script>
-            <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
+         </a>
         {% endfor %}
 
-    </ol>
+        </div>
 
 {% else %}
 
