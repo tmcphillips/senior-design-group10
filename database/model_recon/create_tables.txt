@@ -1,0 +1,66 @@
+# a general structure to follow for the actual tables
+
+# be wary of null values
+
+# each primary key is actually a  composite primary key, where the version id references the associated version,
+# and the run id references run specific data, but still apart of the same version implicitly
+
+CREATE TABLE program_block (
+    id                  INT                  NOT NULL        PRIMARY KEY,
+    version_id          INT                  NOT NULL        PRIMARY KEY,
+    in_program_block    INT                  NULL            REFERENCES program_block(id),
+    name                VARCHAR(255)         NOT NULL
+    qualified_name      VARCHAR(255)         NOT NULL
+);
+
+CREATE TABLE data (
+    version_id          INT                  NOT NULL        PRIMARY KEY,
+    id                  INT                  NOT NULL        PRIMARY KEY,
+    in_program_block    INT                  NULL,		# according to the diagram Tim drew up, this should be a foreign key, but when he implemented it he did not specify the constraint. However, this value does indeed reference program_block even though an explicit constraint is not specified. Note that the value can be null.
+    name                VARCHAR(255)         NOT NULL,
+    qualified_name      VARCHAR(255)         NOT NULL,
+);
+
+CREATE TABLE port (
+    run_id              INT                  NOT NULL        PRIMARY KEY,
+    id                  INT                  NOT NULL        PRIMARY KEY,
+    on_program_block    INT                  NOT NULL        REFERENCES program_block(id),
+    data                INT                  NOT NULL        REFERENCES data(id),
+    name                VARCHAR(255)         NOT NULL,
+    qualified_name      VARCHAR(255)         NOT NULL,
+    alias               VARCHAR(255)         NULL,
+    uri_template        VARCHAR(255)         NULL,
+    is_inport           BOOL                 NOT NULL,
+    is_outport          BOOL                 NOT NULL
+);
+
+CREATE TABLE channel (
+    version_id          INT                  NOT NULL        PRIMARY KEY,
+    id                  INT                  NOT NULL        PRIMARY KEY,
+    out_port            INT                  NOT NULL        REFERENCES port(id),
+    in_port             INT                  NOT NULL        REFERENCES port(id),
+    data                INT                  NOT NULL        REFERENCES data(id),
+    is_inflow           BOOL                 NOT NULL,
+    is_outflow          BOOL                 NOT NULL
+);
+
+CREATE TABLE uri_variable (
+    run_id              INT          NOT NULL        PRIMARY KEY,
+    id                  INT          NOT NULL        PRIMARY KEY,
+    port                INT          NOT NULL        REFERENCES port(id),
+    name                VARCHAR(255)         NOT NULL
+);
+
+CREATE TABLE resource (
+    run_id              INT          NOT NULL        PRIMARY KEY,
+    id                  INT          NOT NULL        PRIMARY KEY,
+    data                INT          NOT NULL        REFERENCES data(id),
+    uri                 VARCHAR(255)       NOT NULL
+);
+
+CREATE TABLE uri_variable_value (
+    run_id              INT          NOT NULL        PRIMARY KEY,
+    uri_variable        INT          NOT NULL        REFERENCES uri_variable(id),
+    resource            INT          NOT NULL        REFERENCES resource(id),
+    value               VARCHAR(255)         NOT NULL
+);

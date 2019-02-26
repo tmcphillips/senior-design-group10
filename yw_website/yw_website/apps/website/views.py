@@ -31,11 +31,9 @@ def home(request):
         workflow.graph = latest_version.yw_graph_output
         workflow.version_id = latest_version.id
         workflow.version_modified = latest_version.last_modified
+
         workflow.tags = (
-            Tag.objects.all()
-            .select_related("workflow")
-            .filter(pk=workflow.id)
-            .values_list("title", flat=True)
+            TagWorkflow.objects.filter(workflow=workflow).values_list("tag__title", flat=True)
         )
 
     paginator = Paginator(workflow_list, 10)
