@@ -108,12 +108,14 @@ def detailed_workflow(request, workflow_id, version_id):
             workflow = Workflow.objects.get(pk=workflow_id)
             version = Version.objects.get(pk=version_id)
             versions = Version.objects.filter(workflow=workflow)
+            tags = TagWorkflow.objects.filter(workflow=workflow).values_list("tag__title", flat=True)
 
             runs = Run.objects.filter(version=version)
             info = {
                 "workflow": workflow,
                 "version": version,
                 "versions": versions,
+                "tags":tags,
                 "run_list": runs,
                 "form": form,
             }
