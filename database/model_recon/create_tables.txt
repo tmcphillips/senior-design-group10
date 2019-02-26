@@ -45,22 +45,22 @@ CREATE TABLE channel (
 );
 
 CREATE TABLE uri_variable (
-    run_id              INT          NOT NULL        PRIMARY KEY,
-    id                  INT          NOT NULL        PRIMARY KEY,
-    port                INT          NOT NULL        REFERENCES port(id),
+    run_id              INT                  NOT NULL        PRIMARY KEY,
+    id                  INT                  NOT NULL        PRIMARY KEY,
+    port                INT                  NOT NULL        REFERENCES port(id),
     name                VARCHAR(255)         NOT NULL
 );
 
 CREATE TABLE resource (
-    run_id              INT          NOT NULL        PRIMARY KEY,
-    id                  INT          NOT NULL        PRIMARY KEY,
-    data                INT          NOT NULL        REFERENCES data(id),
-    uri                 VARCHAR(255)       NOT NULL
+    run_id              INT                  NOT NULL        PRIMARY KEY,
+    id                  INT                  NOT NULL        PRIMARY KEY,
+    data                INT                  NOT NULL        REFERENCES data(id),
+    uri                 VARCHAR(255)         NOT NULL
 );
 
 CREATE TABLE uri_variable_value (
-    run_id              INT          NOT NULL        PRIMARY KEY,
-    uri_variable        INT          NOT NULL        REFERENCES uri_variable(id),
-    resource            INT          NOT NULL        REFERENCES resource(id),
+    run_id              INT                  NOT NULL        PRIMARY KEY,
+    uri_variable        INT                  NOT NULL        REFERENCES uri_variable(id),
+    resource            INT                  NOT NULL        REFERENCES resource(id),
     value               VARCHAR(255)         NOT NULL
 );
