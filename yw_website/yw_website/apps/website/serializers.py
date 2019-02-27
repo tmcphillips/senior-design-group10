@@ -98,7 +98,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         w = Workflow(
-            user=validated_data.get('username'),
+            user=self.context.get('username'),
             title=validated_data.get('title'),
             description=validated_data.get('description')
         )
@@ -118,10 +118,10 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         )
         r.save()
 
-        tags = TagSerializer(validated_data.get('tags'), many=True)
+        tags = validated_data.get('tags')
         if tags:
-            for tag in tags.data:
-                t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
+            for tag in tags:
+                t = Tag(parent_tag=None, tag_type=Workflow, title=tag)
                 t.save()
                 tw = TagWorkflow(tag=t, workflow=w)
                 tw.save()
@@ -166,10 +166,11 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         )
         r.save()
 
-        tags = TagSerializer(validated_data.get('tags'), many=True)
-        if tags:    
-            for tag in tags.data:
-                t = Tag(parent_tag=None, tag_type=Workflow, title=tag.get('title'))
+        # TODO: Check if tags already exist
+        tags = validated_data.get('tags')
+        if tags:
+            for tag in tags:
+                t = Tag(parent_tag=None, tag_type=Workflow, title=tag)
                 t.save()
                 tw = TagWorkflow(tag=t, workflow=w)
                 tw.save()
