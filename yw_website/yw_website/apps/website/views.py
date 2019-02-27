@@ -139,11 +139,11 @@ def run_detail(request, run_id):
     try:
         run = Run.objects.get(pk=run_id)
         file_list = RunFile.objects.filter(run=run_id)
-        run_list = Run.objects.filter(version=run.version)
+        runs = Run.objects.filter(version=run.version)
     except Run.DoesNotExist:
         return Response(status=404, data={"error": "run not found"})
 
-    return render(request, "pages/run_detail.html", {"run": run, "file_list": file_list, "run_list": run_list})
+    return render(request, "pages/run_detail.html", {"run": run, "file_list": file_list, "runs": runs})
 
 
 #############################################################
