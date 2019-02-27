@@ -158,7 +158,9 @@ class Resource(models.Model):
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
 class UriVariableValue(models.Model):
-    run =  
+    class Meta:
+        unique_together = ('id', 'run')
+    run = models.ForeignKey(Run, on_delete=models.CASCADE)
     uri_variable = models.ForeignKey(UriVariable, on_delete=models.DO_NOTHING)
     resource = models.ForeignKey(Resource, on_delete=models.DO_NOTHING)
     value = models.TextField()
