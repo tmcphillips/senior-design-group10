@@ -60,6 +60,11 @@ def my_workflows(request):
         else:
             workflow.graph = latest_version.yw_graph_output
             workflow.version_id = latest_version.id
+            workflow.version_modified = latest_version.last_modified
+
+            workflow.tags = (
+                TagWorkflow.objects.filter(workflow=workflow).values_list("tag__title", flat=True)
+            )
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get("page")
@@ -134,11 +139,11 @@ def run_detail(request, run_id):
     try:
         run = Run.objects.get(pk=run_id)
         file_list = RunFile.objects.filter(run=run_id)
-        run_list = Run.objects.filter(version=run.version)
+        runs = Run.objects.filter(version=run.version)
     except Run.DoesNotExist:
         return Response(status=404, data={"error": "run not found"})
 
-    return render(request, "pages/run_detail.html", {"run": run, "file_list": file_list, "run_list": run_list})
+    return render(request, "pages/run_detail.html", {"run": run, "file_list": file_list, "runs": runs})
 
 
 #############################################################
@@ -157,12 +162,14 @@ def yw_save_ping(request):
 @permission_classes((permissions.AllowAny,))
 def create_workflow(request):
     # TODO: Replace username with user auth token
-    username = User.objects.filter(username=request.data.get("username", None))
+    try:
+        user = User.objects.get(username=request.data.get("username"))
+    except User.DoesNotExist:
+        return Response(status=500, data={"error": "That user does not exist"})
 
-    if not username:
-        return Response(status=500, data={"error": "bad username"})
-
-    ws = YesWorkflowSaveSerializer(data=request.data)
+    ws = YesWorkflowSaveSerializer(
+        data=request.data, context={"username": user}
+    )
 
     if ws.is_valid():
         w_id, v_id, r_num = ws.create(ws.validated_data)
@@ -186,8 +193,13 @@ def create_workflow(request):
 @api_view(["post"])
 @permission_classes((permissions.AllowAny,))
 def update_workflow(request, workflow_id):
+    try:
+        user = User.objects.get(username=request.data.get("username"))
+    except User.DoesNotExist:
+        return Response(status=500, data={"error": "That user does not exist"})
+
     w = Workflow.objects.get(pk=workflow_id)
-    if request.user.id != w.user_id:
+    if user!= w.user:
         return Response(status=500, data={"error": "Workflow does not belong to you"})
 
     ws = YesWorkflowSaveSerializer(

@@ -1,41 +1,44 @@
 {% extends 'extendable/__base_template.html' %}
 {% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
 
 {% block main_content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'design/run_page_design.css' %}">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/run_detail.css">
     <div class = box >
-    	<div class = border>
-    	<br>
-    	<h2> Run {{ run.pk}}</h2>
-    	<h6> Version {{ run.version.pk}}</h6>
-    	<div class = checkbox>
-    		<form method="post">
-	  			{% csrf_token %}
-    		Change To Run
-	    	<select>
-	    		{% for run in run_list %}
-	  				<option value="{{run.pk}}">{{run.pk}}</option>
-	  			{% endfor %}
-	  		</select>
-	  		
-			   <button class = button type="submit">Go</button>
-			</form>
-
-	  	</div>
-		    <div class = text>
-		    	<br> 
-		    	<b>Parent Workflow: </b> {{run.version.workflow.title}}
-				<br>
-				<b>Last Modified: </b> {{run.version.last_modified}}
-				<br>
-				<b>Associated Files:</b>
-				<br>
-				{% for file in file_list %}
-					 -{{ file.file_name}}
-				 	<br>
-				{% endfor %}
-			</div>
-		</div>
+        <div class = border>
+        <br>
+        {% if runs %}
+        <div class="dropdown">
+                <button class="dropbtn">
+                    {% for run_ in runs %}
+                        {% if run_.id == run.id %}
+                            <text>Run #{{ forloop.counter }}</text>
+                        {% endif %}
+                    {% endfor %}
+                </button>
+                <div class="dropdown-content">
+                    {% for run_ in runs %}
+                        {% if run_.id != run.id %}
+                            <a href="{% url 'run_detail' run_.id %}">Run #{{ forloop.counter }}</a>
+                        {%  endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        <div class = text>
+            <br> 
+            <b>Parent Workflow: </b> {{run.version.workflow.title}}
+            <br>
+            <b>Last Modified: </b> {{run.version.last_modified}}
+            <br>
+            <b>Associated Files:</b>
+            <br>
+            {% for file in file_list %}
+                    -{{ file.file_name}}
+                    <br>
+            {% endfor %}
+        </div>
+        </div>
     </div>
 
 {% endblock %}
