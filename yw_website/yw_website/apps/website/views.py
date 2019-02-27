@@ -162,13 +162,13 @@ def yw_save_ping(request):
 @permission_classes((permissions.AllowAny,))
 def create_workflow(request):
     # TODO: Replace username with user auth token
-    username = User.objects.get(username=request.data.get("username", None))
-
-    if not username:
-        return Response(status=500, data={"error": "bad username"})
+    try:
+        user = User.objects.get(username=request.data.get("username"))
+    except User.DoesNotExist:
+        return Response(status=500, data={"error": "That user does not exist"})
 
     ws = YesWorkflowSaveSerializer(
-        data=request.data, context={"username": username}
+        data=request.data, context={"username": user}
     )
 
     if ws.is_valid():
@@ -193,7 +193,11 @@ def create_workflow(request):
 @api_view(["post"])
 @permission_classes((permissions.AllowAny,))
 def update_workflow(request, workflow_id):
-    user = User.objects.get(username=request.data.get("username", None))
+    try:
+        user = User.objects.get(username=request.data.get("username"))
+    except User.DoesNotExist:
+        return Response(status=500, data={"error": "That user does not exist"})
+
     w = Workflow.objects.get(pk=workflow_id)
     if user!= w.user:
         return Response(status=500, data={"error": "Workflow does not belong to you"})
