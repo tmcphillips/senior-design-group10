@@ -102,3 +102,63 @@ class TagFile(models.Model):
 
     class Meta:
         unique_together = ('tag', 'file')
+
+class ProgramBlock(models.Model):
+    class Meta:
+        unique_together = ('id', 'version')
+    name = models.TextField()
+    qualified_name = models.TextField()
+    in_program_block = models.ForeignKey(
+        'self', on_delete=models.DO_NOTHING, null=True)
+    version = models.ForeignKey(Version, on_delete=models.CASCADE)
+
+class Data(models.Model):
+    class Meta:
+        unique_together = ('id', 'version')
+    in_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING, null=True)
+    name = models.TextField()
+    qualifiedName = models.TextField()
+    version = models.ForeignKey(Version, on_delete=models.CASCADE)
+
+class Port(models.Model):
+    class Meta:
+        unique_together = ('id', 'run')
+    on_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING)
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+    name = models.TextField()
+    qualifed_name = models.TextField()
+    alias = models.TextField(null=True)
+    uri_template = models.TextField(null=True)
+    is_inport = models.BooleanField()
+    is_outport = models.BooleanField()
+    run = models.ForeignKey(Run, on_delete=models.CASCADE)
+
+class Channel(models.Model):
+    class Meta:
+        unique_together = ('id', 'version')
+    out_port = models.ForeignKey(Port, on_delete=models.DO_NOTHING, related_name="inport")
+    in_port = models.ForeignKey(Port, on_delete=models.DO_NOTHING, related_name="outport")
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+    is_inflow = models.BooleanField()
+    is_outflow = models.BooleanField()
+    version = models.ForeignKey(Version, on_delete=models.CASCADE)
+
+class UriVariable(models.Model):
+    class Meta:
+        unique_together = ('id', 'run')
+    port = models.ForeignKey(Port, on_delete=models.DO_NOTHING)
+    name = models.TextField()
+    run = models.ForeignKey(Run, on_delete=models.CASCADE)
+
+class Resource(models.Model):
+    class Meta:
+        unique_together = ('id', 'run')
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+    uri = models.TextField()
+    run = models.ForeignKey(Run, on_delete=models.CASCADE)
+
+class UriVariableValue(models.Model):
+    run =  
+    uri_variable = models.ForeignKey(UriVariable, on_delete=models.DO_NOTHING)
+    resource = models.ForeignKey(Resource, on_delete=models.DO_NOTHING)
+    value = models.TextField()
