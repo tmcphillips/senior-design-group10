@@ -51,9 +51,7 @@ class Script(models.Model):
 
 class Run(models.Model):
     version = models.ForeignKey(Version, on_delete=models.CASCADE, blank=False)
-
     run_time_stamp = models.DateTimeField()
-    yw_recon_output = models.TextField()
 
 
 class File(models.Model):
@@ -105,8 +103,8 @@ class TagFile(models.Model):
 
 class ProgramBlock(models.Model):
     class Meta:
-        unique_together = ('programblock_id', 'version')
-    programblock_id = models.IntegerField()
+        unique_together = ('program_block_id', 'version')
+    program_block_id = models.IntegerField()
     name = models.TextField()
     qualified_name = models.TextField()
     in_program_block = models.ForeignKey(

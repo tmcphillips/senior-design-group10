@@ -73,12 +73,16 @@ class TagFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagFile
         fields = '__all__'
+        
+class ProgramBlockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramBlock
+        fields = ('program_block_id', 'name', 'qualified_name', 'in_program_block') 
 
 class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     model = serializers.CharField(required=True, allow_blank=False)
     modelChecksum = serializers.CharField(required=True, allow_blank=True, max_length=128)
     graph = serializers.CharField(required=True, allow_blank=False)
-    recon = serializers.CharField(required=True, allow_blank=True)
     tags = serializers.ListField(
         child=serializers.CharField(required=False, allow_blank=True, max_length=32), default=None, allow_null=True
     )
@@ -86,10 +90,11 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     description = serializers.CharField(required=False, default='', allow_blank=True, allow_null=False)
     scripts = ScriptSerializer(required=True, many=True)
     files = FileSerializer(many=True, default=None, allow_null=True)
+    programBlock = ProgramBlockSerializer(many=True, default=None, allow_null=True)
 
     class Meta:
         model = Workflow
-        fields = ('title','description','model','modelChecksum', 'graph', 'recon', 'tags', 'scripts', 'files' )
+        fields = ('title','description','model','modelChecksum', 'graph', 'tags', 'scripts', 'files', 'programBlock')
    
     def validate_scripts(self, attrs):
         if len(attrs) == 0:
@@ -111,7 +116,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             last_modified=datetime.datetime.now(tz=timezone.utc)
         )
         v.save()
-        __create_update_helper(,self, w, v, validated_data)
+        r = self.__create_update_helper(w, v, validated_data)
         return w.pk, v.pk, r.pk
     
     def update(self, validated_data):
@@ -126,14 +131,13 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             }
         )
         v.save()
-        __create_update_helper(,self, w, v, validated_data)
+        r = self.__create_update_helper(w, v, validated_data)
         return w.pk, v.pk, r.pk, new_version
 
-    def __create_save_helper(self, v, w, validated_data):
+    def __create_update_helper(self, w, v, validated_data):
         r = Run(
             version=v,
             run_time_stamp=datetime.datetime.now(tz=timezone.utc),
-            yw_recon_output=validated_data.get('recon')
         )
         r.save()
 
@@ -166,3 +170,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             rf = RunFile(run=r, file=f)
             rf.save()
 
+        program_blocks = ProgramBlockSerializer(validated_data.get('programBlock'), many=True)
+        for program_block in program_blocks.data:
+            pb = ProgramBlock(program_block_id=program_block.get('program_block_id'), in_program_block=None, version=v) 
+            pb.save()
+            print(program_block)
+        return r

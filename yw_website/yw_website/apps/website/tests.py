@@ -48,6 +48,7 @@ class YwSaveTestCase(TestCase):
                             {"name":"script_3", "checksum":str(uuid.uuid1()), "content":"script_3_content"}]
         self.data["files"] = [{"name":"file_name_1", "checksum":str(uuid.uuid1()), "size":3, "uri":"file_uri1", "lastModified":datetime.datetime.now()},
                         {"name":"file_name_2", "checksum":str(uuid.uuid1()), "size":9, "uri":"file_uri2", "lastModified":datetime.datetime.now()}]
+        self.data["programBlock"] = [{'program_block_id':1, 'inProgramBlock':1, 'name':"programBlock1", "qualified_name":"programBlockQualifiedName"}]
 
 
     def test_yw_ping(self):
