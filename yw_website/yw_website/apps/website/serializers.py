@@ -172,7 +172,13 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
 
         program_blocks = ProgramBlockSerializer(validated_data.get('programBlock'), many=True)
         for program_block in program_blocks.data:
-            pb = ProgramBlock(program_block_id=program_block.get('program_block_id'), in_program_block=None, version=v) 
+            # NOTE: Assumes that parent program block already exists
+            try: 
+                in_block = ProgramBlock.objects.get(program_block_id=validated_data.get('inProgramBlock'), version=v)
+            except ProgramBlock.DoesNotExist:
+                in_block = None
+
+            pb = ProgramBlock(program_block_id=program_block.get('program_block_id'), in_program_block=in_block, version=v) 
             pb.save()
             print(program_block)
         return r

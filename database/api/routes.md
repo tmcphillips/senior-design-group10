@@ -30,9 +30,10 @@ NOTE:: recon json key has been removed from previous versions
             lastModified: String
         }
     ]
+    NOTE: Will these be sorted by program_block_id? Can we gurantee that a inProgramBlock has been created first?
     programBlock: [
         {
-            id: Integer
+            program_block_id: Integer
             inProgramBlock: Integer or NULL
             name: String
             qualifiedName: String

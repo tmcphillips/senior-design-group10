@@ -48,7 +48,7 @@ class YwSaveTestCase(TestCase):
                             {"name":"script_3", "checksum":str(uuid.uuid1()), "content":"script_3_content"}]
         self.data["files"] = [{"name":"file_name_1", "checksum":str(uuid.uuid1()), "size":3, "uri":"file_uri1", "lastModified":datetime.datetime.now()},
                         {"name":"file_name_2", "checksum":str(uuid.uuid1()), "size":9, "uri":"file_uri2", "lastModified":datetime.datetime.now()}]
-        self.data["programBlock"] = [{'program_block_id':1, 'inProgramBlock':1, 'name':"programBlock1", "qualified_name":"programBlockQualifiedName"}]
+        self.data["programBlock"] = [{'program_block_id':1, 'inProgramBlock':None, 'name':"programBlock1", "qualified_name":"programBlockQualifiedName"}, {'program_block_id':2, 'inProgramBlock':1, 'name':"programBlock2", "qualified_name":"programBlockQualifiedName2"}]
 
 
     def test_yw_ping(self):
@@ -122,3 +122,11 @@ class YwSaveTestCase(TestCase):
         response = self.client.post(route, data, format='json')
         self.assertEqual(response.status_code, 404,
                          msg="Workflow does not exist")
+
+    def test_bad_parent_program_block(self):
+        data = copy.deepcopy(self.data)
+        data['programBlock'] = [{'program_block_id':2, 'inProgramBlock':1, 'name':"programBlock1", "qualified_name":"programBlockQualifiedName"}, {'program_block_id':1, 'inProgramBlock':None, 'name':"programBlock1", "qualified_name":"programBlockQualifiedName"}] 
+        route = '/save/'
+        response = self.client.post(route, data, format='json')
+        self.assertEqual(response.status_code, 500, msg="Error creating ProgramBlocks")
+
