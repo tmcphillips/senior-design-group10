@@ -121,3 +121,12 @@ class YwSaveTestCase(TestCase):
         response = self.client.post(route, data, format='json')
         self.assertEqual(response.status_code, 404,
                          msg="Workflow does not exist")
+
+    def test_no_repeating_tags(self):
+        data = copy.deepcopy(self.data)
+        data['tags'].append("tag1")
+        route = '/save/'
+
+        response = self.client.post(route, data, format='json')
+        self.assertEqual(response.status_code, 200,
+                         msg="Workflow does not exist")
