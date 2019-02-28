@@ -128,5 +128,8 @@ class YwSaveTestCase(TestCase):
         route = '/save/'
 
         response = self.client.post(route, data, format='json')
+
+        route = '/save/{}/'.format(response.data['workflowId'])
+        response = self.client.post(route, data, format='json')
         self.assertEqual(response.status_code, 200,
-                         msg="Workflow does not exist")
+                         msg="Error handling repeated tags")
