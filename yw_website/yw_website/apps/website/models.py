@@ -105,7 +105,8 @@ class TagFile(models.Model):
 
 class ProgramBlock(models.Model):
     class Meta:
-        unique_together = ('id', 'version')
+        unique_together = ('programblock_id', 'version')
+    programblock_id = models.IntegerField()
     name = models.TextField()
     qualified_name = models.TextField()
     in_program_block = models.ForeignKey(
@@ -114,7 +115,9 @@ class ProgramBlock(models.Model):
 
 class Data(models.Model):
     class Meta:
-        unique_together = ('id', 'version')
+        unique_together = ('data_id', 'version')
+    data_id = models.IntegerField()
+    name = models.TextField()
     in_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING, null=True)
     name = models.TextField()
     qualifiedName = models.TextField()
@@ -122,7 +125,8 @@ class Data(models.Model):
 
 class Port(models.Model):
     class Meta:
-        unique_together = ('id', 'run')
+        unique_together = ('port_id', 'run')
+    port_id = models.IntegerField()
     on_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING)
     data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
     name = models.TextField()
@@ -135,7 +139,8 @@ class Port(models.Model):
 
 class Channel(models.Model):
     class Meta:
-        unique_together = ('id', 'version')
+        unique_together = ('channel_id', 'version')
+    channel_id = models.IntegerField()
     out_port = models.ForeignKey(Port, on_delete=models.DO_NOTHING, related_name="inport")
     in_port = models.ForeignKey(Port, on_delete=models.DO_NOTHING, related_name="outport")
     data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
@@ -145,21 +150,24 @@ class Channel(models.Model):
 
 class UriVariable(models.Model):
     class Meta:
-        unique_together = ('id', 'run')
+        unique_together = ('uri_variable_id', 'run')
+    uri_variable_id = models.IntegerField()
     port = models.ForeignKey(Port, on_delete=models.DO_NOTHING)
     name = models.TextField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
 class Resource(models.Model):
     class Meta:
-        unique_together = ('id', 'run')
+        unique_together = ('resource_id', 'run')
+    resource_id = models.IntegerField()
     data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
     uri = models.TextField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
 class UriVariableValue(models.Model):
     class Meta:
-        unique_together = ('id', 'run')
+        unique_together = ('uri_variable_value_id', 'run')
+    uri_variable_value_id = models.IntegerField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
     uri_variable = models.ForeignKey(UriVariable, on_delete=models.DO_NOTHING)
     resource = models.ForeignKey(Resource, on_delete=models.DO_NOTHING)
