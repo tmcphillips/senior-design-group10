@@ -111,40 +111,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             last_modified=datetime.datetime.now(tz=timezone.utc)
         )
         v.save()
-        r = Run(
-            version=v,
-            run_time_stamp=datetime.datetime.now(tz=timezone.utc),
-            yw_recon_output=validated_data.get('recon')
-        )
-        r.save()
-
-        tags = validated_data.get('tags')
-        if tags:
-            for tag in tags:
-                t = Tag(parent_tag=None, tag_type=Workflow, title=tag)
-                t.save()
-                tw = TagWorkflow(tag=t, workflow=w)
-                tw.save()
-
-        scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
-        for script in scripts.data:
-            s = Script(name=script.get('name'), version=v, checksum=script.get('checksum'), content=script.get('content'))
-            s.save()
-
-        files = FileSerializer(validated_data.get('files'), many=True)
-        for file in files.data:
-            f, _ = File.objects.update_or_create(
-                checksum=file.get('checksum'),
-                defaults={                
-                    'size':file.get('size'),
-                    'name':file.get('name'),
-                    'uri':file.get('uri'),
-                    'last_modified':file.get('lastModified')
-                }
-            )
-            f.save()
-            rf = RunFile(run=r, file=f)
-            rf.save()
+        __create_update_helper(,self, w, v, validated_data)
         return w.pk, v.pk, r.pk
     
     def update(self, validated_data):
@@ -159,6 +126,10 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             }
         )
         v.save()
+        __create_update_helper(,self, w, v, validated_data)
+        return w.pk, v.pk, r.pk, new_version
+
+    def __create_save_helper(self, v, w, validated_data):
         r = Run(
             version=v,
             run_time_stamp=datetime.datetime.now(tz=timezone.utc),
@@ -195,4 +166,3 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             rf = RunFile(run=r, file=f)
             rf.save()
 
-        return w.pk, v.pk, r.pk, new_version
