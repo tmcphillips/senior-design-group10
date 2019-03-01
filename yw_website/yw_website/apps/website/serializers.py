@@ -130,15 +130,24 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         r = self.__create_update_helper(w, v, validated_data)
 
         return w.pk, v.pk, r.pk, new_version
-
+    
     def __create_update_helper(self, w, v, validated_data):
+        r = self.__create_run(v, validated_data)
+        self.__create_tags(w, validated_data)
+        self.__create_scripts(v, validated_data)
+        self.__create_files(r, validated_data)
+        return r
+
+    def __create_run(self, v, validated_data):
         r = Run(
             version=v,
             run_time_stamp=datetime.datetime.now(tz=timezone.utc),
             yw_recon_output=validated_data.get('recon')
         )
         r.save()
-
+        return r
+    
+    def __create_tags(self, w, validated_data):
         tags = validated_data.get('tags')
         if tags:
             for tag in tags:
@@ -148,11 +157,13 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                     tw = TagWorkflow(tag=t, workflow=w)
                     tw.save()
 
+    def __create_scripts(self, v, validated_data): 
         scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
         for script in scripts.data:
             s = Script(name=script.get('name'), version=v, checksum=script.get('checksum'), content=script.get('content'))
             s.save()
-
+    
+    def __create_files(self, r, validated_data):
         files = FileSerializer(validated_data.get('files'), many=True)
         for file in files.data:
             f, _ = File.objects.update_or_create(
@@ -168,4 +179,3 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             rf = RunFile(run=r, file=f)
             rf.save()
 
-        return r

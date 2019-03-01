@@ -5,7 +5,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 import json
 import datetime
-from .models import Workflow
+from .models import Workflow, TagWorkflow
 from .serializers import *
 import copy
 
@@ -124,12 +124,14 @@ class YwSaveTestCase(TestCase):
 
     def test_no_repeating_tags(self):
         data = copy.deepcopy(self.data)
-        data['tags'].append("tag1")
+        data['tags'].append("tag_1")
         route = '/save/'
 
         response = self.client.post(route, data, format='json')
 
         route = '/save/{}/'.format(response.data['workflowId'])
         response = self.client.post(route, data, format='json')
-        self.assertEqual(response.status_code, 200,
-                         msg="Error handling repeated tags")
+        w = Workflow.objects.get(pk=response.data['workflowId'])
+        wt = TagWorkflow.objects.filter(workflow=w)
+        self.assertEqual(len(wt), 3,
+                         msg="Expected only three tags to be associated with workflow")
