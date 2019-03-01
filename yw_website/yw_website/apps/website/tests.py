@@ -133,5 +133,5 @@ class YwSaveTestCase(TestCase):
         response = self.client.post(route, data, format='json')
         w = Workflow.objects.get(pk=response.data['workflowId'])
         wt = TagWorkflow.objects.filter(workflow=w)
-        self.assertEqual(len(wt), 3,
+        self.assertEqual(len(wt), len(data['tags']) - 1,
                          msg="Expected only three tags to be associated with workflow")
