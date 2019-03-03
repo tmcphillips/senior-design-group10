@@ -18,7 +18,7 @@ from .utils import search_and_create_query_set
 # Website Views
 #############################################################
 def home(request):
-    edit = False
+    edit = 0
     if 'q' in request.GET:
         workflow_list = search_and_create_query_set(request.GET['q'])
     else:
@@ -47,7 +47,7 @@ def home(request):
 
 @login_required(login_url="/accounts/login/")
 def my_workflows(request):
-    edit = True
+    edit = 1
     workflow_list = (
         Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
     )
@@ -106,10 +106,11 @@ def edit_workflow(request, workflow_id, version_id):
     return render(request, "pages/edit_page.html", {"workflow": workflow, "workflow_tags": workflow_tags})
 
 
-def detailed_workflow(request, workflow_id, version_id):
+def detailed_workflow(request, workflow_id, version_id, edit):
     try:
         if request.method == "GET":
             form = request.POST
+            edit = edit
             workflow = Workflow.objects.get(pk=workflow_id)
             version = Version.objects.get(pk=version_id)
             versions = Version.objects.filter(workflow=workflow)
@@ -123,12 +124,13 @@ def detailed_workflow(request, workflow_id, version_id):
                 "tags":tags,
                 "run_list": runs,
                 "form": form,
+                "edit": edit,
             }
             return render(request, "pages/detailed_workflow.html", info)
         elif request.method == "POST":
             new_version = request.POST["version_id"]
             return redirect(
-                "/detailed_workflow/{}/version/{}/".format(workflow_id, new_version)
+                "/detailed_workflow/{}/version/{}/{}".format(workflow_id, new_version, edit)
             )
 
     except ObjectDoesNotExist:

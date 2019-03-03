@@ -1,4 +1,16 @@
 
+.edit_button {
+    float: left;
+    color: grey;
+    margin-top: 20px;
+    padding-left: 20px;
+    font-size: 20px;
+}
+
+button {
+    border-radius: 5px;
+}
+
 .list {
     border-style: solid;
     border-color: black;
@@ -149,3 +161,4 @@ svg {
 span.tags:hover {
     overflow: visible;
 }
+

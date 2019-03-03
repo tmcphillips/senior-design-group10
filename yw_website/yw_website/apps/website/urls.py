@@ -24,7 +24,7 @@ urlpatterns = [
     ###
     path('', home, name='home'),
     path('my_workflows/', my_workflows, name='my_workflows'),        
-    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/',
+    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/<int:edit>',
          detailed_workflow, name='detailed_workflow'),
     path('run_detail/<int:run_id>/', run_detail, name='run_detail'),
     path('my_workflows/edit/<int:workflow_id>/version/<int:version_id>/', edit_workflow, name='edit_page'),
