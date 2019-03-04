@@ -111,40 +111,8 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             last_modified=datetime.datetime.now(tz=timezone.utc)
         )
         v.save()
-        r = Run(
-            version=v,
-            run_time_stamp=datetime.datetime.now(tz=timezone.utc),
-            yw_recon_output=validated_data.get('recon')
-        )
-        r.save()
+        r = self.__create_update_helper(w, v, validated_data)
 
-        tags = validated_data.get('tags')
-        if tags:
-            for tag in tags:
-                t = Tag(parent_tag=None, tag_type=Workflow, title=tag)
-                t.save()
-                tw = TagWorkflow(tag=t, workflow=w)
-                tw.save()
-
-        scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
-        for script in scripts.data:
-            s = Script(name=script.get('name'), version=v, checksum=script.get('checksum'), content=script.get('content'))
-            s.save()
-
-        files = FileSerializer(validated_data.get('files'), many=True)
-        for file in files.data:
-            f, _ = File.objects.update_or_create(
-                checksum=file.get('checksum'),
-                defaults={                
-                    'size':file.get('size'),
-                    'name':file.get('name'),
-                    'uri':file.get('uri'),
-                    'last_modified':file.get('lastModified')
-                }
-            )
-            f.save()
-            rf = RunFile(run=r, file=f)
-            rf.save()
         return w.pk, v.pk, r.pk
     
     def update(self, validated_data):
@@ -159,27 +127,43 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             }
         )
         v.save()
+        r = self.__create_update_helper(w, v, validated_data)
+
+        return w.pk, v.pk, r.pk, new_version
+    
+    def __create_update_helper(self, w, v, validated_data):
+        r = self.__create_run(v, validated_data)
+        self.__create_tags(w, validated_data)
+        self.__create_scripts(v, validated_data)
+        self.__create_files(r, validated_data)
+        return r
+
+    def __create_run(self, v, validated_data):
         r = Run(
             version=v,
             run_time_stamp=datetime.datetime.now(tz=timezone.utc),
             yw_recon_output=validated_data.get('recon')
         )
         r.save()
-
-        # TODO: Check if tags already exist
+        return r
+    
+    def __create_tags(self, w, validated_data):
         tags = validated_data.get('tags')
         if tags:
             for tag in tags:
-                t = Tag(parent_tag=None, tag_type=Workflow, title=tag)
-                t.save()
-                tw = TagWorkflow(tag=t, workflow=w)
-                tw.save()
+                if not TagWorkflow.objects.filter(tag__title=tag, workflow=w).exists():
+                    t = Tag(parent_tag=None, tag_type=Workflow, title=tag)
+                    t.save()
+                    tw = TagWorkflow(tag=t, workflow=w)
+                    tw.save()
 
+    def __create_scripts(self, v, validated_data): 
         scripts = ScriptSerializer(validated_data.get('scripts'), many=True)
         for script in scripts.data:
             s = Script(name=script.get('name'), version=v, checksum=script.get('checksum'), content=script.get('content'))
             s.save()
-
+    
+    def __create_files(self, r, validated_data):
         files = FileSerializer(validated_data.get('files'), many=True)
         for file in files.data:
             f, _ = File.objects.update_or_create(
@@ -195,4 +179,3 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             rf = RunFile(run=r, file=f)
             rf.save()
 
-        return w.pk, v.pk, r.pk, new_version
