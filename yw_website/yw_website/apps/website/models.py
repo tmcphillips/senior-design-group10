@@ -105,23 +105,23 @@ class TagFile(models.Model):
 
 class ProgramBlock(models.Model):
     class Meta:
-        unique_together = ('programblock_id', 'version')
+        unique_together = ('programblock_id', 'run')
     programblock_id = models.IntegerField()
     name = models.TextField()
     qualified_name = models.TextField()
     in_program_block = models.ForeignKey(
         'self', on_delete=models.DO_NOTHING, null=True)
-    version = models.ForeignKey(Version, on_delete=models.CASCADE)
+    run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
 class Data(models.Model):
     class Meta:
-        unique_together = ('data_id', 'version')
+        unique_together = ('data_id', 'run')
     data_id = models.IntegerField()
     name = models.TextField()
     in_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING, null=True)
     name = models.TextField()
     qualifiedName = models.TextField()
-    version = models.ForeignKey(Version, on_delete=models.CASCADE)
+    run = models.ForeignKey(Version, on_delete=models.CASCADE)
 
 class Port(models.Model):
     class Meta:
@@ -139,14 +139,14 @@ class Port(models.Model):
 
 class Channel(models.Model):
     class Meta:
-        unique_together = ('channel_id', 'version')
+        unique_together = ('channel_id', 'run')
     channel_id = models.IntegerField()
     out_port = models.ForeignKey(Port, on_delete=models.DO_NOTHING, related_name="inport")
     in_port = models.ForeignKey(Port, on_delete=models.DO_NOTHING, related_name="outport")
     data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
     is_inflow = models.BooleanField()
     is_outflow = models.BooleanField()
-    version = models.ForeignKey(Version, on_delete=models.CASCADE)
+    run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
 class UriVariable(models.Model):
     class Meta:
