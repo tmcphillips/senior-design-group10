@@ -7,7 +7,6 @@ In the yw_website directory, change directory into the scripts directory. You sh
 ```
 deploy_python.sh
 deploy_python3.sh
-workflow_sample.gv
 ```
 # Deploy locally
 If you would like to deploy a test server on your localhost, first ensure that you're not running anything on port 8000, then you may run one of these two files:
