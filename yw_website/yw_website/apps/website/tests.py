@@ -5,7 +5,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 import json
 import datetime
-from .models import Workflow
+from .models import Workflow, TagWorkflow
 from .serializers import *
 import copy
 
@@ -48,8 +48,8 @@ class YwSaveTestCase(TestCase):
                             {"name":"script_3", "checksum":str(uuid.uuid1()), "content":"script_3_content"}]
         self.data["files"] = [{"name":"file_name_1", "checksum":str(uuid.uuid1()), "size":3, "uri":"file_uri1", "lastModified":datetime.datetime.now()},
                         {"name":"file_name_2", "checksum":str(uuid.uuid1()), "size":9, "uri":"file_uri2", "lastModified":datetime.datetime.now()}]
-        self.data["programBlock"] = [{'program_block_id':1, 'inProgramBlock':None, 'name':"programBlock1", "qualified_name":"programBlockQualifiedName"}, {'program_block_id':2, 'inProgramBlock':1, 'name':"programBlock2", "qualified_name":"programBlockQualifiedName2"}]
-        self.data["data"] = [{":q
+        self.data["programBlock"] = [{'programBlockId':1, 'inProgramBlock':None, 'name':"programBlock1", "qualifiedName":"programBlockQualifiedName"}, {'programBlockId':2, 'inProgramBlock':1, 'name':"programBlock2", "qualifiedName":"programBlockQualifiedName2"}]
+        #self.data["data"] = [{":q
 
 
     def test_yw_ping(self):
@@ -126,8 +126,22 @@ class YwSaveTestCase(TestCase):
 
     def test_bad_parent_program_block(self):
         data = copy.deepcopy(self.data)
-        data['programBlock'] = [{'program_block_id':2, 'inProgramBlock':1, 'name':"programBlock1", "qualified_name":"programBlockQualifiedName"}, {'program_block_id':1, 'inProgramBlock':None, 'name':"programBlock1", "qualified_name":"programBlockQualifiedName"}] 
+        data['programBlock'] = [{'programBlockId':2, 'inProgramBlock':1, 'name':"programBlock1", "qualifiedName":"programBlockQualifiedName"}, 
+            {'programBlockId':1, 'inProgramBlock':None, 'name':"programBlock1", "qualifiedName":"programBlockQualifiedName"}] 
         route = '/save/'
         response = self.client.post(route, data, format='json')
         self.assertEqual(response.status_code, 500, msg="Error creating ProgramBlocks")
 
+    def test_no_repeating_tags(self):
+        data = copy.deepcopy(self.data)
+        data['tags'].append("tag_1")
+        route = '/save/'
+
+        response = self.client.post(route, data, format='json')
+
+        route = '/save/{}/'.format(response.data['workflowId'])
+        response = self.client.post(route, data, format='json')
+        w = Workflow.objects.get(pk=response.data['workflowId'])
+        wt = TagWorkflow.objects.filter(workflow=w)
+        self.assertEqual(len(wt), len(data['tags']) - 1,
+                         msg="Expected only three tags to be associated with workflow")

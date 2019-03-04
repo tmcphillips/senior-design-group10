@@ -33,7 +33,7 @@ NOTE:: recon json key has been removed from previous versions
     NOTE: Will these be sorted by program_block_id? Can we gurantee that a inProgramBlock has been created first?
     programBlock: [
         {
-            program_block_id: Integer
+            programBlockId: Integer
             inProgramBlock: Integer or NULL
             name: String
             qualifiedName: String
@@ -41,7 +41,7 @@ NOTE:: recon json key has been removed from previous versions
     ]
     data: [
         {
-            id: Integer
+            dataId: Integer
             inProgramBlock: Integer or NULL
             name: String
             qualifiedName: String
@@ -49,7 +49,7 @@ NOTE:: recon json key has been removed from previous versions
     ]
     port: [
         {
-            id: Integer
+            portId: Integer
             onProgramBlock: Integer
             data: Integer
             name: String
@@ -62,7 +62,7 @@ NOTE:: recon json key has been removed from previous versions
     ]
     channel: [
         {
-            id: Integer
+            channelId: Integer
             outPort: Integer
             inPort: Integer
             data: Integer
@@ -72,21 +72,21 @@ NOTE:: recon json key has been removed from previous versions
     ]
     uriVariable: [ 
         {
-            id: Integer
+            uriVariableId: Integer
             port: Integer
             name: String
         }
     ]
     resource: [ 
         {
-            id: Integer
+            resourceId: Integer
             data: Integer
             uri: String
         } 
     ]
     uriVariableValue: [
         {
-            uriVariable: Integer
+            uriVariableId: Integer
             resource: Integer
             value: String
         }
