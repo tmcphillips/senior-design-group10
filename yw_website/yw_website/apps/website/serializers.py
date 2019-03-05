@@ -100,9 +100,9 @@ class DataSerializer(serializers.ModelSerializer):
 
 class PortSerializer(serializers.ModelSerializer):
     portId = serializers.IntegerField(source="port_id")
-    data = serializers.IntegerField(allow_null=True)
+    data = serializers.IntegerField()
     inProgramBlock = serializers.IntegerField(
-        source="in_program_block", required=False, allow_null=True
+        source="in_program_block", required=False
     )
     qualifiedName = serializers.CharField(source="qualified_name")
     alias = serializers.CharField(allow_null=True, allow_blank=True)
@@ -131,7 +131,7 @@ class ChannelSerializer(serializers.ModelSerializer):
     channelId = serializers.IntegerField(source="channel_id")
     outPort = serializers.IntegerField(source="out_port")
     inPort = serializers.IntegerField(source="in_port")
-    data = serializers.IntegerField(allow_null=True)
+    data = serializers.IntegerField()
     isInflow = serializers.BooleanField(source="is_inflow")
     isOutflow = serializers.BooleanField(source="is_outflow")
 
@@ -142,27 +142,30 @@ class ChannelSerializer(serializers.ModelSerializer):
 
 class UriVariableSerializer(serializers.ModelSerializer):
     uriVariableId = serializers.IntegerField(source="uri_variable_id")
-    port = serializers.IntegerField(allow_null=True)
+    port = serializers.IntegerField()
 
     class Meta:
         model = UriVariable
         fields = ("uriVariableId", "port", "name")
 
+
 class ResourceSerializer(serializers.ModelSerializer):
     resourceId = serializers.IntegerField(source="resource_id")
-    data = serializers.IntegerField(allow_null=True)
+    data = serializers.IntegerField()
 
     class Meta:
         model = Resource
         fields = ("resourceId", "data", "uri")
 
+
 class UriVariableValueSerializer(serializers.ModelSerializer):
     uriVariableId = serializers.IntegerField(source="uri_variable_id")
-    resource = serializers.IntegerField(allow_null=True)
+    resource = serializers.IntegerField()
 
     class Meta:
         model = UriVariableValue
         fields = ("uriVariableId", "resource", "value")
+
 
 class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     model = serializers.CharField(required=True, allow_blank=False)
@@ -189,7 +192,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     channel = ChannelSerializer(many=True, default=None, allow_null=True)
     uriVariable = UriVariableSerializer(many=True, default=None, allow_null=True)
     resource = ResourceSerializer(many=True, default=None, allow_null=True)
-    uriVariableValue = UriVariableValueSerializer(many=True, default=None, allow_null=True)
+    uriVariableValue = UriVariableValueSerializer(
+        many=True, default=None, allow_null=True
+    )
 
     class Meta:
         model = Workflow
@@ -434,11 +439,17 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             r.save()
 
     def _create_uri_variable_values(self, r, validated_data):
-        uri_values = UriVariableValueSerializer(validated_data.get("uriVariableValue"), many=True)
+        uri_values = UriVariableValueSerializer(
+            validated_data.get("uriVariableValue"), many=True
+        )
         for uri_value in uri_values.data:
             try:
-                uri_variable = UriVariable.objects.get(uri_variable_id=uri_value.get("uriVariableId"), run=r)
-                resource = Resource.objects.get(resource_id=uri_value.get("resource"), run=r)
+                uri_variable = UriVariable.objects.get(
+                    uri_variable_id=uri_value.get("uriVariableId"), run=r
+                )
+                resource = Resource.objects.get(
+                    resource_id=uri_value.get("resource"), run=r
+                )
             except Resource.DoesNotExist:
                 resource = None
 

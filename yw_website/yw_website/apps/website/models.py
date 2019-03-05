@@ -128,8 +128,8 @@ class Port(models.Model):
         unique_together = ("port_id", "run")
 
     port_id = models.IntegerField()
-    in_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING, null=True)
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING, null=True)
+    in_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING)
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
     name = models.TextField()
     qualified_name = models.TextField()
     alias = models.TextField(null=True)
@@ -145,12 +145,12 @@ class Channel(models.Model):
 
     channel_id = models.IntegerField()
     out_port = models.ForeignKey(
-        Port, on_delete=models.DO_NOTHING, related_name="inport", null=True
+        Port, on_delete=models.DO_NOTHING, related_name="inport"
     )
     in_port = models.ForeignKey(
-        Port, on_delete=models.DO_NOTHING, related_name="outport", null=True
+        Port, on_delete=models.DO_NOTHING, related_name="outport"
     )
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING, null=True)
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
     is_inflow = models.BooleanField()
     is_outflow = models.BooleanField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
@@ -171,7 +171,7 @@ class Resource(models.Model):
         unique_together = ("resource_id", "run")
 
     resource_id = models.IntegerField()
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING, null=True)
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
     uri = models.TextField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 

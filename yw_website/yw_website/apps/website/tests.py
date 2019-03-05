@@ -94,7 +94,7 @@ class YwSaveTestCase(TestCase):
         self.data["data"] = [
             {
                 "dataId": 1,
-                "inProgramBlock": None,
+                "inProgramBlock": 1,
                 "name": "data1",
                 "qualifiedName": "dataQualifiedName",
             },
@@ -108,8 +108,8 @@ class YwSaveTestCase(TestCase):
         self.data["port"] = [
             {
                 "portId": 1,
-                "inProgramBlock": None,
-                "data": None,
+                "inProgramBlock": 1,
+                "data": 1,
                 "name": "PortOne",
                 "qualifiedName": "portOneQualifiedName",
                 "alias": None,
@@ -119,46 +119,32 @@ class YwSaveTestCase(TestCase):
             },
             {
                 "portId": 2,
-                "inProgramBlock": None,
-                "data": None,
+                "inProgramBlock": 2,
+                "data": 2,
                 "name": "PortTwo",
                 "qualifiedName": "portTwoQualifiedName",
                 "alias": "aliasTwo",
                 "uriTemplate": "uriTwo",
-                "inPort": True,
-                "outPort": False,
+                "inPort": False,
+                "outPort": True,
             },
         ]
         self.data["channel"] = [
             {
-                "channelId":1,
-                "inPort":1,
-                "outPort":2,
-                "data":None,
-                "isInflow":True,
-                "isOutflow":False,
+                "channelId": 1,
+                "inPort": 1,
+                "outPort": 2,
+                "data": 1,
+                "isInflow": True,
+                "isOutflow": False,
             }
         ]
         self.data["uriVariable"] = [
-            {
-                "uriVariableId":1,
-                "port":1,
-                "name":"urivarname"
-            }
+            {"uriVariableId": 1, "port": 1, "name": "urivarname"}
         ]
-        self.data["resource"] = [
-            {
-                "resourceId":1,
-                "data":1,
-                "uri":"urivar"
-            }
-        ]
+        self.data["resource"] = [{"resourceId": 1, "data": 1, "uri": "urivar"}]
         self.data["uriVariableValue"] = [
-            {
-                "uriVariableId":1,
-                "resource":1,
-                "value":"uripath"
-            }
+            {"uriVariableId": 1, "resource": 1, "value": "uripath"}
         ]
 
     def test_yw_ping(self):
