@@ -139,6 +139,27 @@ class YwSaveTestCase(TestCase):
                 "isOutflow":False,
             }
         ]
+        self.data["uriVariable"] = [
+            {
+                "uriVariableId":1,
+                "port":1,
+                "name":"urivarname"
+            }
+        ]
+        self.data["resource"] = [
+            {
+                "resourceId":1,
+                "data":1,
+                "uri":"urivar"
+            }
+        ]
+        self.data["uriVariableValue"] = [
+            {
+                "uriVariableId":1,
+                "resource":1,
+                "value":"uripath"
+            }
+        ]
 
     def test_yw_ping(self):
         route = "/save/ping/"

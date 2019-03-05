@@ -145,12 +145,12 @@ class Channel(models.Model):
 
     channel_id = models.IntegerField()
     out_port = models.ForeignKey(
-        Port, on_delete=models.DO_NOTHING, related_name="inport"
+        Port, on_delete=models.DO_NOTHING, related_name="inport", null=True
     )
     in_port = models.ForeignKey(
-        Port, on_delete=models.DO_NOTHING, related_name="outport"
+        Port, on_delete=models.DO_NOTHING, related_name="outport", null=True
     )
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING, null=True)
     is_inflow = models.BooleanField()
     is_outflow = models.BooleanField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
@@ -171,16 +171,12 @@ class Resource(models.Model):
         unique_together = ("resource_id", "run")
 
     resource_id = models.IntegerField()
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING, null=True)
     uri = models.TextField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
 
 class UriVariableValue(models.Model):
-    class Meta:
-        unique_together = ("uri_variable_value_id", "run")
-
-    uri_variable_value_id = models.IntegerField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
     uri_variable = models.ForeignKey(UriVariable, on_delete=models.DO_NOTHING)
     resource = models.ForeignKey(Resource, on_delete=models.DO_NOTHING)

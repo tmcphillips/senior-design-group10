@@ -3,6 +3,8 @@ from rest_framework import serializers
 from .models import *
 import datetime
 
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -134,9 +136,33 @@ class ChannelSerializer(serializers.ModelSerializer):
     isOutflow = serializers.BooleanField(source="is_outflow")
 
     class Meta:
-        model = Port
+        model = Channel
         fields = ("channelId", "outPort", "inPort", "data", "isInflow", "isOutflow")
 
+
+class UriVariableSerializer(serializers.ModelSerializer):
+    uriVariableId = serializers.IntegerField(source="uri_variable_id")
+    port = serializers.IntegerField(allow_null=True)
+
+    class Meta:
+        model = UriVariable
+        fields = ("uriVariableId", "port", "name")
+
+class ResourceSerializer(serializers.ModelSerializer):
+    resourceId = serializers.IntegerField(source="resource_id")
+    data = serializers.IntegerField(allow_null=True)
+
+    class Meta:
+        model = Resource
+        fields = ("resourceId", "data", "uri")
+
+class UriVariableValueSerializer(serializers.ModelSerializer):
+    uriVariableId = serializers.IntegerField(source="uri_variable_id")
+    resource = serializers.IntegerField(allow_null=True)
+
+    class Meta:
+        model = UriVariableValue
+        fields = ("uriVariableId", "resource", "value")
 
 class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     model = serializers.CharField(required=True, allow_blank=False)
@@ -161,6 +187,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     data = DataSerializer(many=True, default=None, allow_null=True)
     port = PortSerializer(many=True, default=None, allow_null=True)
     channel = ChannelSerializer(many=True, default=None, allow_null=True)
+    uriVariable = UriVariableSerializer(many=True, default=None, allow_null=True)
+    resource = ResourceSerializer(many=True, default=None, allow_null=True)
+    uriVariableValue = UriVariableValueSerializer(many=True, default=None, allow_null=True)
 
     class Meta:
         model = Workflow
@@ -177,6 +206,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             "data",
             "port",
             "channel",
+            "uriVariable",
+            "resource",
+            "uriVariableValue",
         )
 
     def validate_scripts(self, attrs):
@@ -225,6 +257,10 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         self._create_files(r, validated_data)
         self._create_program_blocks(r, validated_data)
         self._create_ports(r, validated_data)
+        self._create_channels(r, validated_data)
+        self._create_uri_variables(r, validated_data)
+        self._create_resources(r, validated_data)
+        self._create_uri_variable_values(r, validated_data)
         return r
 
     def _create_run(self, v, validated_data):
@@ -346,17 +382,70 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         channels = ChannelSerializer(validated_data.get("channel"), many=True)
         for channel in channels.data:
             try:
+                out_port = Port.objects.get(port_id=channel.get("outPort"), run=r)
+                in_port = Port.objects.get(port_id=channel.get("inPort"), run=r)
                 data = Data.objects.get(data_id=channel.get("data"), run=r)
-            except Data.DoesNotExist:
+            except ObjectDoesNotExist:
                 data = None
+                out_port = None
+                in_port = None
 
             c = Channel(
                 channel_id=channel.get("channelId"),
-                out_port=channel.get("outPort"),
-                in_port=channel.get("inPort"),
+                out_port=out_port,
+                in_port=in_port,
                 data=data,
                 is_inflow=channel.get("isInflow"),
-                is_outflow=channel.get("outInflow"),
+                is_outflow=channel.get("isOutflow"),
                 run=r,
             )
             c.save()
+
+    def _create_uri_variables(self, r, validated_data):
+        uris = UriVariableSerializer(validated_data.get("uriVariable"), many=True)
+        for uri in uris.data:
+            try:
+                port = Port.objects.get(port_id=uri.get("port"), run=r)
+            except Port.DoesNotExist:
+                port = None
+
+            u = UriVariable(
+                uri_variable_id=uri.get("uriVariableId"),
+                port=port,
+                name=uri.get("name"),
+                run=r,
+            )
+            u.save()
+
+    def _create_resources(self, r, validated_data):
+        resources = ResourceSerializer(validated_data.get("resource"), many=True)
+        for resource in resources.data:
+            try:
+                data = Data.objects.get(data_id=resource.get("data"), run=r)
+            except Data.DoesNotExist:
+                data = None
+
+            r = Resource(
+                resource_id=resource.get("resourceId"),
+                data=data,
+                uri=resource.get("uri"),
+                run=r,
+            )
+            r.save()
+
+    def _create_uri_variable_values(self, r, validated_data):
+        uri_values = UriVariableValueSerializer(validated_data.get("uriVariableValue"), many=True)
+        for uri_value in uri_values.data:
+            try:
+                uri_variable = UriVariable.objects.get(uri_variable_id=uri_value.get("uriVariableId"), run=r)
+                resource = Resource.objects.get(resource_id=uri_value.get("resource"), run=r)
+            except Resource.DoesNotExist:
+                resource = None
+
+            uv = UriVariableValue(
+                uri_variable=uri_variable,
+                resource=resource,
+                value=uri_value.get("value"),
+                run=r,
+            )
+            uv.save()
