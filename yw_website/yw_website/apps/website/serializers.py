@@ -104,7 +104,9 @@ class PortSerializer(serializers.ModelSerializer):
     )
     qualifiedName = serializers.CharField(source="qualified_name")
     alias = serializers.CharField(allow_null=True, allow_blank=True)
-    uriTemplate = serializers.CharField(source="uri_template", allow_null=True, allow_blank=True)
+    uriTemplate = serializers.CharField(
+        source="uri_template", allow_null=True, allow_blank=True
+    )
     inPort = serializers.BooleanField(source="is_inport")
     outPort = serializers.BooleanField(source="is_outport")
 
@@ -121,6 +123,19 @@ class PortSerializer(serializers.ModelSerializer):
             "outPort",
             "inProgramBlock",
         )
+
+
+class ChannelSerializer(serializers.ModelSerializer):
+    channelId = serializers.IntegerField(source="channel_id")
+    outPort = serializers.IntegerField(source="out_port")
+    inPort = serializers.IntegerField(source="in_port")
+    data = serializers.IntegerField(allow_null=True)
+    isInflow = serializers.BooleanField(source="is_inflow")
+    isOutflow = serializers.BooleanField(source="is_outflow")
+
+    class Meta:
+        model = Port
+        fields = ("channelId", "outPort", "inPort", "data", "isInflow", "isOutflow")
 
 
 class YesWorkflowSaveSerializer(serializers.ModelSerializer):
@@ -145,6 +160,8 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     programBlock = ProgramBlockSerializer(many=True, default=None, allow_null=True)
     data = DataSerializer(many=True, default=None, allow_null=True)
     port = PortSerializer(many=True, default=None, allow_null=True)
+    channel = ChannelSerializer(many=True, default=None, allow_null=True)
+
     class Meta:
         model = Workflow
         fields = (
@@ -159,6 +176,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             "programBlock",
             "data",
             "port",
+            "channel",
         )
 
     def validate_scripts(self, attrs):
@@ -306,9 +324,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                 in_block = None
 
             try:
-                data = Data.objects.get(
-                    data_id=port.get("data"), run=r
-                )
+                data = Data.objects.get(data_id=port.get("data"), run=r)
             except Data.DoesNotExist:
                 data = None
 
@@ -325,3 +341,22 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                 run=r,
             )
             p.save()
+
+    def _create_channels(self, r, validated_data):
+        channels = ChannelSerializer(validated_data.get("channel"), many=True)
+        for channel in channels.data:
+            try:
+                data = Data.objects.get(data_id=channel.get("data"), run=r)
+            except Data.DoesNotExist:
+                data = None
+
+            c = Channel(
+                channel_id=channel.get("channelId"),
+                out_port=channel.get("outPort"),
+                in_port=channel.get("inPort"),
+                data=data,
+                is_inflow=channel.get("isInflow"),
+                is_outflow=channel.get("outInflow"),
+                run=r,
+            )
+            c.save()

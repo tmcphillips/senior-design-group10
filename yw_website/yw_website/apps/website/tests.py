@@ -129,6 +129,16 @@ class YwSaveTestCase(TestCase):
                 "outPort": False,
             },
         ]
+        self.data["channel"] = [
+            {
+                "channelId":1,
+                "inPort":1,
+                "outPort":2,
+                "data":None,
+                "isInflow":True,
+                "isOutflow":False,
+            }
+        ]
 
     def test_yw_ping(self):
         route = "/save/ping/"
