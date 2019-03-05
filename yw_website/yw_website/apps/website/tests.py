@@ -266,7 +266,7 @@ class YwSaveTestCase(TestCase):
         response = self.client.post(route, data, format="json")
         self.assertEqual(
             response.status_code,
-            200,
+            500,
             msg="Error creating validating parent ProgramBlocks",
         )
 

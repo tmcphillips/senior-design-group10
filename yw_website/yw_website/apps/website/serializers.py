@@ -314,13 +314,15 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("programBlock"), many=True, context={"run": r}
         )
         for program_block in program_blocks.data:
-            try:
-                in_block = ProgramBlock.objects.get(
-                    programblock_id=program_block.get("inProgramBlock"), run=r
-                )
-            except ObjectDoesNotExist:
+            if program_block.get('inProgramBlock') != None:
+                try:
+                    in_block = ProgramBlock.objects.get(
+                        programblock_id=program_block.get("inProgramBlock"), run=r
+                    )
+                except ObjectDoesNotExist:
+                    raise serializers.ValidationError("Parent programblock does not exist when trying to create programBlock")
+            else:
                 in_block = None
-
             pb = ProgramBlock(
                 programblock_id=program_block.get("programBlockId"),
                 name=program_block.get("name"),
