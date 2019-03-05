@@ -101,9 +101,7 @@ class DataSerializer(serializers.ModelSerializer):
 class PortSerializer(serializers.ModelSerializer):
     portId = serializers.IntegerField(source="port_id")
     data = serializers.IntegerField()
-    inProgramBlock = serializers.IntegerField(
-        source="in_program_block", required=False
-    )
+    inProgramBlock = serializers.IntegerField(source="in_program_block", required=False)
     qualifiedName = serializers.CharField(source="qualified_name")
     alias = serializers.CharField(allow_null=True, allow_blank=True)
     uriTemplate = serializers.CharField(
@@ -261,6 +259,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         self._create_scripts(v, validated_data)
         self._create_files(r, validated_data)
         self._create_program_blocks(r, validated_data)
+        self._create_data(r, validated_data)
         self._create_ports(r, validated_data)
         self._create_channels(r, validated_data)
         self._create_uri_variables(r, validated_data)
