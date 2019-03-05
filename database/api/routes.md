@@ -50,7 +50,7 @@ NOTE:: recon json key has been removed from previous versions
     port: [
         {
             portId: Integer
-            onProgramBlock: Integer
+            inProgramBlock: Integer
             data: Integer
             name: String
             qualifiedName: String
