@@ -17,6 +17,8 @@ from .models import *
 from .serializers import *
 from .utils import search_and_create_query_set
 
+from rest_framework import serializers
+
 
 #############################################################
 # Website Views
@@ -301,29 +303,57 @@ class TagFileSet(viewsets.ModelViewSet):
     serializer_class = TagFileSerializer
 
 class ProgramBlockSet(viewsets.ModelViewSet):
+    class _ProgramBlockSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = ProgramBlock 
+            fields = '__all__'
     queryset = ProgramBlock.objects.all()
-    serializer_class = ProgramBlockSerializer 
+    serializer_class = _ProgramBlockSerializer 
 
 class DataSet(viewsets.ModelViewSet):
+    class _DataSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Data 
+            fields = '__all__'
     queryset = Data.objects.all()
-    serializer_class = DataSerializer 
+    serializer_class = _DataSerializer 
 
 class PortSet(viewsets.ModelViewSet):
+    class _PortSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Port 
+            fields = '__all__'
     queryset = Port.objects.all()
-    serializer_class = PortSerializer 
+    serializer_class = _PortSerializer 
 
 class ChannelSet(viewsets.ModelViewSet):
+    class _ChannelSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Channel 
+            fields = '__all__'
     queryset = Channel.objects.all()
-    serializer_class = ChannelSerializer 
+    serializer_class = _ChannelSerializer 
 
 class UriVariableSet(viewsets.ModelViewSet):
+    class _UriVariableSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = UriVariable 
+            fields = '__all__'
     queryset = UriVariable.objects.all()
-    serializer_class = UriVariableSerializer 
+    serializer_class = _UriVariableSerializer 
 
 class ResourceSet(viewsets.ModelViewSet):
+    class _ResourceSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Resource
+            fields = '__all__'
     queryset = Resource.objects.all()
-    serializer_class = ResourceSerializer 
+    serializer_class = _ResourceSerializer 
 
 class UriVariableValueSet(viewsets.ModelViewSet):
+    class _UriVariableValueSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = UriVariableValue 
+            fields = '__all__'
     queryset = UriVariableValue.objects.all()
-    serializer_class = UriVariableValueSerializer 
+    serializer_class = _UriVariableValueSerializer 
