@@ -121,7 +121,7 @@ class PortSerializer(serializers.ModelSerializer):
             "uriTemplate",
             "inPort",
             "outPort",
-            "inProgramBlock",
+            "onProgramBlock",
         )
 
 
@@ -314,9 +314,12 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("programBlock"), many=True, context={"run": r}
         )
         for program_block in program_blocks.data:
-            in_block = ProgramBlock.objects.get(
-                programblock_id=program_block.get("inProgramBlock"), run=r
-            )
+            try:
+                in_block = ProgramBlock.objects.get(
+                    programblock_id=program_block.get("inProgramBlock"), run=r
+                )
+            except ObjectDoesNotExist:
+                in_block = None
 
             pb = ProgramBlock(
                 programblock_id=program_block.get("programBlockId"),
@@ -332,9 +335,12 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("data"), many=True, context={"run": r}
         )
         for data in datas.data:
-            in_block = ProgramBlock.objects.get(
-                programblock_id=data.get("inProgramBlock"), run=r
-            )
+            try:
+                in_block = ProgramBlock.objects.get(
+                    programblock_id=data.get("inProgramBlock"), run=r
+                )
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError("inProgramBlock not found in Data")
 
             d = Data(
                 data_id=data.get("dataId"),
@@ -350,13 +356,19 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("port"), many=True, context={"run": r}
         )
         for port in ports.data:
-            in_block = ProgramBlock.objects.get(
-                programblock_id=port.get("onProgramBlock"), run=r
-            )
+            try:
+                in_block = ProgramBlock.objects.get(
+                    programblock_id=port.get("onProgramBlock"), run=r
+                )
+                data = Data.objects.get(data_id=port.get("data"), run=r)
+            except ObjectDoesNotExist:
+                raise serializer.ValidationError(
+                    "Could not get onProgramBlock when creating ports"
+                )
 
             p = Port(
                 port_id=port.get("portId"),
-                in_program_block=in_block,
+                on_program_block=in_block,
                 data=data,
                 name=port.get("name"),
                 qualified_name=port.get("qualifiedName"),
@@ -371,9 +383,14 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     def _create_channels(self, r, validated_data):
         channels = ChannelSerializer(validated_data.get("channel"), many=True)
         for channel in channels.data:
-            out_port = Port.objects.get(port_id=channel.get("outPort"), run=r)
-            in_port = Port.objects.get(port_id=channel.get("inPort"), run=r)
-            data = Data.objects.get(data_id=channel.get("data"), run=r)
+            try:
+                out_port = Port.objects.get(port_id=channel.get("outPort"), run=r)
+                in_port = Port.objects.get(port_id=channel.get("inPort"), run=r)
+                data = Data.objects.get(data_id=channel.get("data"), run=r)
+            except ObjectDoesNotExist:
+                raise serializer.ValidationError(
+                    "Could not create channels due to either outPort, inPort, or data being missing"
+                )
 
             c = Channel(
                 channel_id=channel.get("channelId"),
@@ -389,7 +406,12 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     def _create_uri_variables(self, r, validated_data):
         uris = UriVariableSerializer(validated_data.get("uriVariable"), many=True)
         for uri in uris.data:
-            port = Port.objects.get(port_id=uri.get("port"), run=r)
+            try:
+                port = Port.objects.get(port_id=uri.get("port"), run=r)
+            except ObjectDoesNotExist:
+                raise serializer.ValidationError(
+                    "Could not get port when creating uri variable"
+                )
 
             u = UriVariable(
                 uri_variable_id=uri.get("uriVariableId"),
@@ -402,7 +424,12 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     def _create_resources(self, r, validated_data):
         resources = ResourceSerializer(validated_data.get("resource"), many=True)
         for resource in resources.data:
-            data = Data.objects.get(data_id=resource.get("data"), run=r)
+            try:
+                data = Data.objects.get(data_id=resource.get("data"), run=r)
+            except ObjectDoesNotExist:
+                raise serializer.ValidationError(
+                    "Could not get data when creating resources"
+                )
 
             r = Resource(
                 resource_id=resource.get("resourceId"),
@@ -417,12 +444,17 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("uriVariableValue"), many=True
         )
         for uri_value in uri_values.data:
-            uri_variable = UriVariable.objects.get(
-                uri_variable_id=uri_value.get("uriVariableId"), run=r
-            )
-            resource = Resource.objects.get(
-                resource_id=uri_value.get("resource"), run=r
-            )
+            try:
+                uri_variable = UriVariable.objects.get(
+                    uri_variable_id=uri_value.get("uriVariableId"), run=r
+                )
+                resource = Resource.objects.get(
+                    resource_id=uri_value.get("resource"), run=r
+                )
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError(
+                    "Could not get the proper uri variable and resource values when creating uri variable values"
+                )
 
             uv = UriVariableValue(
                 uri_variable=uri_variable,
