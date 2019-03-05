@@ -108,7 +108,7 @@ class YwSaveTestCase(TestCase):
         self.data["port"] = [
             {
                 "portId": 1,
-                "inProgramBlock": 1,
+                "onProgramBlock": 1,
                 "data": 1,
                 "name": "PortOne",
                 "qualifiedName": "portOneQualifiedName",
@@ -119,7 +119,7 @@ class YwSaveTestCase(TestCase):
             },
             {
                 "portId": 2,
-                "inProgramBlock": 2,
+                "onProgramBlock": 2,
                 "data": 2,
                 "name": "PortTwo",
                 "qualifiedName": "portTwoQualifiedName",

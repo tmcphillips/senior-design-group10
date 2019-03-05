@@ -101,7 +101,7 @@ class DataSerializer(serializers.ModelSerializer):
 class PortSerializer(serializers.ModelSerializer):
     portId = serializers.IntegerField(source="port_id")
     data = serializers.IntegerField()
-    inProgramBlock = serializers.IntegerField(source="in_program_block", required=False)
+    onProgramBlock = serializers.IntegerField(source="on_program_block", required=False)
     qualifiedName = serializers.CharField(source="qualified_name")
     alias = serializers.CharField(allow_null=True, allow_blank=True)
     uriTemplate = serializers.CharField(
@@ -314,12 +314,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("programBlock"), many=True, context={"run": r}
         )
         for program_block in program_blocks.data:
-            try:
-                in_block = ProgramBlock.objects.get(
-                    programblock_id=program_block.get("inProgramBlock"), run=r
-                )
-            except ProgramBlock.DoesNotExist:
-                in_block = None
+            in_block = ProgramBlock.objects.get(
+                programblock_id=program_block.get("inProgramBlock"), run=r
+            )
 
             pb = ProgramBlock(
                 programblock_id=program_block.get("programBlockId"),
@@ -335,12 +332,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("data"), many=True, context={"run": r}
         )
         for data in datas.data:
-            try:
-                in_block = ProgramBlock.objects.get(
-                    programblock_id=data.get("inProgramBlock"), run=r
-                )
-            except ProgramBlock.DoesNotExist:
-                in_block = None
+            in_block = ProgramBlock.objects.get(
+                programblock_id=data.get("inProgramBlock"), run=r
+            )
 
             d = Data(
                 data_id=data.get("dataId"),
@@ -356,17 +350,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("port"), many=True, context={"run": r}
         )
         for port in ports.data:
-            try:
-                in_block = ProgramBlock.objects.get(
-                    programblock_id=port.get("inProgramBlock"), run=r
-                )
-            except ProgramBlock.DoesNotExist:
-                in_block = None
-
-            try:
-                data = Data.objects.get(data_id=port.get("data"), run=r)
-            except Data.DoesNotExist:
-                data = None
+            in_block = ProgramBlock.objects.get(
+                programblock_id=port.get("onProgramBlock"), run=r
+            )
 
             p = Port(
                 port_id=port.get("portId"),
@@ -385,14 +371,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     def _create_channels(self, r, validated_data):
         channels = ChannelSerializer(validated_data.get("channel"), many=True)
         for channel in channels.data:
-            try:
-                out_port = Port.objects.get(port_id=channel.get("outPort"), run=r)
-                in_port = Port.objects.get(port_id=channel.get("inPort"), run=r)
-                data = Data.objects.get(data_id=channel.get("data"), run=r)
-            except ObjectDoesNotExist:
-                data = None
-                out_port = None
-                in_port = None
+            out_port = Port.objects.get(port_id=channel.get("outPort"), run=r)
+            in_port = Port.objects.get(port_id=channel.get("inPort"), run=r)
+            data = Data.objects.get(data_id=channel.get("data"), run=r)
 
             c = Channel(
                 channel_id=channel.get("channelId"),
@@ -408,10 +389,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     def _create_uri_variables(self, r, validated_data):
         uris = UriVariableSerializer(validated_data.get("uriVariable"), many=True)
         for uri in uris.data:
-            try:
-                port = Port.objects.get(port_id=uri.get("port"), run=r)
-            except Port.DoesNotExist:
-                port = None
+            port = Port.objects.get(port_id=uri.get("port"), run=r)
 
             u = UriVariable(
                 uri_variable_id=uri.get("uriVariableId"),
@@ -424,10 +402,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
     def _create_resources(self, r, validated_data):
         resources = ResourceSerializer(validated_data.get("resource"), many=True)
         for resource in resources.data:
-            try:
-                data = Data.objects.get(data_id=resource.get("data"), run=r)
-            except Data.DoesNotExist:
-                data = None
+            data = Data.objects.get(data_id=resource.get("data"), run=r)
 
             r = Resource(
                 resource_id=resource.get("resourceId"),
@@ -442,15 +417,12 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("uriVariableValue"), many=True
         )
         for uri_value in uri_values.data:
-            try:
-                uri_variable = UriVariable.objects.get(
-                    uri_variable_id=uri_value.get("uriVariableId"), run=r
-                )
-                resource = Resource.objects.get(
-                    resource_id=uri_value.get("resource"), run=r
-                )
-            except Resource.DoesNotExist:
-                resource = None
+            uri_variable = UriVariable.objects.get(
+                uri_variable_id=uri_value.get("uriVariableId"), run=r
+            )
+            resource = Resource.objects.get(
+                resource_id=uri_value.get("resource"), run=r
+            )
 
             uv = UriVariableValue(
                 uri_variable=uri_variable,

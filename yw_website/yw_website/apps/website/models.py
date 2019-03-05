@@ -128,7 +128,7 @@ class Port(models.Model):
         unique_together = ("port_id", "run")
 
     port_id = models.IntegerField()
-    in_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING)
+    on_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING)
     data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
     name = models.TextField()
     qualified_name = models.TextField()
