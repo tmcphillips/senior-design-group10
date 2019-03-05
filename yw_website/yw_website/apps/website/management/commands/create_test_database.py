@@ -100,6 +100,34 @@ class Command(BaseCommand):
         tagversionfixture = AutoFixture(TagVersion)
         _ = tagversionfixture.create(self.num_entries)
 
+    def _create_program_blocks(self):
+        programblockfixture = AutoFixture(ProgramBlock)
+        _ = programblockfixture.create(self.num_entries)
+
+    def _create_data(self):
+        datafixture = AutoFixture(Data)
+        _ = datafixture.create(self.num_entries)
+
+    def _create_ports(self):
+        portsfixture = AutoFixture(Port)
+        _ = portsfixture.create(self.num_entries)
+
+    def _create_channels(self):
+        channelsfixture = AutoFixture(Channel)
+        _ = channelsfixture.create(self.num_entries)
+
+    def _create_uri_variables(self):
+        uri_variablesfixture = AutoFixture(UriVariable)
+        _ = uri_variablesfixture.create(self.num_entries)
+
+    def _create_resources(self):
+        resourcesfixture = AutoFixture(Resource)
+        _ = resourcesfixture.create(self.num_entries)
+    
+    def _create_uri_variable_values(self):
+        uri_variable_valuesfixture = AutoFixture(UriVariableValue)
+        _ = uri_variable_valuesfixture.create(self.num_entries)
+
     def handle(self, *args, **options):
         if type(options['entries']) == int and options['entries'] >= 0:
             self.num_entries = options['entries']
@@ -117,3 +145,11 @@ class Command(BaseCommand):
         self._create_tag_run()
         self._create_tag_file()
         self._create_tag_version()
+        self._create_program_blocks()
+        self._create_data()
+        self._create_ports()
+        self._create_channels()
+        self._create_uri_variables()
+        self._create_resources()
+        self._create_uri_variable_values()
+        
