@@ -299,3 +299,31 @@ class TagRunViewSet(viewsets.ModelViewSet):
 class TagFileSet(viewsets.ModelViewSet):
     queryset = TagFile.objects.all()
     serializer_class = TagFileSerializer
+
+class ProgramBlockSet(viewsets.ModelViewSet):
+    queryset = ProgramBlock.objects.all()
+    serializer_class = ProgramBlockSerializer 
+
+class DataSet(viewsets.ModelViewSet):
+    queryset = Data.objects.all()
+    serializer_class = DataSerializer 
+
+class PortSet(viewsets.ModelViewSet):
+    queryset = Port.objects.all()
+    serializer_class = PortSerializer 
+
+class ChannelSet(viewsets.ModelViewSet):
+    queryset = Channel.objects.all()
+    serializer_class = ChannelSerializer 
+
+class UriVariableSet(viewsets.ModelViewSet):
+    queryset = UriVariable.objects.all()
+    serializer_class = UriVariableSerializer 
+
+class ResourceSet(viewsets.ModelViewSet):
+    queryset = Resource.objects.all()
+    serializer_class = ResourceSerializer 
+
+class UriVariableValueSet(viewsets.ModelViewSet):
+    queryset = UriVariableValue.objects.all()
+    serializer_class = UriVariableValueSerializer 
