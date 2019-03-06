@@ -16,7 +16,13 @@ router.register('runfiles', RunFileViewSet)
 router.register('tagworkflows', TagWorkflowViewSet)
 router.register('tagversions', TagVersionViewSet)
 router.register('tagruns', TagRunViewSet)
-router.register('tagfiles', TagWorkflowViewSet)
+router.register('programblocks', ProgramBlockSet)
+router.register('data', DataSet)
+router.register('ports', PortSet)
+router.register('channels', ChannelSet)
+router.register('urivariables', UriVariableSet)
+router.register('resources', ResourceSet)
+router.register('urivariablevalues', UriVariableValueSet)
 
 urlpatterns = [
     ###
