@@ -24,10 +24,11 @@ urlpatterns = [
     ###
     path('', home, name='home'),
     path('my_workflows/', my_workflows, name='my_workflows'),        
-    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/<int:edit>',
+    path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/',
          detailed_workflow, name='detailed_workflow'),
     path('run_detail/<int:run_id>/', run_detail, name='run_detail'),
     path('my_workflows/edit/<int:workflow_id>/version/<int:version_id>/', edit_workflow, name='edit_page'),
+    path('my_workflows/<int:workflow_id>', delete, name='delete'),
 
     ###
     # YESWORKFLOW SAVE PATHS

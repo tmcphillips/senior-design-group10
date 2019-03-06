@@ -8,6 +8,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.decorators import (action, api_view, parser_classes,
                                        permission_classes)
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 from .models import *
 from .serializers import *
@@ -106,12 +107,14 @@ def edit_workflow(request, workflow_id, version_id):
     return render(request, "pages/edit_page.html", {"workflow": workflow, "workflow_tags": workflow_tags})
 
 
-def detailed_workflow(request, workflow_id, version_id, edit):
+def detailed_workflow(request, workflow_id, version_id):
+    edit = False
     try:
         if request.method == "GET":
             form = request.POST
-            edit = edit
             workflow = Workflow.objects.get(pk=workflow_id)
+            if workflow.user == request.user:
+                edit = True
             version = Version.objects.get(pk=version_id)
             versions = Version.objects.filter(workflow=workflow)
             tags = TagWorkflow.objects.filter(workflow=workflow).values_list("tag__title", flat=True)
@@ -130,7 +133,7 @@ def detailed_workflow(request, workflow_id, version_id, edit):
         elif request.method == "POST":
             new_version = request.POST["version_id"]
             return redirect(
-                "/detailed_workflow/{}/version/{}/{}".format(workflow_id, new_version, edit)
+                "/detailed_workflow/{}/version/{}".format(workflow_id, new_version)
             )
 
     except ObjectDoesNotExist:
@@ -147,7 +150,10 @@ def run_detail(request, run_id):
 
     return render(request, "pages/run_detail.html", {"run": run, "file_list": file_list, "runs": runs})
 
-
+def delete(request, workflow_id):
+    workflow = get_object_or_404(Workflow, pk=workflow_id)
+    workflow.delete()
+    return redirect('my_workflows')
 #############################################################
 # REST API Views
 #############################################################
