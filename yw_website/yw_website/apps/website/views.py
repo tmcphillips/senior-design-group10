@@ -245,7 +245,7 @@ def update_workflow(request, workflow_id):
             },
         )
     else:
-        return Response(status=500, data={"unkown error": ws.errors})
+        return Response(status=500, data={"error": ws.errors})
 
 
 #############################################################
