@@ -337,11 +337,14 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             validated_data.get("data"), many=True, context={"run": r}
         )
         for data in datas.data:
-            try:
-                in_block = ProgramBlock.objects.get(
-                    programblock_id=data.get("inProgramBlock"), run=r
-                )
-            except ObjectDoesNotExist:
+            if program_block.get('inProgramBlock') != None:
+                try:
+                    in_block = ProgramBlock.objects.get(
+                        programblock_id=data.get("inProgramBlock"), run=r
+                    )
+                except ObjectDoesNotExist:
+                    raise serializers.ValidationError("inProgramBlock not found in Data")
+            else:
                 in_block = None
 
             d = Data(
