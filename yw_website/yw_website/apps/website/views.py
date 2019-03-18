@@ -183,7 +183,6 @@ def yw_save_ping(request):
 @authentication_classes((TokenAuthentication, BasicAuthentication,))
 @permission_classes((permissions.IsAuthenticated,))
 def create_workflow(request):
-    # TODO: Replace username with user auth token
     user = request.user
     ws = YesWorkflowSaveSerializer(data=request.data, context={"username": user})
 
