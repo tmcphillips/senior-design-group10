@@ -33,7 +33,12 @@ class YwSaveTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.username = str(uuid.uuid1())
-        self.user = User.objects.create_user(username=self.username, password="12345")
+        self.password = "Password!@#"
+        self.user = User.objects.create_user(username=self.username, password=self.password)
+        
+        res = self.client.post('/rest-auth/login/', data={'username': self.username, 'password': self.password}, format='json')
+        self.token = res.data['key']
+        self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token))
 
         self.data = {}
         self.data["username"] = self.username
@@ -170,8 +175,9 @@ class YwSaveTestCase(TestCase):
     def test_bad_save_upload(self):
         route = "/save/"
         data = copy.deepcopy(self.data)
-        data["username"] = "nousername"
-        bad_response = self.client.post(route, data, format="json")
+        bad_client = copy.deepcopy(self.client)
+        bad_client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token+'!@#$%^'))
+        bad_response = bad_client.post(route, data, format="json")
         self.assertNotEqual(
             bad_response.status_code, 200, msg="Bad username unaccounted by save path"
         )
