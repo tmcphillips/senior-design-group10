@@ -101,11 +101,11 @@ class DataSerializer(serializers.ModelSerializer):
 class PortSerializer(serializers.ModelSerializer):
     portId = serializers.IntegerField(source="port_id")
     data = serializers.IntegerField()
-    onProgramBlock = serializers.IntegerField(source="on_program_block", required=False)
+    onProgramBlock = serializers.IntegerField(source="on_program_block")
     qualifiedName = serializers.CharField(source="qualified_name")
-    alias = serializers.CharField(allow_null=True, allow_blank=True)
+    alias = serializers.CharField(allow_null=True, allow_blank=True, required=False)
     uriTemplate = serializers.CharField(
-        source="uri_template", allow_null=True, allow_blank=True
+        source="uri_template", allow_null=True, allow_blank=True, required=False
     )
     inPort = serializers.BooleanField(source="is_inport")
     outPort = serializers.BooleanField(source="is_outport")
@@ -386,7 +386,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             p.save()
 
     def _create_channels(self, r, validated_data):
-        channels = ChannelSerializer(validated_data.get("channel"), many=True)
+        channels = ChannelSerializer(validated_data.get("channel"), many=True, context={"run": r})
         for channel in channels.data:
             try:
                 out_port = Port.objects.get(port_id=channel.get("outPort"), run=r)
@@ -409,7 +409,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             c.save()
 
     def _create_uri_variables(self, r, validated_data):
-        uris = UriVariableSerializer(validated_data.get("uriVariable"), many=True)
+        uris = UriVariableSerializer(validated_data.get("uriVariable"), many=True, context={"run": r})
         for uri in uris.data:
             try:
                 port = Port.objects.get(port_id=uri.get("port"), run=r)
@@ -427,7 +427,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             u.save()
 
     def _create_resources(self, r, validated_data):
-        resources = ResourceSerializer(validated_data.get("resource"), many=True)
+        resources = ResourceSerializer(validated_data.get("resource"), many=True, context={"run": r})
         for resource in resources.data:
             try:
                 data = Data.objects.get(data_id=resource.get("data"), run=r)
@@ -436,17 +436,17 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                     "Could not get data when creating resources"
                 )
 
-            r = Resource(
+            new_resource = Resource(
                 resource_id=resource.get("resourceId"),
                 data=data,
                 uri=resource.get("uri"),
                 run=r,
             )
-            r.save()
+            new_resource.save()
 
     def _create_uri_variable_values(self, r, validated_data):
         uri_values = UriVariableValueSerializer(
-            validated_data.get("uriVariableValue"), many=True
+            validated_data.get("uriVariableValue"), many=True, context={"run": r}
         )
         for uri_value in uri_values.data:
             try:

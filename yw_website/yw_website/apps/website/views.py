@@ -5,9 +5,11 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework.decorators import (
     action,
     api_view,
+    authentication_classes,
     parser_classes,
     permission_classes,
 )
@@ -171,23 +173,18 @@ def run_detail(request, run_id):
 # REST API Views
 #############################################################
 
-
 @api_view(["get"])
 @permission_classes((permissions.AllowAny,))
 def yw_save_ping(request):
     return Response(status=200, data={"data": "You connected to yw web components."})
 
-
 @csrf_exempt
 @api_view(["post"])
-@permission_classes((permissions.AllowAny,))
+@authentication_classes((TokenAuthentication, BasicAuthentication,))
+@permission_classes((permissions.IsAuthenticated,))
 def create_workflow(request):
     # TODO: Replace username with user auth token
-    try:
-        user = User.objects.get(username=request.data.get("username"))
-    except User.DoesNotExist:
-        return Response(status=500, data={"error": "That user does not exist"})
-
+    user = request.user
     ws = YesWorkflowSaveSerializer(data=request.data, context={"username": user})
 
     if ws.is_valid():
@@ -214,12 +211,10 @@ def create_workflow(request):
 
 @csrf_exempt
 @api_view(["post"])
-@permission_classes((permissions.AllowAny,))
+@authentication_classes((TokenAuthentication, BasicAuthentication,))
+@permission_classes((permissions.IsAuthenticated,))
 def update_workflow(request, workflow_id):
-    try:
-        user = User.objects.get(username=request.data.get("username"))
-    except User.DoesNotExist:
-        return Response(status=500, data={"error": "That user does not exist"})
+    user = request.user
 
     w = Workflow.objects.get(pk=workflow_id)
     if user != w.user:
