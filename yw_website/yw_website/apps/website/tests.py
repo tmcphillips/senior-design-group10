@@ -244,6 +244,28 @@ class YwSaveTestCase(TestCase):
             msg="Server did not communicate a version change.",
         )
 
+    def test_reject_wrong_user_on_update(self):
+        route = "/save/"
+        data = copy.deepcopy(self.data)
+        response1 = self.client.post(route, data, format="json")
+
+        first_workflow_id = response1.data["workflowId"]
+
+        wrong_user_username = uuid.uuid1()
+        wrong_user_password = "Password!@#"
+        wrong_user = User.objects.create_user(username=wrong_user_username, password=wrong_user_password)
+        wrong_user_client = copy.deepcopy(self.client)
+
+        response2 = wrong_user_client.post('/rest-auth/login/', data={'username': wrong_user_username, 'password': wrong_user_password}, format='json')
+        wrong_user_token = response2.data['key']
+        wrong_user_client.credentials(HTTP_AUTHORIZATION='Token {}'.format(wrong_user_token))
+
+        route = "/save/{}/".format(first_workflow_id)
+        response3 = wrong_user_client.post(path=route, data=data, format="json")
+
+        self.assertEqual(response3.status_code, 403, response3.data)
+
+
     def test_bad_workflow_update(self):
         data = copy.deepcopy(self.data)
         data["workflow_id"] = -1

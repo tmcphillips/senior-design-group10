@@ -217,7 +217,7 @@ def update_workflow(request, workflow_id):
 
     w = Workflow.objects.get(pk=workflow_id)
     if user != w.user:
-        return Response(status=500, data={"error": "Workflow does not belong to you"})
+        return Response(status=403, data={"message": "Workflow does not belong to you"})
 
     ws = YesWorkflowSaveSerializer(
         data=request.data, context={"workflow_id": workflow_id}
