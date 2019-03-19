@@ -33,7 +33,12 @@ class YwSaveTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.username = str(uuid.uuid1())
-        self.user = User.objects.create_user(username=self.username, password="12345")
+        self.password = "Password!@#"
+        self.user = User.objects.create_user(username=self.username, password=self.password)
+        
+        res = self.client.post('/rest-auth/login/', data={'username': self.username, 'password': self.password}, format='json')
+        self.token = res.data['key']
+        self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token))
 
         self.data = {}
         self.data["username"] = self.username
@@ -170,8 +175,9 @@ class YwSaveTestCase(TestCase):
     def test_bad_save_upload(self):
         route = "/save/"
         data = copy.deepcopy(self.data)
-        data["username"] = "nousername"
-        bad_response = self.client.post(route, data, format="json")
+        bad_client = copy.deepcopy(self.client)
+        bad_client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token+'!@#$%^'))
+        bad_response = bad_client.post(route, data, format="json")
         self.assertNotEqual(
             bad_response.status_code, 200, msg="Bad username unaccounted by save path"
         )
@@ -237,6 +243,28 @@ class YwSaveTestCase(TestCase):
             response.data["newVersion"],
             msg="Server did not communicate a version change.",
         )
+
+    def test_reject_wrong_user_on_update(self):
+        route = "/save/"
+        data = copy.deepcopy(self.data)
+        response1 = self.client.post(route, data, format="json")
+
+        first_workflow_id = response1.data["workflowId"]
+
+        wrong_user_username = uuid.uuid1()
+        wrong_user_password = "Password!@#"
+        wrong_user = User.objects.create_user(username=wrong_user_username, password=wrong_user_password)
+        wrong_user_client = copy.deepcopy(self.client)
+
+        response2 = wrong_user_client.post('/rest-auth/login/', data={'username': wrong_user_username, 'password': wrong_user_password}, format='json')
+        wrong_user_token = response2.data['key']
+        wrong_user_client.credentials(HTTP_AUTHORIZATION='Token {}'.format(wrong_user_token))
+
+        route = "/save/{}/".format(first_workflow_id)
+        response3 = wrong_user_client.post(path=route, data=data, format="json")
+
+        self.assertEqual(response3.status_code, 403, response3.data)
+
 
     def test_bad_workflow_update(self):
         data = copy.deepcopy(self.data)
