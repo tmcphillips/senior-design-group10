@@ -36,20 +36,6 @@ class RunSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class FileSerializer(serializers.ModelSerializer):
-    lastModified = serializers.DateTimeField(source="last_modified")
-
-    class Meta:
-        model = File
-        fields = ("checksum", "size", "name", "uri", "lastModified")
-
-
-class RunFileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RunFile
-        fields = "__all__"
-
-
 class TagWorkflowSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagWorkflow
@@ -65,12 +51,6 @@ class TagVersionSerializer(serializers.ModelSerializer):
 class TagRunSerializer(serializers.ModelSerializer):
     class Meta:
         model = TagRun
-        fields = "__all__"
-
-
-class TagFileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TagFile
         fields = "__all__"
 
 
@@ -149,11 +129,12 @@ class UriVariableSerializer(serializers.ModelSerializer):
 
 class ResourceSerializer(serializers.ModelSerializer):
     resourceId = serializers.IntegerField(source="resource_id")
+    lastModified = serializers.DateTimeField(source="last_modified")
     data = serializers.IntegerField()
 
     class Meta:
         model = Resource
-        fields = ("resourceId", "data", "uri")
+        fields = ("resourceId", "data", "uri", "checksum", "name", "size", "lastModified")
 
 
 class UriVariableValueSerializer(serializers.ModelSerializer):
@@ -183,7 +164,6 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         required=False, default="", allow_blank=True, allow_null=False
     )
     scripts = ScriptSerializer(required=True, many=True)
-    files = FileSerializer(many=True, default=None, allow_null=True)
     programBlock = ProgramBlockSerializer(many=True, default=None, allow_null=True)
     data = DataSerializer(many=True, default=None, allow_null=True)
     port = PortSerializer(many=True, default=None, allow_null=True)
@@ -204,7 +184,6 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             "graph",
             "tags",
             "scripts",
-            "files",
             "programBlock",
             "data",
             "port",
@@ -257,7 +236,6 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         r = self._create_run(v, validated_data)
         self._create_tags(w, validated_data)
         self._create_scripts(v, validated_data)
-        self._create_files(r, validated_data)
         self._create_program_blocks(r, validated_data)
         self._create_data(r, validated_data)
         self._create_ports(r, validated_data)
@@ -292,22 +270,6 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                 content=script.get("content"),
             )
             s.save()
-
-    def _create_files(self, r, validated_data):
-        files = FileSerializer(validated_data.get("files"), many=True)
-        for file in files.data:
-            f, _ = File.objects.update_or_create(
-                checksum=file.get("checksum"),
-                defaults={
-                    "size": file.get("size"),
-                    "name": file.get("name"),
-                    "uri": file.get("uri"),
-                    "last_modified": file.get("lastModified"),
-                },
-            )
-            f.save()
-            rf = RunFile(run=r, file=f)
-            rf.save()
 
     def _create_program_blocks(self, r, validated_data):
         program_blocks = ProgramBlockSerializer(
@@ -438,9 +400,13 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
 
             new_resource = Resource(
                 resource_id=resource.get("resourceId"),
+                run=r,
                 data=data,
                 uri=resource.get("uri"),
-                run=r,
+                name=resource.get("name"),
+                checksum=resource.get("checksum"),
+                size=resource.get("size"),
+                last_modified=resource.get("lastModified"),
             )
             new_resource.save()
 

@@ -157,7 +157,7 @@ def detailed_workflow(request, workflow_id, version_id):
 def run_detail(request, run_id):
     try:
         run = Run.objects.get(pk=run_id)
-        file_list = RunFile.objects.filter(run=run_id)
+        resource_list = Resource.objects.filter(run=run)
         runs = Run.objects.filter(version=run.version)
     except Run.DoesNotExist:
         return Response(status=404, data={"error": "run not found"})
@@ -165,7 +165,7 @@ def run_detail(request, run_id):
     return render(
         request,
         "pages/run_detail.html",
-        {"run": run, "file_list": file_list, "runs": runs},
+        {"run": run, "file_list": resource_list, "runs": runs},
     )
 
 
@@ -267,16 +267,6 @@ class RunViewSet(viewsets.ModelViewSet):
     serializer_class = RunSerializer
 
 
-class FileViewSet(viewsets.ModelViewSet):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
-
-
-class RunFileViewSet(viewsets.ModelViewSet):
-    queryset = RunFile.objects.all()
-    serializer_class = RunFileSerializer
-
-
 class TagWorkflowViewSet(viewsets.ModelViewSet):
     queryset = TagWorkflow.objects.all()
     serializer_class = TagWorkflowSerializer
@@ -290,11 +280,7 @@ class TagVersionViewSet(viewsets.ModelViewSet):
 class TagRunViewSet(viewsets.ModelViewSet):
     queryset = TagRun.objects.all()
     serializer_class = TagRunSerializer
-
-
-class TagFileSet(viewsets.ModelViewSet):
-    queryset = TagFile.objects.all()
-    serializer_class = TagFileSerializer
+    
 
 class ProgramBlockSet(viewsets.ModelViewSet):
     class _ProgramBlockSerializer(serializers.ModelSerializer):

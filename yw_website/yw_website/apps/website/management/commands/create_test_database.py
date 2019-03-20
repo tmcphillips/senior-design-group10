@@ -74,16 +74,6 @@ class Command(BaseCommand):
         run_fixture = AutoFixture(Run)
         _ = run_fixture.create(self.num_entries)
 
-    def _create_files(self):
-        for i in range(0, self.num_entries):
-            files_fixture = AutoFixture(
-                File, field_values={'file_checksum': str(uuid.uuid4()), 'input_data': None})
-            _ = files_fixture.create_one()
-
-    def _create_run_files(self):
-        runfile_fixture = AutoFixture(RunFile)
-        _ = runfile_fixture.create(self.num_entries)
-
     def _create_tag_workflow(self):
         tagworkflow_fixture = AutoFixture(TagWorkflow)
         _ = tagworkflow_fixture.create(self.num_entries)
@@ -91,10 +81,6 @@ class Command(BaseCommand):
     def _create_tag_run(self):
         tagrunfixture = AutoFixture(TagRun)
         _ = tagrunfixture.create(self.num_entries)
-
-    def _create_tag_file(self):
-        tagfilefixture = AutoFixture(TagFile)
-        _ = tagfilefixture.create(self.num_entries)
 
     def _create_tag_version(self):
         tagversionfixture = AutoFixture(TagVersion)
@@ -139,11 +125,8 @@ class Command(BaseCommand):
         self._create_versions()
         self._create_runs()
         self._create_scripts()
-        self._create_files()
-        self._create_run_files()
         self._create_tag_workflow()
         self._create_tag_run()
-        self._create_tag_file()
         self._create_tag_version()
         self._create_program_blocks()
         self._create_data()
