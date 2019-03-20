@@ -41,13 +41,11 @@ class YwSaveTestCase(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token))
 
         self.data = {}
-        self.data["username"] = self.username
         self.data["title"] = "test_title"
         self.data["description"] = "test_description"
         self.data["model"] = "test_model"
         self.data["modelChecksum"] = str(uuid.uuid1())
         self.data["graph"] = "test_graph"
-        self.data["recon"] = "test_recon"
         self.data["tags"] = ["tag_1", "tag_2", "tag_3"]
         self.data["scripts"] = [
             {
@@ -64,22 +62,6 @@ class YwSaveTestCase(TestCase):
                 "name": "script_3",
                 "checksum": str(uuid.uuid1()),
                 "content": "script_3_content",
-            },
-        ]
-        self.data["files"] = [
-            {
-                "name": "file_name_1",
-                "checksum": str(uuid.uuid1()),
-                "size": 3,
-                "uri": "file_uri1",
-                "lastModified": datetime.datetime.now(),
-            },
-            {
-                "name": "file_name_2",
-                "checksum": str(uuid.uuid1()),
-                "size": 9,
-                "uri": "file_uri2",
-                "lastModified": datetime.datetime.now(),
             },
         ]
         self.data["programBlock"] = [
@@ -147,7 +129,26 @@ class YwSaveTestCase(TestCase):
         self.data["uriVariable"] = [
             {"uriVariableId": 1, "port": 1, "name": "urivarname"}
         ]
-        self.data["resource"] = [{"resourceId": 1, "data": 1, "uri": "urivar"}]
+        self.data["resource"] = [
+            {
+                "resourceId": 1,
+                "data": 1,
+                "uri": "file_uri_1",
+                "name": "file_name_1",
+                "checksum": str(uuid.uuid1()),
+                "size": 9,
+                "lastModified": datetime.datetime.now(),
+            },
+            {
+                "resourceId": 2,
+                "data": 1,
+                "name": "file_name_2",
+                "checksum": str(uuid.uuid1()),
+                "size": 3,
+                "uri": "file_uri_2",
+                "lastModified": datetime.datetime.now(),
+            }
+        ]
         self.data["uriVariableValue"] = [
             {"uriVariableId": 1, "resource": 1, "value": "uripath"}
         ]
@@ -200,8 +201,10 @@ class YwSaveTestCase(TestCase):
         first_version_num = response.data["versionNumber"]
 
         data["modelChecksum"] = str(uuid.uuid1())
-        data["files"] = [
+        data["resources"] = [
             {
+                "resourceId": 1,
+                "data": 1,
                 "name": "file_name_3",
                 "checksum": str(uuid.uuid1()),
                 "size": 3,
@@ -209,6 +212,8 @@ class YwSaveTestCase(TestCase):
                 "lastModified": datetime.datetime.now(),
             },
             {
+                "resourceId": 2,
+                "data": 1,
                 "name": "file_name_4",
                 "checksum": str(uuid.uuid1()),
                 "size": 9,
