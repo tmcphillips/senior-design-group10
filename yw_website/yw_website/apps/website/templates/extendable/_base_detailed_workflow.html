@@ -24,8 +24,8 @@
             </div>
             <script>
                 function deleteFunction() {
-                    if (confirm("Do you really want to delete the workflow?")) {
-                        document.location.href="{% url 'delete' workflow.id %}";
+                    if (confirm("Do you really want to delete this workflow?")) {
+                        document.location.href="{% url 'delete_workflows' workflow.id %}";
                     }
                 }
             </script>

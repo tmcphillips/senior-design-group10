@@ -26,12 +26,22 @@
     <ol id=run_style>
         {% for run in run_list %}
             <li>
-                <div class = "table_title">
+                <div class="table_title">
                     <a href="{% url 'run_detail' run.id %}">Run#{{ forloop.counter}}</a> 
                 </div>
-                <div class = "workflow-details">
-                    <b>Time Stamp: </b>{{ run.run_time_stamp }}
+                <div class="workflow-details">
+                    <b>Time Stamp: </b>{{ run.run_time_stamp }} 
                 </div>
+                <div class=run-delete>
+                <button onclick="deleteFunction()">Delete</button>
+            </div>
+            <script>
+                function deleteFunction() {
+                    if (confirm("Do you really want to delete this run?")) {
+                        document.location.href="{% url 'delete_runs' workflow.id version.id run.id %}";
+                    }
+                }
+            </script>
             </li>
         {% endfor %}
     </ol>
