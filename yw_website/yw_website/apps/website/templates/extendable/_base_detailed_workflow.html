@@ -24,12 +24,24 @@
         {{ workflow.title}}
     </div>
 
+    <ol id="elementStyle">
+        <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
+            <li>
+                <div id="graph1" class = workflow-image></div>
+            </li>
+            <script type="text/javascript">
+                graph = `{{ version.yw_graph_output|safe }}`
+            </script>
+            <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
+    </ol>
+
     {% if versions %}
         <div class="dropdown">
                 <button class="dropbtn">
                     {% for version_ in versions %}
                         {% if version_.id == version.id %}
-                            <text>Version #{{ forloop.counter }}</text>
+                            <text>Version #{{ forloop.counter }}  &#9662</text>
+                            <br>
                         {% endif %}
                     {% endfor %}
                 </button>
@@ -42,18 +54,6 @@
                 </div>
             </div>
     {% endif %}
-
-
-    <ol id="elementStyle">
-        <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
-            <li>
-                <div id="graph1" class = workflow-image></div>
-            </li>
-            <script type="text/javascript">
-                graph = `{{ version.yw_graph_output|safe }}`
-            </script>
-            <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
-    </ol>
 
     <div class=outside_data>
         <b>Tags: </b> 
