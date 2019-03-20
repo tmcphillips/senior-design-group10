@@ -87,7 +87,6 @@ ol {
     margin-right: 5%;
     margin-bottom: 15px;
     margin-top: 15px;
-/*    margin: auto;*/
     list-style-type: none;
     text-align: left;
     padding: 5px;
@@ -182,7 +181,6 @@ svg {
 }
 
 .tags{
-    /*display: inline-block;*/
     text-overflow: ellipsis;
     overflow: hidden;
     max-width: 15%;
