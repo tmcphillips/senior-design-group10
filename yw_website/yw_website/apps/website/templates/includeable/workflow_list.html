@@ -31,12 +31,6 @@
                 </div>
                 <div class = "title">
                     {{ workflow.title|linebreaks }}
-                    {% if edit == True %}
-                        <form method="get" action=" {% url 'edit_page' workflow.id workflow.version_id %}">
-                            {% csrf_token %}
-                            <button type="submit"> Edit</button>
-                        </form>
-                    {% endif%}
                 </div>
                 <div class = "last_modified"> 
                     {{ workflow.version_modified }}

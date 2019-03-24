@@ -6,7 +6,6 @@ from django.utils import timezone
 class Tag(models.Model):
     parent_tag = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True)
 
-    FILE = "f"
     WORKFLOW = "w"
     VERSION = "v"
     RUN = "r"
@@ -15,7 +14,6 @@ class Tag(models.Model):
         (WORKFLOW, "Workflow"),
         (VERSION, "Version"),
         (RUN, "Run"),
-        (FILE, "File"),
     )
 
     title = models.CharField(max_length=32)
@@ -51,21 +49,6 @@ class Run(models.Model):
     version = models.ForeignKey(Version, on_delete=models.CASCADE, blank=False)
     run_time_stamp = models.DateTimeField()
 
-
-class File(models.Model):
-    checksum = models.CharField(max_length=128)
-    size = models.IntegerField(default=0)
-    name = models.TextField()
-    uri = models.TextField()
-
-    last_modified = models.DateTimeField()
-
-
-class RunFile(models.Model):
-    run = models.ForeignKey(Run, on_delete=models.CASCADE, blank=False)
-    file = models.ForeignKey(File, on_delete=models.CASCADE, blank=False)
-
-
 class TagWorkflow(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, blank=False)
     workflow = models.ForeignKey(Workflow, on_delete=models.CASCADE, blank=False)
@@ -88,14 +71,6 @@ class TagRun(models.Model):
 
     class Meta:
         unique_together = ("tag", "run")
-
-
-class TagFile(models.Model):
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, blank=False)
-    file = models.ForeignKey(File, on_delete=models.CASCADE, blank=False)
-
-    class Meta:
-        unique_together = ("tag", "file")
 
 
 class ProgramBlock(models.Model):
@@ -171,9 +146,14 @@ class Resource(models.Model):
         unique_together = ("resource_id", "run")
 
     resource_id = models.IntegerField()
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
-    uri = models.TextField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
+    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+
+    checksum = models.CharField(max_length=128)
+    last_modified = models.DateTimeField()
+    name = models.TextField()
+    size = models.IntegerField(default=0)
+    uri = models.TextField()
 
 
 class UriVariableValue(models.Model):

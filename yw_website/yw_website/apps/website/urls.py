@@ -11,9 +11,6 @@ router.register('workflows', WorkflowViewSet)
 router.register('tags', TagViewSet)
 router.register('versions', VersionViewSet)
 router.register('runs', RunViewSet)
-router.register('files', FileViewSet)
-router.register('runfiles', RunFileViewSet)
-router.register('tagfiles', RunFileViewSet)
 router.register('tagworkflows', TagWorkflowViewSet)
 router.register('tagversions', TagVersionViewSet)
 router.register('tagruns', TagRunViewSet)
@@ -35,6 +32,8 @@ urlpatterns = [
          detailed_workflow, name='detailed_workflow'),
     path('run_detail/<int:run_id>/', run_detail, name='run_detail'),
     path('my_workflows/edit/<int:workflow_id>/version/<int:version_id>/', edit_workflow, name='edit_page'),
+    path('my_workflows/<int:workflow_id>/', delete_workflows, name='delete_workflows'),
+    path('my_workflows/<int:workflow_id>/<int:version_id>/<int:run_id>/', delete_runs, name='delete_runs'),
 
     ###
     # YESWORKFLOW SAVE PATHS

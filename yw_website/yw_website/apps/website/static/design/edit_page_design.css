@@ -1,7 +1,14 @@
 .edit {
 	margin-left: 3%;
 	margin-right: 3%;
+	padding: 3%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
 	text-align: left;
+	background-color: white;
+}
+.title2 {
+	color: rgb(5, 97, 92);
+	font-weight: bold;
 }
 
 .tagInput {
