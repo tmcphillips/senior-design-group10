@@ -5,14 +5,22 @@ from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
-from rest_framework.decorators import (action, api_view, parser_classes,
-                                       permission_classes)
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication
+from rest_framework.decorators import (
+    action,
+    api_view,
+    authentication_classes,
+    parser_classes,
+    permission_classes,
+)
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
 from .models import *
 from .serializers import *
 from .utils import search_and_create_query_set
+
+from rest_framework import serializers
 
 
 #############################################################
@@ -21,6 +29,7 @@ from .utils import search_and_create_query_set
 def home(request):
     if 'q' in request.GET:
         workflow_list = search_and_create_query_set(request.GET['q'])
+
     else:
         workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
@@ -32,8 +41,8 @@ def home(request):
         workflow.version_id = latest_version.id
         workflow.version_modified = latest_version.last_modified
 
-        workflow.tags = (
-            TagWorkflow.objects.filter(workflow=workflow).values_list("tag__title", flat=True)
+        workflow.tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
+            "tag__title", flat=True
         )
 
     paginator = Paginator(workflow_list, 10)
@@ -61,8 +70,8 @@ def my_workflows(request):
             workflow.version_id = latest_version.id
             workflow.version_modified = latest_version.last_modified
 
-            workflow.tags = (
-                TagWorkflow.objects.filter(workflow=workflow).values_list("tag__title", flat=True)
+            workflow.tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
+                "tag__title", flat=True
             )
 
     paginator = Paginator(workflow_list, 10)
@@ -73,6 +82,7 @@ def my_workflows(request):
         request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host}
     )
 
+
 def edit_workflow(request, workflow_id, version_id):
     workflow = Workflow.objects.get(pk=workflow_id)
     workflow_tags = TagWorkflow.objects.filter(workflow=workflow_id)
@@ -80,20 +90,20 @@ def edit_workflow(request, workflow_id, version_id):
         form = request.POST
         title = request.POST.get("title")
         tags = request.POST.getlist("tagArray")
-        t = ''.join(tags)
+        t = "".join(tags)
         t_str = str(t)
-        tag_arr = t_str.split(',')
+        tag_arr = t_str.split(",")
         if tags:
             new_tag = tag_arr
             if len(tag_arr) > 1:
                 for tag in tag_arr:
-                    t1 = Tag(title=tag, tag_type ="w")
+                    t1 = Tag(title=tag, tag_type="w")
                     t1.save()
                     t2 = TagWorkflow(tag=t1, workflow=workflow)
                     t2.save()
             else:
                 string_tag = tag_arr[0]
-                t1 = Tag(title=string_tag, tag_type ="w")
+                t1 = Tag(title=string_tag, tag_type="w")
                 t1.save()
                 t2 = TagWorkflow(tag=t1, workflow=workflow)
                 t2.save()
@@ -101,8 +111,12 @@ def edit_workflow(request, workflow_id, version_id):
         workflow.title = title
         workflow.description = description
         workflow.save()
-        return redirect('my_workflows')
-    return render(request, "pages/edit_page.html", {"workflow": workflow, "workflow_tags": workflow_tags})
+        return redirect("my_workflows")
+    return render(
+        request,
+        "pages/edit_page.html",
+        {"workflow": workflow, "workflow_tags": workflow_tags},
+    )
 
 
 def detailed_workflow(request, workflow_id, version_id):
@@ -115,14 +129,16 @@ def detailed_workflow(request, workflow_id, version_id):
                 edit = True
             version = Version.objects.get(pk=version_id)
             versions = Version.objects.filter(workflow=workflow)
-            tags = TagWorkflow.objects.filter(workflow=workflow).values_list("tag__title", flat=True)
+            tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
+                "tag__title", flat=True
+            )
 
             runs = Run.objects.filter(version=version)
             info = {
                 "workflow": workflow,
                 "version": version,
                 "versions": versions,
-                "tags":tags,
+                "tags": tags,
                 "run_list": runs,
                 "form": form,
                 "edit": edit,
@@ -141,12 +157,16 @@ def detailed_workflow(request, workflow_id, version_id):
 def run_detail(request, run_id):
     try:
         run = Run.objects.get(pk=run_id)
-        file_list = RunFile.objects.filter(run=run_id)
+        resource_list = Resource.objects.filter(run=run)
         runs = Run.objects.filter(version=run.version)
     except Run.DoesNotExist:
         return Response(status=404, data={"error": "run not found"})
 
-    return render(request, "pages/run_detail.html", {"run": run, "file_list": file_list, "runs": runs})
+    return render(
+        request,
+        "pages/run_detail.html",
+        {"run": run, "file_list": resource_list, "runs": runs},
+    )
 
 def delete_workflows(request, workflow_id):
     workflow = get_object_or_404(Workflow, pk=workflow_id)
@@ -169,57 +189,51 @@ def delete_versions(request, workflow_id, run_id, version_id):
 # REST API Views
 #############################################################
 
-
 @api_view(["get"])
 @permission_classes((permissions.AllowAny,))
 def yw_save_ping(request):
     return Response(status=200, data={"data": "You connected to yw web components."})
 
-
 @csrf_exempt
 @api_view(["post"])
-@permission_classes((permissions.AllowAny,))
+@authentication_classes((TokenAuthentication, BasicAuthentication,))
+@permission_classes((permissions.IsAuthenticated,))
 def create_workflow(request):
-    # TODO: Replace username with user auth token
-    try:
-        user = User.objects.get(username=request.data.get("username"))
-    except User.DoesNotExist:
-        return Response(status=500, data={"error": "That user does not exist"})
-
-    ws = YesWorkflowSaveSerializer(
-        data=request.data, context={"username": user}
-    )
+    user = request.user
+    ws = YesWorkflowSaveSerializer(data=request.data, context={"username": user})
 
     if ws.is_valid():
-        w_id, v_id, r_num = ws.create(ws.validated_data)
-        w = Workflow.objects.get(pk=w_id)
-        v = Version.objects.get(pk=v_id)
-        version_num = len(Version.objects.filter(workflow=w))
-        run_num = len(Run.objects.filter(version=v))
+        try:
+            w_id, v_id, r_num = ws.create(ws.validated_data)
+            w = Workflow.objects.get(pk=w_id)
+            v = Version.objects.get(pk=v_id)
+            version_num = len(Version.objects.filter(workflow=w))
+            run_num = len(Run.objects.filter(version=v))
 
-        return Response(
-            status=200,
-            data={
-                "workflowId": w_id,
-                "versionNumber": version_num,
-                "runNumber": run_num,
-            },
-        )
+            return Response(
+                status=200,
+                data={
+                    "workflowId": w_id,
+                    "versionNumber": version_num,
+                    "runNumber": run_num,
+                },
+            )
+        except serializers.ValidationError:
+            return Response(status=500, data={"error": ws.errors})
     else:
         return Response(status=500, data={"error": ws.errors})
 
+
 @csrf_exempt
 @api_view(["post"])
-@permission_classes((permissions.AllowAny,))
+@authentication_classes((TokenAuthentication, BasicAuthentication,))
+@permission_classes((permissions.IsAuthenticated,))
 def update_workflow(request, workflow_id):
-    try:
-        user = User.objects.get(username=request.data.get("username"))
-    except User.DoesNotExist:
-        return Response(status=500, data={"error": "That user does not exist"})
+    user = request.user
 
     w = Workflow.objects.get(pk=workflow_id)
-    if user!= w.user:
-        return Response(status=500, data={"error": "Workflow does not belong to you"})
+    if user != w.user:
+        return Response(status=403, data={"message": "Workflow does not belong to you"})
 
     ws = YesWorkflowSaveSerializer(
         data=request.data, context={"workflow_id": workflow_id}
@@ -269,16 +283,6 @@ class RunViewSet(viewsets.ModelViewSet):
     serializer_class = RunSerializer
 
 
-class FileViewSet(viewsets.ModelViewSet):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
-
-
-class RunFileViewSet(viewsets.ModelViewSet):
-    queryset = RunFile.objects.all()
-    serializer_class = RunFileSerializer
-
-
 class TagWorkflowViewSet(viewsets.ModelViewSet):
     queryset = TagWorkflow.objects.all()
     serializer_class = TagWorkflowSerializer
@@ -292,8 +296,60 @@ class TagVersionViewSet(viewsets.ModelViewSet):
 class TagRunViewSet(viewsets.ModelViewSet):
     queryset = TagRun.objects.all()
     serializer_class = TagRunSerializer
+    
 
+class ProgramBlockSet(viewsets.ModelViewSet):
+    class _ProgramBlockSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = ProgramBlock 
+            fields = '__all__'
+    queryset = ProgramBlock.objects.all()
+    serializer_class = _ProgramBlockSerializer 
 
-class TagFileSet(viewsets.ModelViewSet):
-    queryset = TagFile.objects.all()
-    serializer_class = TagFileSerializer
+class DataSet(viewsets.ModelViewSet):
+    class _DataSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Data 
+            fields = '__all__'
+    queryset = Data.objects.all()
+    serializer_class = _DataSerializer 
+
+class PortSet(viewsets.ModelViewSet):
+    class _PortSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Port 
+            fields = '__all__'
+    queryset = Port.objects.all()
+    serializer_class = _PortSerializer 
+
+class ChannelSet(viewsets.ModelViewSet):
+    class _ChannelSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Channel 
+            fields = '__all__'
+    queryset = Channel.objects.all()
+    serializer_class = _ChannelSerializer 
+
+class UriVariableSet(viewsets.ModelViewSet):
+    class _UriVariableSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = UriVariable 
+            fields = '__all__'
+    queryset = UriVariable.objects.all()
+    serializer_class = _UriVariableSerializer 
+
+class ResourceSet(viewsets.ModelViewSet):
+    class _ResourceSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Resource
+            fields = '__all__'
+    queryset = Resource.objects.all()
+    serializer_class = _ResourceSerializer 
+
+class UriVariableValueSet(viewsets.ModelViewSet):
+    class _UriVariableValueSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = UriVariableValue 
+            fields = '__all__'
+    queryset = UriVariableValue.objects.all()
+    serializer_class = _UriVariableValueSerializer 

@@ -74,16 +74,6 @@ class Command(BaseCommand):
         run_fixture = AutoFixture(Run)
         _ = run_fixture.create(self.num_entries)
 
-    def _create_files(self):
-        for i in range(0, self.num_entries):
-            files_fixture = AutoFixture(
-                File, field_values={'file_checksum': str(uuid.uuid4()), 'input_data': None})
-            _ = files_fixture.create_one()
-
-    def _create_run_files(self):
-        runfile_fixture = AutoFixture(RunFile)
-        _ = runfile_fixture.create(self.num_entries)
-
     def _create_tag_workflow(self):
         tagworkflow_fixture = AutoFixture(TagWorkflow)
         _ = tagworkflow_fixture.create(self.num_entries)
@@ -92,13 +82,37 @@ class Command(BaseCommand):
         tagrunfixture = AutoFixture(TagRun)
         _ = tagrunfixture.create(self.num_entries)
 
-    def _create_tag_file(self):
-        tagfilefixture = AutoFixture(TagFile)
-        _ = tagfilefixture.create(self.num_entries)
-
     def _create_tag_version(self):
         tagversionfixture = AutoFixture(TagVersion)
         _ = tagversionfixture.create(self.num_entries)
+
+    def _create_program_blocks(self):
+        programblockfixture = AutoFixture(ProgramBlock)
+        _ = programblockfixture.create(self.num_entries)
+
+    def _create_data(self):
+        datafixture = AutoFixture(Data)
+        _ = datafixture.create(self.num_entries)
+
+    def _create_ports(self):
+        portsfixture = AutoFixture(Port)
+        _ = portsfixture.create(self.num_entries)
+
+    def _create_channels(self):
+        channelsfixture = AutoFixture(Channel)
+        _ = channelsfixture.create(self.num_entries)
+
+    def _create_uri_variables(self):
+        uri_variablesfixture = AutoFixture(UriVariable)
+        _ = uri_variablesfixture.create(self.num_entries)
+
+    def _create_resources(self):
+        resourcesfixture = AutoFixture(Resource)
+        _ = resourcesfixture.create(self.num_entries)
+    
+    def _create_uri_variable_values(self):
+        uri_variable_valuesfixture = AutoFixture(UriVariableValue)
+        _ = uri_variable_valuesfixture.create(self.num_entries)
 
     def handle(self, *args, **options):
         if type(options['entries']) == int and options['entries'] >= 0:
@@ -111,9 +125,14 @@ class Command(BaseCommand):
         self._create_versions()
         self._create_runs()
         self._create_scripts()
-        self._create_files()
-        self._create_run_files()
         self._create_tag_workflow()
         self._create_tag_run()
-        self._create_tag_file()
         self._create_tag_version()
+        self._create_program_blocks()
+        self._create_data()
+        self._create_ports()
+        self._create_channels()
+        self._create_uri_variables()
+        self._create_resources()
+        self._create_uri_variable_values()
+        
