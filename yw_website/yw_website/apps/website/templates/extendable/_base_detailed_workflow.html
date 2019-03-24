@@ -58,7 +58,7 @@
                 <div class="dropdown-content">
                     {% for version_ in versions %}
                         {% if version_.id != version.id %}
-                            <a href="{% url 'detailed_workflow' workflow.id version.id %}">Version #{{ forloop.counter }}</a>
+                            <a href="{% url 'detailed_workflow' workflow.id version_.id %}">Version #{{ forloop.counter }}</a>
                         {%  endif %}
                     {% endfor %}
                 </div>
