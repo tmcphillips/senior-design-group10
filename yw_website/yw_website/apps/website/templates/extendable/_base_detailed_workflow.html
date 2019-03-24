@@ -13,12 +13,34 @@
 {% block main_content %}
 
 <div class=box>
+    <div class=edit_button>
+        {% if edit == True %}
+            <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
+                {% csrf_token %}
+                <button type="submit"> Edit Workflow</button>
+            </form>
+            <div class=delete>
+                <button onclick="deleteFunction()">Delete Workflow</button>
+            </div>
+            <script>
+                function deleteFunction() {
+                    if (confirm("Do you really want to delete this workflow?")) {
+                        document.location.href="{% url 'delete_workflows' workflow.id %}";
+                    }
+                }
+            </script>
+
+</body>
+</html>
+        {% endif%}
+    </div>
     <link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
     <div class=workflow_id>
         Workflow ID: {{ workflow.id }}
         <br>
         Author: {{workflow.user}}
     </div>
+
 
     <div class=title>
         {{ workflow.title}}
@@ -43,36 +65,31 @@
             </div>
     {% endif %}
 
+        <ol id="elementStyle">
+            <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
+                <li>
+                    <div id="graph1" class = workflow-image></div>
+                </li>
+                <script type="text/javascript">
+                    graph = `{{ version.yw_graph_output|safe }}`
+                </script>
+                <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
+            </ol>
 
-    <ol id="elementStyle">
-        <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
-            <li>
-                <div id="graph1" class = workflow-image></div>
-            </li>
-            <script type="text/javascript">
-                graph = `{{ version.yw_graph_output|safe }}`
-            </script>
-            <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
-    </ol>
 
     <div class=outside_data>
-        <b>Tags: </b> 
-        {% for tag in tags %}
-            <span class="tags"> {{tag}}{% if not forloop.last %},{% endif %} </span>
-        {% endfor %}
-        <br>
         <b>Description: </b>{{workflow.description}}
-        <br>
-       <b>Uploaded At: </b>{{version.last_modified}}    
+        <br><br>
+       <b>Tags: </b> 
+        {% for tag in tags %}
+            <span class=tags> {{tag}}{% if not forloop.last %},{% endif %} </span>
+        {% endfor %} 
     </div>
-
+    <hr />
     <div class=run-text>
         Runs associated with current version:
     </div>
-    
-    <div class="list">
-        {% include 'includeable/run_list.html' with run_list=run_list %}
-    </div>
+    {% include 'includeable/run_list.html' with run_list=run_list %}
 <div>
 
 {% endblock %}

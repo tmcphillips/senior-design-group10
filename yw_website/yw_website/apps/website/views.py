@@ -14,6 +14,7 @@ from rest_framework.decorators import (
     permission_classes,
 )
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 from .models import *
 from .serializers import *
@@ -26,9 +27,9 @@ from rest_framework import serializers
 # Website Views
 #############################################################
 def home(request):
-    edit = False
-    if "q" in request.GET:
-        workflow_list = search_and_create_query_set(request.GET["q"])
+    if 'q' in request.GET:
+        workflow_list = search_and_create_query_set(request.GET['q'])
+
     else:
         workflow_list = Workflow.objects.all().exclude(version__isnull=True)
     for workflow in workflow_list:
@@ -49,15 +50,12 @@ def home(request):
     workflows = paginator.get_page(page)
     host = request.get_host()
     return render(
-        request,
-        "pages/home_page.html",
-        {"workflow_list": workflows, "host": host, "edit": edit},
+        request, "pages/home_page.html", {"workflow_list": workflows, "host": host}
     )
 
 
 @login_required(login_url="/accounts/login/")
 def my_workflows(request):
-    edit = True
     workflow_list = (
         Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
     )
@@ -81,9 +79,7 @@ def my_workflows(request):
     workflows = paginator.get_page(page)
     host = request.get_host()
     return render(
-        request,
-        "pages/my_workflows.html",
-        {"workflow_list": workflows, "host": host, "edit": edit},
+        request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host}
     )
 
 
@@ -124,10 +120,13 @@ def edit_workflow(request, workflow_id, version_id):
 
 
 def detailed_workflow(request, workflow_id, version_id):
+    edit = False
     try:
         if request.method == "GET":
             form = request.POST
             workflow = Workflow.objects.get(pk=workflow_id)
+            if workflow.user == request.user:
+                edit = True
             version = Version.objects.get(pk=version_id)
             versions = Version.objects.filter(workflow=workflow)
             tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
@@ -142,6 +141,7 @@ def detailed_workflow(request, workflow_id, version_id):
                 "tags": tags,
                 "run_list": runs,
                 "form": form,
+                "edit": edit,
             }
             return render(request, "pages/detailed_workflow.html", info)
         elif request.method == "POST":
@@ -168,7 +168,23 @@ def run_detail(request, run_id):
         {"run": run, "file_list": resource_list, "runs": runs},
     )
 
+def delete_workflows(request, workflow_id):
+    workflow = get_object_or_404(Workflow, pk=workflow_id)
+    workflow.delete()
+    return redirect('my_workflows')
+def delete_runs(request, workflow_id, run_id, version_id):
+    run = get_object_or_404(Run, pk=run_id)
+    run.delete()
+    return redirect(
+                "/detailed_workflow/{}/version/{}/".format(workflow_id, version_id)
+            )
 
+def delete_versions(request, workflow_id, run_id, version_id):
+    version = get_object_or_404(Version, pk=version_id)
+    version.delete()
+    return redirect(
+                "/detailed_workflow/{}/version/{}/".format(workflow_id, version_id)
+            )
 #############################################################
 # REST API Views
 #############################################################
