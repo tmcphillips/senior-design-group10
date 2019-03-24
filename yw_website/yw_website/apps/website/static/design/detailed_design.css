@@ -16,6 +16,19 @@ button {
     font-size: 12px;
 }
 
+.run-delete {
+    font-size: 12px;
+    float: right;
+    font-weight: bold;
+    margin-top: -32px;
+    padding-right: 2%;
+}
+
+#run-delete button {
+    background-color: #f1f1f1;
+    font-color: blue;
+}
+
 .list {
     border-style: solid;
     border-color: black;

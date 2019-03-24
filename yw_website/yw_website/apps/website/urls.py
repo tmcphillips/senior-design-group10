@@ -28,7 +28,8 @@ urlpatterns = [
          detailed_workflow, name='detailed_workflow'),
     path('run_detail/<int:run_id>/', run_detail, name='run_detail'),
     path('my_workflows/edit/<int:workflow_id>/version/<int:version_id>/', edit_workflow, name='edit_page'),
-    path('my_workflows/<int:workflow_id>/', delete, name='delete'),
+    path('my_workflows/<int:workflow_id>/', delete_workflows, name='delete_workflows'),
+    path('my_workflows/<int:workflow_id>/<int:version_id>/<int:run_id>/', delete_runs, name='delete_runs'),
 
     ###
     # YESWORKFLOW SAVE PATHS

@@ -148,10 +148,23 @@ def run_detail(request, run_id):
 
     return render(request, "pages/run_detail.html", {"run": run, "file_list": file_list, "runs": runs})
 
-def delete(request, workflow_id):
+def delete_workflows(request, workflow_id):
     workflow = get_object_or_404(Workflow, pk=workflow_id)
     workflow.delete()
     return redirect('my_workflows')
+def delete_runs(request, workflow_id, run_id, version_id):
+    run = get_object_or_404(Run, pk=run_id)
+    run.delete()
+    return redirect(
+                "/detailed_workflow/{}/version/{}/".format(workflow_id, version_id)
+            )
+
+def delete_versions(request, workflow_id, run_id, version_id):
+    version = get_object_or_404(Version, pk=version_id)
+    version.delete()
+    return redirect(
+                "/detailed_workflow/{}/version/{}/".format(workflow_id, version_id)
+            )
 #############################################################
 # REST API Views
 #############################################################
