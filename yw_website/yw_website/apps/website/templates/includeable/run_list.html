@@ -33,10 +33,10 @@
                     <b>Time Stamp: </b>{{ run.run_time_stamp }} 
                 </div>
                 <div class=run-delete>
-                <button onclick="deleteFunction()">Delete</button>
+                <button onclick="deleteFunctionRuns()">Delete</button>
             </div>
             <script>
-                function deleteFunction() {
+                function deleteFunctionRuns() {
                     if (confirm("Do you really want to delete this run?")) {
                         document.location.href="{% url 'delete_runs' workflow.id version.id run.id %}";
                     }
