@@ -1,0 +1,4 @@
+{{ object.name }}
+{{ object.qualified_name }}
+{{ object.alias }}
+{{ object.uri_template }}
