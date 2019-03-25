@@ -197,3 +197,6 @@ media/*
 
 # Django app binaries
 **/__pycache__/
+
+# Intellij
+.idea/

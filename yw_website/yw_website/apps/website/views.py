@@ -32,6 +32,7 @@ def home(request):
 
     else:
         workflow_list = Workflow.objects.all().exclude(version__isnull=True)
+
     for workflow in workflow_list:
         latest_version = (
             Version.objects.filter(workflow=workflow).order_by("last_modified").first()
@@ -44,6 +45,9 @@ def home(request):
         workflow.tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
             "tag__title", flat=True
         )
+
+    workflow_list = sorted(workflow_list, key=lambda t: t.version_modified, reverse=True)
+
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get("page")
@@ -73,6 +77,8 @@ def my_workflows(request):
             workflow.tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
                 "tag__title", flat=True
             )
+
+    workflow_list = sorted(workflow_list, key=lambda t: t.version_modified, reverse=True)
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get("page")
