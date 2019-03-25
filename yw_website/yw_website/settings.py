@@ -166,3 +166,6 @@ LOGIN_URL = '/login'
 
 # Replace in production environment
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Automatically Reindex search when models are updated
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
