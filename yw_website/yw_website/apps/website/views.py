@@ -17,7 +17,7 @@ from rest_framework.response import Response
 
 from .models import *
 from .serializers import *
-from .utils import search_and_create_query_set
+from .utils import search_and_create_query_set, get_block_inputs
 
 from rest_framework import serializers
 
@@ -159,6 +159,7 @@ def run_detail(request, run_id):
         run = Run.objects.get(pk=run_id)
         file_list = RunFile.objects.filter(run=run_id)
         runs = Run.objects.filter(version=run.version)
+        block_inputs = get_block_inputs(run_id)
     except Run.DoesNotExist:
         return Response(status=404, data={"error": "run not found"})
 
@@ -181,7 +182,7 @@ def yw_save_ping(request):
 @csrf_exempt
 @api_view(["post"])
 @authentication_classes((TokenAuthentication, BasicAuthentication,))
-@permission_classes((permissions.IsAuthenticated,))
+@permission_classes((permissions.AllowAny,))
 def create_workflow(request):
     user = request.user
     ws = YesWorkflowSaveSerializer(data=request.data, context={"username": user})
@@ -211,7 +212,7 @@ def create_workflow(request):
 @csrf_exempt
 @api_view(["post"])
 @authentication_classes((TokenAuthentication, BasicAuthentication,))
-@permission_classes((permissions.IsAuthenticated,))
+@permission_classes((permissions.AllowAny,))
 def update_workflow(request, workflow_id):
     user = request.user
 
