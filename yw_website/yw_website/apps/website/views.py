@@ -177,7 +177,7 @@ def run_detail(request, run_id):
 def delete_workflows(request, workflow_id):
     workflow = get_object_or_404(Workflow, pk=workflow_id)
     workflow.delete()
-    return redirect('home')
+    return redirect('my_workflows')
 
 def delete_runs(request, workflow_id, run_id, version_id):
     run = get_object_or_404(Run, pk=run_id)
