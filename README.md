@@ -27,6 +27,8 @@ Use `git fetch origin pull/<Merge Number>/head:<Name of new Branch>`, then check
 
 ## Setting up YesWorkflow dev Environment
 
+Most recent version of [YesWorkflow CLI Java implementation](https://github.com/aniehuser/yw-prototypes)
+
 YesWorkflow is a maven project. To set up the project for development follow these steps:
 
 1. Ensure you have a Java SE 7 or above installed on your device. To see all versions on a mac device and their location, run `$ /usr/libexec/java_home -V`.
@@ -49,10 +51,6 @@ YesWorkflow is a maven project. To set up the project for development follow the
 ```
 7. Save edits made to the `pom.xml` file, and run `$ mvn clean install`. You can now build the project from an intellij or eclipse project!
 
-## Using the YesWorkflow Save CLI command
-
-Most recent version of [YesWorkflow CLI Java implementation](https://github.com/aniehuser/yw-prototypes)
-
 ### Building a jar file
 
 You can build a new jar file from the above repository by following these steps:
@@ -64,96 +62,6 @@ You can build a new jar file from the above repository by following these steps:
 4. The new jar will be placed in the path `<path-to-yw-prototypes>/yw-prototypes/out/artifacts` folder.
 
 You can now execute YesWorkflow CLI as normal. 
-
-### YesWorkflow Save Command and Configurations
-
-YesWorkflow CLI's Save command works by executing and aggregating all YesWorkflow commands and then sending important data up to your deployed YesWorkflow WebComponents instance. To use, one can type in the command prompt
-
-```
-java -jar yesworkflow.jar save my_scripty.py
-```
-
-You can set configurations manually in the command prompt
-```
-java -jar yesworkflow.jar save my_scripty.py -c save.serveraddress=http://localhost:8000/
-```
-
-For multiple manual configurations, use `-c` flag again
-```
-java -jar yesworkflow.jar save my_scripty.py -c save.serveraddress=http://localhost:8000/ -c graph.dotfile=out.txt
-```
-
-or you can set configurations in a text file named `yw.properties` that you must place in the same directory as your yesworkflow jar file.
-
-```
-## Example File Contents ##
-
-save.serveraddress=http://localhost:8000/
-save.username=my_username
-```
-
-Required configurations to use YesWorkflow Save
-+ save.serveraddress *(Only if you are using a YesWorkflow WebComponents that is not hosted on your localhost port 8000)*
-+ save.username
-
-#### save.serveraddress
-
-**REQUIRED - Usually**
-
-Set `save.serveraddress` to the DNS/IP address/URL of the server you would like to save a workflow's run to. 
-You can view what the server address to set the configuration on YesWorkflow WebComponents instance's Home Page. 
-![Image of instance's DNS](demos/tutorials/dns.png)
-
-**NOTE** :: YesWorkflow Save is currently a bit finicky, so, in this example, to save a workflow's run to `localhost:8000` as shown, you would need to include the `http://` before the dns, as well as a trailing `/`. It would look something like `save.serveraddress=http://localhost:8000/`
-
-#### save.username
-
-**REQUIRED**
-
-For security purposes, you must also specify that you are a valid user on the server that you have specified in `save.serveradress`.
-
-To upload a workflow's run, you as a user must first create a new account on the YesWorkflow WebComponents instance you would like to save to. Then, you must specify your username in using this configuration. If your user name is *"george_danger"*, you would have a configuration like `save.username=george_danger`.
-
-#### save.workflow
-
-To create a new, fresh workflow, make sure that no configuration is set for `save.workflow`.
-
-To add a run to an existing workflow, specify the workflow's id. For a workflow with an id of 69
-```
-save.workflow=69 
-```
-
-#### save.title
-
-This is an optional field to set or update the title of a workflow.
-```
-save.title=This is an example title for a workflow
-```
-
-
-#### save.description
-
-This is an optional field to set or update the description of a workflow.
-```
-save.description=This is an example description for a workflow
-```
-
-#### save.tags
-
-This is a comma delimited list of tags you want to set or update the tags of a workflow.
-```
-save.tags=fun,science,bill-nye
-```
-
-#### Some things to note
-
-YesWorkflow save calls all subsequent commands (extract, model, graph, recon). When calling graph, by default, there will be a dump of a graphviz string to terminal output. To hide this output when calling YesWorkflow save, it's recommended that you use the following configuration
-```
-graph.dotfile=out.txt
-```
-
-This puts the graphviz string into a file so you can see 'save' related content.
-
 
 ## Papers For Review
 
