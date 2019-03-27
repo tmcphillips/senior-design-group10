@@ -36,18 +36,25 @@
                     {{ workflow.version_modified }}
                 </div>
 
-                <div class = "workflow-details" id="description">
+                <div class = "workflow-details" id="description-"+workflow.title>
                     <b>Description: </b>{{ workflow.description }}
+                </div>
+
+                <div >                
+                    <input id = "description-button-"+workflow.title type="button" value = "Read More..." class = "expand-description-button" onClick="description_view()" ></input>
                 </div>
             </div>
             <script>
                 function description_view(){
-                    var description = document.getElementById("description");
-                    if (description.style.display === "none") {
-                        description.style.display = "block";
+                    var button = document.getElementById("description-button-"+workflow.title)
+                    var description = document.getElementById("description-"+workflow.title)
+                    if (window.getComputedStyle(description, null).getPropertyValue("height") === '60px') {
+                        description.style.height = "auto";
+                        button.value = "Read Less..."
                     }
                     else {
-                        description.style.display = "none";
+                        description.style.height = "60px";
+                        button.value = "Read More..."
                     }
                 }
             </script>

@@ -25,6 +25,14 @@ table {
     width: 100%;
 }
 
+.files-list {
+    list-style-type: square;
+}
+
+.file-item:hover {
+    cursor: pointer
+}
+
 th, td {
 	padding: 8px;
     text-align: left;

@@ -33,9 +33,29 @@
             <br>
             <b>Associated Files:</b>
             <br>
-            {% for file in file_list %}
-                    -{{ file.file_name}}
-                    <br>
+            <ul class = "files-list">
+                {% for file in file_list %}
+                <li id = "file-item1" class = "file-item" onclick = "displayBox()">
+                    file-name
+                    <div id = "file-item1-box">
+                        box
+                    </div>
+                </li>
+                    
+            </ul>
+
+            <br>
+            <script>
+                function displayBox() {
+                    var box = document.getElementById("file-item1-box")
+                    if (file.style.display == "none"){
+                        file.style.display =  "inline"
+                    }
+                    else {
+                        file.style.display = "none"
+                    }
+                }
+            </script>
             {% endfor %}
         </div>
         </div>
