@@ -36,7 +36,7 @@ Required configurations to use YesWorkflow Save
 
 Set `save.serveraddress` to the DNS/IP/URL of the server you would like to save a workflow's run to. 
 You can view what the server address to set the configuration on YesWorkflow WebComponents instance's Home Page. 
-![Image of instance's DNS](demos/tutorials/dns.png)
+![Image of instance's DNS](dns.png)
 
 ## save.username
 
