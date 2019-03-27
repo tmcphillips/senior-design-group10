@@ -14,16 +14,16 @@ globalVariables(c("model","model.y","model.x","AICc","coefs","numPreds"))
 #' (using multiple-response models) and by halting calculations for individual predictands once they
 #' stabilize.
 #'
-#' @param chronologies A matrix of tree ring chronologies, indexed annually.
+#' param chronologies A matrix of tree ring chronologies, indexed annually.
 #' Each chronology is a column. The first column must be labeled "YEAR" and is the calendar year.
-#' @param predictands A RasterBrick, RasterStack, matrix, or vector of the numeric predictand (response) variable.
-#' @param calibration.years An integer vector of years corresponding to the layers in the \code{predictands} brick.
-#' @param prediction.years An optional integer vector of years for the reconstruction.
+#' param predictands A RasterBrick, RasterStack, matrix, or vector of the numeric predictand (response) variable.
+#' param calibration.years An integer vector of years corresponding to the layers in the \code{predictands} brick.
+#' param prediction.years An optional integer vector of years for the reconstruction.
 #' If missing, defaults to the total years present in \code{chronologies}.
-#' @param min.width integer, indicating the minimum number of tree-ring samples allowed for that year of a chronology to be valid.
-#' @param verbose Logical, display status messages during run.
-#' @param ... Further arguments to be passed to other functions.
-#' @return A named list containing
+#' param min.width integer, indicating the minimum number of tree-ring samples allowed for that year of a chronology to be valid.
+#' param verbose Logical, display status messages during run.
+#' param ... Further arguments to be passed to other functions.
+#' return A named list containing
 #' \itemize{
 #'   \item{\code{models}  A \code{\link{data.table}} giving the fitted coefficients, LOOCV errors, and AICc values through time for each predictand.}
 #'   \item{\code{predictands}  A vector, matrix, or RasterBrick of predictands, as provided.}

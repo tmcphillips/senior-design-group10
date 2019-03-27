@@ -20,10 +20,10 @@
                 <button type="submit"> Edit Workflow</button>
             </form>
             <div class=delete>
-                <button onclick="deleteFunction()">Delete Workflow</button>
+                <button onclick="deleteFunctionWorkflows()">Delete Workflow</button>
             </div>
             <script>
-                function deleteFunction() {
+                function deleteFunctionWorkflows() {
                     if (confirm("Do you really want to delete this workflow?")) {
                         document.location.href="{% url 'delete_workflows' workflow.id %}";
                     }
@@ -91,6 +91,6 @@
         Runs associated with current version:
     </div>
     {% include 'includeable/run_list.html' with run_list=run_list %}
-<div>
+</div>
 
 {% endblock %}
