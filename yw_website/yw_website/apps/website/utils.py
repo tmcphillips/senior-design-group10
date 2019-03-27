@@ -38,12 +38,15 @@ def search_and_create_query_set(q):
         elif result.model_name == "run":
             version = Version.objects.get(pk=result.version_id)
             workflows.add(version.workflow_id)
-        elif result.model_name == "tag" or result.model_name == "script":
+        elif result.model_name == "tag":
             tag = Tag.objects.get(pk=result.pk)
             workflow_tags = TagWorkflow.objects.filter(tag=tag)
             for tag_workflow in workflow_tags:
                 if tag_workflow.workflow.pk not in workflows:
                     workflows.add(tag_workflow.workflow.pk)
+        elif result.model_name == "script":
+            script = Script.objects.get(pk=result.pk)
+            workflows.add(script.version.workflow.pk)         
         elif (
             result.model_name == "programblock"
             or result.model_name == "data"
