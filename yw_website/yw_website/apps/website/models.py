@@ -89,7 +89,6 @@ class Data(models.Model):
         unique_together = ("data_id", "run")
 
     data_id = models.IntegerField()
-    name = models.TextField()
     in_program_block = models.ForeignKey(
         ProgramBlock, on_delete=models.DO_NOTHING, null=True
     )

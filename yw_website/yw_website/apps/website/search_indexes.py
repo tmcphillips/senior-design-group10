@@ -32,9 +32,53 @@ class ScriptIndex(indexes.SearchIndex, indexes.Indexable):
     def get_model(self):
         return Script
 
-class RunIndex(indexes.SearchIndex, indexes.Indexable):
+class ProgramBlockIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    run_time_stamp = indexes.CharField(model_attr='run_time_stamp')
-    yw_recon_output = indexes.CharField(model_attr='yw_recon_output')
+    name = indexes.CharField(model_attr="name")
+    qualified_name = indexes.CharField(model_attr="qualified_name")
+
     def get_model(self):
-        return Run
+        return ProgramBlock
+
+
+class DataIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    name = indexes.CharField(model_attr="name")
+    qualified_name = indexes.CharField(model_attr="qualified_name")
+
+    def get_model(self):
+        return Data
+
+
+class PortIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    name = indexes.CharField(model_attr="name")
+    qualified_name = indexes.CharField(model_attr="qualified_name")
+    alias = indexes.CharField(model_attr="alias")
+    uri_template = indexes.CharField(model_attr="uri_template")
+
+    def get_model(self):
+        return Port
+
+class UriVariableIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    name = indexes.CharField(model_attr="name")
+
+    def get_model(self):
+        return UriVariable
+
+class ResourceIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    name = indexes.CharField(model_attr="name")
+    uri = indexes.CharField(model_attr="uri")
+    checksum = indexes.CharField(model_attr="checksum")
+
+    def get_model(self):
+        return Resource
+
+class UriVariableValueIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    value = indexes.CharField(model_attr="value")
+
+    def get_model(self):
+        return UriVariableValue

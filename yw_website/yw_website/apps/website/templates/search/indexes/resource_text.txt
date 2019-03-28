@@ -1,0 +1,3 @@
+{{ object.checksum }}
+{{ object.name }}
+{{ object.uri }}
