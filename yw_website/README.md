@@ -1,5 +1,6 @@
 # Prerequisites
 In order to run website make sure you have installed:
+* Java (JRE) version 1.7 or 1.8
 * python3
 * pip for python3
 * Django for python3
