@@ -127,6 +127,12 @@ class Data(models.Model):
     qualified_name = models.TextField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
+    def __str__(self):
+        s = "data_id: " + str(self.data_id) + "\n"
+        s += "name: " + self.name + "\n"
+        s += "in program block:" + str(self.in_program_block) + "\n"
+        return s
+
 
 class Port(models.Model):
     class Meta:
