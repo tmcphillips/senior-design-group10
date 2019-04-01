@@ -2,50 +2,29 @@
 {% get_static_prefix as STATIC_PREFIX %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/detailed_design.css">
 
-{% comment %}
- <!-- Content to be paginated must be assigned to the document_list keyword argument when including
-        
-    Example:
-    {% include 'includeable/paginator.html' with document_list=<pageable_object> %}
-
-
-    The 'document_list' object must be a list like object with each 'document' element 
-    having the following attributes.
-
-    document:
-        title       {string}
-        description {string}
-        graph       {string}    /* graphviz string representation */
-        
- -->
-{% endcomment %}
-
-
 {% if run_list %}
-
-    <ol id=run_style>
-        {% for run in run_list %}
-            <li>
-                <div class="table_title">
-                    <a href="{% url 'run_detail' run.id %}">Run#{{ forloop.counter}}</a> 
-                </div>
-                <div class="workflow-details">
-                    <b>Time Stamp: </b>{{ run.run_time_stamp }} 
-                </div>
-                <div class=run-delete>
-                <button onclick="deleteFunctionRuns()">Delete</button>
-            </div>
-            <script>
-                function deleteFunctionRuns() {
-                    if (confirm("Do you really want to delete this run?")) {
-                        document.location.href="{% url 'delete_runs' workflow.id version.id run.id %}";
-                    }
+<ol class="run-list" id=run_style>
+    {% for run in run_list %}
+    <li>
+        <div class="table-title">
+            <a href="{% url 'run_detail' run.id %}">Run#{{ forloop.counter}}</a> 
+        </div>
+        <div class="workflow-details">
+            <b>Time Stamp: </b>{{ run.run_time_stamp }} 
+        </div>
+        <div class="run-delete">
+            <button onclick="deleteFunctionRuns()">Delete</button>
+        </div>
+        <script>
+            function deleteFunctionRuns() {
+                if (confirm("Do you really want to delete this run?")) {
+                    document.location.href="{% url 'delete_runs' workflow.id version.id run.id %}";
                 }
-            </script>
-            </li>
-        {% endfor %}
-    </ol>
-
+            }
+        </script>
+    </li>
+    {% endfor %}
+</ol>
 {% else %}
 
     <p>There are no Runs in the system.</p>

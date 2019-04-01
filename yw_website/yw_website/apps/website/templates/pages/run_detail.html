@@ -3,43 +3,29 @@
 {% get_static_prefix as STATIC_PREFIX %}
 
 {% block main_content %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/run_detail.css">
-    <div class = box >
-        <div class = border>
-        <br>
-        {% if runs %}
-        <div class="dropdown">
-                <button class="dropbtn">
-                    {% for run_ in runs %}
-                        {% if run_.id == run.id %}
-                            <text>Run #{{ forloop.counter }}</text>
-                        {% endif %}
-                    {% endfor %}
-                </button>
-                <div class="dropdown-content">
-                    {% for run_ in runs %}
-                        {% if run_.id != run.id %}
-                            <a href="{% url 'run_detail' run_.id %}">Run #{{ forloop.counter }}</a>
-                        {%  endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
-        <div class = text>
-            <br> 
-            <b>Parent Workflow: </b> {{run.version.workflow.title}}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/common.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/run_detail.css">
+<div class="box">
+    {% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}
+    <div class="filler"></div>
+    <div class="border">
+        <div class="run-dropdown-container">
+            {% include 'includeable/dropdown_selection.html' with name='Run' current=run list=runs %}
+        </div>
+        {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
+        
+        <div class="text">
+            <b>Workflow: </b> {{run.version.workflow.title}}
             <br>
             <b>Last Modified: </b> {{run.version.last_modified}}
-            <br>
-            <b>Associated Files:</b>
-            <br>
-            {% for file in file_list %}
-                    -{{ file.file_name}}
-                    <br>
-            {% endfor %}
         </div>
+        
+        <div class="collapseable-list">
+            {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}
         </div>
     </div>
-
+</div>
+    
 {% endblock %}
+
 

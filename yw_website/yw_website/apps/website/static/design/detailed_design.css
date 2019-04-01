@@ -1,15 +1,7 @@
-
 .edit_button {
     float: left;
     color: grey;
-    margin-top: 20px;
-    padding-left: 20px;
     font-size: 17px;
-}
-
-button {
-    border-radius: 5px;
-    margin-bottom: 5px;
 }
 
 .delete {
@@ -29,46 +21,6 @@ button {
     font-color: blue;
 }
 
-.list {
-    border-style: solid;
-    border-color: black;
-    text-align: left;
-    background-color: white;
-    width: 94%;
-    margin: auto;
-    padding: 3%;
-    list-style: none;
-    margin-bottom: 4%;
-}
-
-
-.runs {
-    text-align: left;
-    background-color: white;
-    width: 100%;
-}
-
-table {
-    border-collapse: collapse;
-    background-color: white;
-    width: 100%;
-}
-
-img {
-    margin: 50%;
-}
-
-
-.box {
-    margin:auto;
-    text-align: center;
-    background-color: white;
-    width: 90%;
-    height: 100%;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-
 .outside_data {
     margin: auto;
     padding: 3%;
@@ -81,16 +33,9 @@ img {
 
 }
 
-ol {
+.run-list {
     margin: auto;
     padding: 0%;
-    list-style-type: none;
-}
-
-#elementStyle li {
-    border: none;
-    width: 94%;
-    margin: auto;
     list-style-type: none;
 }
 
@@ -108,94 +53,27 @@ ol {
     border-width: 2px;
 }
 
-svg {
-    width: 100%;
-    height: 20em;
-}
-
 .run-text {
     text-align: left;
     padding-left: 3%;
     color: rgb(5, 97, 92);
     font-weight: bold;
-
 }
 
 .title {
-    font-size: 22px;
-    padding: 3%;
+    padding-top: 1em;
+    font-size: 28px;
     border: transparent;
-    text-align: left;
+    text-align: center;
     font-weight: bold;
     color: rgb(5, 97, 92);
 }
 
-.table_title {
+.table-title {
     color: black;
 }
 
-.workflow-image{
-    width: 100%;
-}
-
-/* Dropdown Button */
-.dropbtn {
-    background-color: #f1f1f1;
-    padding: 10px;
-    width: 100%;
-    font-size: 16px;
-    border: none;
-    text-align: left;
-    border-radius: 5px;
-}
-  
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
-    padding-top: 2%;
-}
-  
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    width: 100%;
-    text-align: left;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 5px;
-}
-  
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-  
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
-
-.workflow_id {
-	text-align: right;
-    margin-right: 2%;
-	padding-top: 1%;
-	color: grey;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-    background-color: #000000;
-    color: #ffffff;
-}
-
-.tags{
+.tags {
     text-overflow: ellipsis;
     overflow: hidden;
     max-width: 15%;
@@ -206,4 +84,16 @@ span.tags:hover {
     overflow: visible;
 }
 
+.workflow-id {
+	text-align: right;
+    margin-right: 2%;
+	padding-top: 1%;
+	color: grey;
+}
 
+.detailed-dropdown-container {
+    display: flex;
+    align-content: center;
+    width: 100%;
+    height: 5em;
+}
