@@ -83,6 +83,11 @@ class ProgramBlock(models.Model):
     in_program_block = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True)
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
+    def __str__(self):
+        s = "programblock_id: " + str(self.programblock_id)
+        s += ", in_program_block: " + str(self.in_program_block)
+        return s
+
 
 class Data(models.Model):
     class Meta:
@@ -95,6 +100,12 @@ class Data(models.Model):
     name = models.TextField()
     qualified_name = models.TextField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
+
+    def __str__(self):
+        s = "data_id: " + str(self.data_id) + "\n"
+        s += "name: " + self.name + "\n"
+        s += "in program block:" + str(self.in_program_block) + "\n"
+        return s
 
 
 class Port(models.Model):
@@ -112,6 +123,18 @@ class Port(models.Model):
     is_outport = models.BooleanField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
+    def __str__(self):
+        s = "port_id: " + str(self.port_id) + "\n"
+        s += "on program_block: " + str(self.on_program_block) + "\n"
+        s += "data: " + str(self.data) + "\n"
+       # s += "name: " + str(self.name) + "\n"
+       # s += "qualified_name: " + str(self.qualified_name) + "\n"
+        # s += "alias: " + str(self.alias) + "\n"
+        #s += "uri_template: " + str(self.uri_template) + "\n"
+        s += "is_inport: " + str(self.is_inport) + "\n"
+        s += "is_outport: " + str(self.is_outport) + "\n"
+        return s
+
 
 class Channel(models.Model):
     class Meta:
@@ -128,6 +151,11 @@ class Channel(models.Model):
     is_inflow = models.BooleanField()
     is_outflow = models.BooleanField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
+
+    def __str__(self):
+        s = "channel id: " + str(self.channel_id) + "\n"
+        s += "out_port: " + str(self.out_port) + "\n"
+        s += "in_port: " + str(self.in_port) + "\n"
 
 
 class UriVariable(models.Model):
