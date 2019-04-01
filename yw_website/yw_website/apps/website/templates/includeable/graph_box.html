@@ -1,3 +1,12 @@
+{% comment %}
+
+Example: 
+{% include 'includeable/graph_box.html' with yw_graph_output=<graphviz string> %}
+
+This component expects a graphviz styled string as input for the yw_graph_output argument.
+
+{% endcomment %}
+
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
 <script src="{{ STATIC_PREFIX }}scripts/viz.js"></script>
