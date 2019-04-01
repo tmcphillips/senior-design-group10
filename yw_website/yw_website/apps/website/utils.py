@@ -64,30 +64,6 @@ def get_block_data(run_id):
     # for data in parent_data:
     #     parent.data_objs.append(data)
 
-    # grab child blocks
-    child_blocks = program_blocks.exclude(in_program_block_id=None)
-    for block in child_blocks:
-        next_block = ProgramBlock()
-        next_block.name = block.name
-        next_block.programblock_id = block.programblock_id
-        next_block.id = block.id
-        next_block.in_program_block_id = block.in_program_block_id
-        next_block.direct_descendents = program_blocks.filter(in_program_block=next_block.id)
-
-        # block_data = data.filter(in_program_block=next_block.id)
-        # for data in block_data:
-        #     next_block.data_objs.append(data)
-
-        blocks.append(next_block)
-
-        #prints for testing
-        # print(next_block.name)
-        # print(next_block.in_program_block_id)
-        # print(next_block.direct_descendents)
-        # print(next_block.data_objs)
-        # print()
-    print(blocks)
-
 def get_direct_descendants(program_block_id, program_blocks):
     descendants = []
     for child in program_blocks.filter(in_program_block=program_block_id):
