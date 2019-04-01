@@ -2,6 +2,8 @@
     width: 100%;
 }
 
-.list-item {
+.block-list-item {
     padding-left: 1em;
+    text-align: left;
+    align-items: left;
 }

@@ -14,8 +14,8 @@ This component expects a graphviz styled string as input for the yw_graph_output
 <script src="{{ STATIC_PREFIX }}scripts/d3-graphviz.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/graph_box.css">
 
-<div class="graph_container"></div>
-    <div id="graph" class=workflow-image></div>
+<div class="graph_container">
+    <div id="graph" class="workflow-image"></div>
     <script type="text/javascript">
         graph=`{{ yw_graph_output|safe }}`
     </script>

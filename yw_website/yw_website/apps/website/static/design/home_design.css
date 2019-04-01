@@ -1,17 +1,6 @@
-
-a {
+.link-highlight-off:hover {
 	text-decoration: none;
 	color: inherit;
-}
-
-.list {
-	text-align: center;
-	align-items:center;
-    padding: 3%;
-    background-color: white;
-	width: 100%;
-	height: 100%;
-	margin: 0%;
 }
 
 .workflow-details {
@@ -34,54 +23,36 @@ a {
 	text-decoration: none;
 	
 }
-.details-button {
-	width: 180px;
-	border: black solid 1px;
-	background: lightgrey;
-	color: black;
-}
-
-.tab {
-	margin: 0 0 0 10%;
-	width: 150px;
-	height: 40px;
-	line-height: 40px;
-	background-color: white;
-	text-align: center;
-	font-size: 16px;
-	border-radius: 5px 5px 0 0;
-	border: 1px dashed;
-}
 
 .dns {
-	position: relative;
-	display: inline;
-	margin-left: 75%;
-	color: grey;
-	border-style: solid;
-	border-width: 1px;	
-	border-radius: 5px;
-	padding: 5px;
-	top: -11px;
+	margin-left: auto;
+	margin-right: 15%;
+	height: 2em;
+	width: 10em;
+	padding-top: 3em;
+	top: 4em;
 }
 
-.dns .tooltiptext {
-  visibility: hidden;
-  position: absolute;
-  padding: 5px;
-  border-radius: 5px;
-  color: grey;
-  width: 500px;
-  bottom: 100%;
-  left: 50%; 
-  margin-left: -220px;
+.dns-text {
+	position: relative;
+	color: grey;
+	border-style: solid;
+	text-align: center;
+	border-width: 1px;	
+	border-radius: 5px;
+}
 
+.tooltiptext {
+	position: absolute;
+	visibility: hidden;
+	width: 500px;
+	right: 2%;
+	color: grey;
 }
 
 .dns:hover .tooltiptext {
-  visibility: visible;
+	visibility: visible;
 }
-
 
 .title {
 	text-align: left;
@@ -90,34 +61,16 @@ a {
 	color: rgb(5, 97, 92);
 }
 
-#elementStyle li {
-	display: table;
-	text-align: left;
-	list-style-type: none;
-    padding: 10px;
-	border: 1px dashed;
-	width: 100%;
-}
-
-img {
-	margin: 5px;
-	max-width: 100%;
-	max-height: 50%;
-}
-
-
-svg {
-	width: 100%;
-	max-height: 20em;
+.large-text {
+	font-size: 28px;	
 }
 
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-  padding: 16px;
-  text-align: left;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+	padding: 16px;
+	text-align: left;
 	background-color: #f1f1f1;
 	border-width: 2px;
 	border-color: black;
 	margin-bottom: 5%;
 }
-
