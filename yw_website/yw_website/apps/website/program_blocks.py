@@ -2,7 +2,7 @@ class ProgramBlocks:
 
     def __init__(self):
         self.name = None
-        self.programblock_id = None
+        self.program_block_id = None
         self.id = None
         self.in_program_block_id = None
         self.direct_descendents = []

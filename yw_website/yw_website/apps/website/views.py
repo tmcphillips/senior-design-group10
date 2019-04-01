@@ -172,7 +172,7 @@ def run_detail(request, run_id):
     return render(
         request,
         "pages/run_detail.html",
-        {"run": run, "file_list": resource_list, "runs": runs},
+        {"run": run, "file_list": resource_list, "runs": runs, "blocks": block_inputs},
     )
 
 def delete_workflows(request, workflow_id):

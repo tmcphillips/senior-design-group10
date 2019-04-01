@@ -32,14 +32,10 @@
             <b>Last Modified: </b> {{run.version.last_modified}}
             <br>
             <b>Associated Files:</b>
-            <br>
-            {% for file in file_list %}
-                    -{{ file.file_name}}
-                    <br>
-            {% endfor %}
         </div>
         </div>
     </div>
-
+    {% include 'includeable/collapsable_block_list.html' with blocks=blocks%}
 {% endblock %}
+
 
