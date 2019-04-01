@@ -1,0 +1,24 @@
+{% comment %}
+
+Example: 
+{% include 'includeable/collapseable_block_list.html' with blocks=<ProgramBlocks-object>%}
+
+To use this class must pass in a ProgramBlocks object to the blocks argument. ProgramBlocks
+can be found here: https://github.com/aniehuser/senior-design-group10/blob/master/yw_website/yw_website/apps/website/program_blocks.py
+
+{% endcomment %}
+
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/collapseable_block_list.css">
+
+<div class="block-list-container">
+    <ol>
+        {% for block in blocks %}
+        <li class="list-item">
+            {{ block.name }}
+            {% include 'includeable/collapseable_block_list.html' with blocks=block.direct_descendants%}
+        </li>
+        {% endfor %}
+    </ol>
+</div>

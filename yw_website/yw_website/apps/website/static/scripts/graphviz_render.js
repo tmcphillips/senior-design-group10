@@ -1,5 +1,6 @@
-graphid = graphid + 1
+console.log(graph)
+console.log(options)
 
-d3.select(`#graph${graphid}`)
+d3.select(`#graph`)
     .graphviz(options)
     .renderDot(graph)

@@ -1,0 +1,11 @@
+.graph_container {
+    width: 100%;
+    border: none;
+    width: 94%;
+    margin: auto;
+    list-style-type: none;
+}
+
+.workflow-image {
+    width: 100%;
+}

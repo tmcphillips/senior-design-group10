@@ -4,8 +4,8 @@
 
 {% block main_content %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/run_detail.css">
-    <div class = box >
-        <div class = border>
+    <div class="box">
+        <div class="border">
         <br>
         {% if runs %}
         <div class="dropdown">
@@ -25,6 +25,8 @@
                 </div>
             </div>
         {% endif %}
+        {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
+        
         <div class = text>
             <br> 
             <b>Parent Workflow: </b> {{run.version.workflow.title}}
@@ -32,14 +34,14 @@
             <b>Last Modified: </b> {{run.version.last_modified}}
             <br>
             <b>Associated Files:</b>
-            <br>
-            {% for file in file_list %}
-                    -{{ file.file_name}}
-                    <br>
-            {% endfor %}
         </div>
+        
+        <div class="collapsable-list">
+            {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}
         </div>
     </div>
-
+    </div>
+    
 {% endblock %}
+
 

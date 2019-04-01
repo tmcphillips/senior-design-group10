@@ -54,11 +54,6 @@ table {
     width: 100%;
 }
 
-img {
-    margin: 50%;
-}
-
-
 .box {
     margin:auto;
     text-align: center;
@@ -132,10 +127,6 @@ svg {
 
 .table_title {
     color: black;
-}
-
-.workflow-image{
-    width: 100%;
 }
 
 /* Dropdown Button */
