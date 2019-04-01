@@ -54,15 +54,14 @@ def get_block_data(run_id):
     program_blocks = ProgramBlock.objects.filter(run=run_id)
     data = Data.objects.filter(run=run_id)
     # print(data)
-
-    blocks = []
-    data_vals = []
+    # data_vals = []
 
     # grab parent block
     parents = get_direct_descendants(None, program_blocks)
     print(parents)
     # for data in parent_data:
     #     parent.data_objs.append(data)
+    return parents
 
 def get_direct_descendants(program_block_id, program_blocks):
     descendants = []
