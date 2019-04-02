@@ -60,9 +60,12 @@ def home(request):
 
 @login_required(login_url="/accounts/login/")
 def my_workflows(request):
-    workflow_list = (
-        Workflow.objects.all().filter(user=request.user).exclude(version__isnull=True)
-    )
+    if 'q' in request.GET:
+        workflow_list = search_and_create_query_set(request.GET['q'])
+
+    else:
+        workflow_list = Workflow.objects.all().exclude(version__isnull=True)
+
     for workflow in workflow_list:
         latest_version = (
             Version.objects.filter(workflow=workflow).order_by("last_modified").first()
@@ -90,6 +93,9 @@ def my_workflows(request):
 
 
 def edit_workflow(request, workflow_id, version_id):
+    if 'q' in request.GET:
+        return redirect('/?q={}'.format(request.GET['q']))
+
     workflow = Workflow.objects.get(pk=workflow_id)
     workflow_tags = TagWorkflow.objects.filter(workflow=workflow_id)
     if request.method == "POST":
@@ -127,6 +133,9 @@ def edit_workflow(request, workflow_id, version_id):
 
 def detailed_workflow(request, workflow_id, version_id):
     edit = False
+    if 'q' in request.GET:
+        return redirect('/?q={}'.format(request.GET['q']))
+
     try:
         if request.method == "GET":
             form = request.POST
@@ -161,6 +170,8 @@ def detailed_workflow(request, workflow_id, version_id):
 
 
 def run_detail(request, run_id):
+    if 'q' in request.GET:
+        return redirect('/?q={}'.format(request.GET['q']))
     try:
         run = Run.objects.get(pk=run_id)
         resource_list = Resource.objects.filter(run=run)
