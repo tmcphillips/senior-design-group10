@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
+from . import settings as website_settings
+
 urlpatterns = [
     ###
     # USER PATHS
@@ -32,5 +34,7 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(website_settings.MEDIA_URL,
+                          document_root=website_settings.MEDIA_ROOT)
+    urlpatterns += static(website_settings.STATIC_URL,
+	                          document_root=website_settings.STATIC_ROOT)
