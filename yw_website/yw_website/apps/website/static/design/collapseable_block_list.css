@@ -1,0 +1,9 @@
+.block-list-container {
+    width: 100%;
+}
+
+.block-list-item {
+    padding-left: 1em;
+    text-align: left;
+    align-items: left;
+}

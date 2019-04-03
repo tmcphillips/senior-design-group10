@@ -2,47 +2,51 @@
 {% load static %}
 
 {% block main_content %}
-<link rel="stylesheet" type="text/css" href={% static "design/edit_page_design.css" %}>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/common.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/edit_page_design.css">
+
+<div class="box">
+	<div class="filler"></div>
+	<div class="border">
 <form id="EditForm" method="POST">
 	{% csrf_token %}
-		<div class=edit>
-			<div class=title2>Edit Workflow </div>
-			<br>
-			<div class=title1>
-				Title: <input type="text" name="title" value="{{workflow.title}}"><br><br>
-			</div>
-			Description: <br><br>
-			<div class=description>
-				<textarea rows="6" type="text" name="description">{{workflow.description}}</textarea>
-			</div>
-			<br><br>
-			<div class=tagInput>
-					Add Tags: <input type="text" id="tags" />
-		    	<input type="button" class="addTag" id="addTag" value="+"/>
-		    </div>
-		    <input type="hidden" id="tagArray" name="tagArray"> <br>
-		    <p id=newtags> </p>
-		    {% for tag in workflowTags %}
-		    	{{ tag.tag.title}},
-		    {% endfor %}
-			<br>
-			<script>
-				var tag_arr = new Array()
-				document.getElementById("addTag").onclick = function() {
-					var x = document.getElementById("tags").value;
-					if (x) {
-						tag_arr.push(x)
-						document.getElementById("tagArray").value = tag_arr;
-						document.getElementById("newtags").innerHTML = tag_arr;
-					}
-					document.getElementById("tags").value = "";
+	<div class="title2">Edit Workflow</div>
+	<br>
+	<div class="title1">
+		Title: <input class="input" type="text" name="title" value="{{workflow.title}}"><br><br>
+	</div>
+	Description: <br><br>
+	<div class="description">
+		<textarea class="input" rows="6" type="text" name="description">{{workflow.description}}</textarea>
+	</div>
+	<br><br>
+	<div>
+		Add Tags: <input class="input tag-input" type="text" id="tags"/>
+		<input type="button" class="addTag" id="addTag" value="+"/>
+	</div>
+	<p id="newtags"> </p>
+	{% for tag in workflowTags %}
+		{{ tag.tag.title}},
+	{% endfor %}
+	<br>
+	<script>
+		var tag_arr = new Array()
+		document.getElementById("addTag").onclick = function() {
+			var x = document.getElementById("tags").value;
+			if (x) {
+				tag_arr.push(x)
+				document.getElementById("tagArray").value = tag_arr;
+				document.getElementById("newtags").innerHTML = tag_arr;
+			}
+			document.getElementById("tags").value = "";
 
-				}
-		    </script>
-		    <div class=buttons>
-		    	<button type="submit"> Save</button>
-		    	<a class="more-details-button" href="{% url 'my_workflows'%}"> Back</a>
-			</div>
-	    </div>
+		}
+	</script>
+	<div class="buttons">
+		<button type="submit">Save</button>
+		<a class="more-details-button" href="{% url 'my_workflows'%}"> Back</a>
+	</div>
+
 </form>
+</div></div>
 {% endblock %}
