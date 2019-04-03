@@ -6,7 +6,7 @@
 {% for tag in tags %}
   <div class="control">
     <div class="tags has-addons">
-      <a href="{% url 'home' %}?q={{ tag.tag.title }}" class="tag is-link">{{tag.tag.title}}{% if not forloop.last %}{% endif %}</a>
+      <a href="{% url 'home' %}?q={{ tag.tag.title }}" class="tag is-link">{{tag.tag.title}}</a>
       <a href="{% url 'tag_delete' tag.tag.id %}" class="tag is-delete"></a>
     </div>
   </div>
