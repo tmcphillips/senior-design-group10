@@ -1,13 +1,14 @@
 import uuid
 
 from django.contrib.auth.models import User
+
 from django.test import TestCase
 from rest_framework.test import APIClient
-import json
-import datetime
 from .models import Workflow, TagWorkflow
 from .serializers import *
 import copy
+
+from django.urls import reverse
 
 
 class DBTestCase(TestCase):
@@ -319,3 +320,146 @@ class YwSaveTestCase(TestCase):
             len(data["tags"]) - 1,
             msg="Expected only three tags to be associated with workflow",
         )
+
+class ViewsTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.username = str(uuid.uuid1())
+        self.password = "Password!@#"
+        self.user = User.objects.create_user(username=self.username, password=self.password)
+
+        res = self.client.post('/rest-auth/login/', data={'username': self.username, 'password': self.password},
+                               format='json')
+        self.token = res.data['key']
+        self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token))
+
+        self.data = {}
+        self.data["title"] = "test_title"
+        self.data["description"] = "test_description"
+        self.data["model"] = "test_model"
+        self.data["modelChecksum"] = str(uuid.uuid1())
+        self.data["graph"] = "test_graph"
+        self.data["tags"] = ["tag_1", "tag_2", "tag_3"]
+        self.data["scripts"] = [
+            {
+                "name": "script_1",
+                "checksum": str(uuid.uuid1()),
+                "content": "script_1_content",
+            },
+            {
+                "name": "script_2",
+                "checksum": str(uuid.uuid1()),
+                "content": "script_2_content",
+            },
+            {
+                "name": "script_3",
+                "checksum": str(uuid.uuid1()),
+                "content": "script_3_content",
+            },
+        ]
+        self.data["programBlock"] = [
+            {
+                "programBlockId": 1,
+                "inProgramBlock": None,
+                "name": "programBlock1",
+                "qualifiedName": "programBlockQualifiedName",
+            },
+            {
+                "programBlockId": 2,
+                "inProgramBlock": 1,
+                "name": "programBlock2",
+                "qualifiedName": "programBlockQualifiedName2",
+            },
+        ]
+        self.data["data"] = [
+            {
+                "dataId": 1,
+                "inProgramBlock": 1,
+                "name": "data1",
+                "qualifiedName": "dataQualifiedName",
+            },
+            {
+                "dataId": 2,
+                "inProgramBlock": 1,
+                "name": "dataName2",
+                "qualifiedName": "dataQualifiedName2",
+            },
+        ]
+        self.data["port"] = [
+            {
+                "portId": 1,
+                "onProgramBlock": 1,
+                "data": 1,
+                "name": "PortOne",
+                "qualifiedName": "portOneQualifiedName",
+                "alias": None,
+                "uriTemplate": None,
+                "inPort": True,
+                "outPort": False,
+            },
+            {
+                "portId": 2,
+                "onProgramBlock": 2,
+                "data": 2,
+                "name": "PortTwo",
+                "qualifiedName": "portTwoQualifiedName",
+                "alias": "aliasTwo",
+                "uriTemplate": "uriTwo",
+                "inPort": False,
+                "outPort": True,
+            },
+        ]
+        self.data["channel"] = [
+            {
+                "channelId": 1,
+                "inPort": 1,
+                "outPort": 2,
+                "data": 1,
+                "isInflow": True,
+                "isOutflow": False,
+            }
+        ]
+        self.data["uriVariable"] = [
+            {"uriVariableId": 1, "port": 1, "name": "urivarname"}
+        ]
+        self.data["resource"] = [
+            {
+                "resourceId": 1,
+                "data": 1,
+                "uri": "file_uri_1",
+                "name": "file_name_1",
+                "checksum": str(uuid.uuid1()),
+                "size": 9,
+                "lastModified": datetime.datetime.now(),
+            },
+            {
+                "resourceId": 2,
+                "data": 1,
+                "name": "file_name_2",
+                "checksum": str(uuid.uuid1()),
+                "size": 3,
+                "uri": "file_uri_2",
+                "lastModified": datetime.datetime.now(),
+            }
+        ]
+        self.data["uriVariableValue"] = [
+            {"uriVariableId": 1, "resource": 1, "value": "uripath"}
+        ]
+
+        route = "/save/"
+        response = self.client.post(route, self.data, format="json")
+
+    def test_view_home(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200, msg="The home page is not returning a 200 status code")
+
+    def test_view_my_workflows_authenticated(self):
+        response = self.client.get(reverse('my_workflows'))
+        self.assertEqual(response.status_code, 200,
+                         msg="An unathenticated user was able to access my_workflows page")
+
+    def test_view_my_workflows_unauthenticated(self):
+        self.client.logout()
+        response = self.client.get(reverse('my_workflows'))
+        self.assertEqual(response.status_code, 302, msg="An unathenticated user was not "
+                                                        "redirected to login after trying to access my_workflows page")
