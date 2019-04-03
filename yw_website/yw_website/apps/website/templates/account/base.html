@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}account/login_page.css">
     {% include 'includeable/navbar.html' %}
-  <div class = 'all'>
+  <div class="all">
     <head>
       <title >{% block head_title %}{% endblock %}</title>
       {% block extra_head %}
@@ -30,16 +30,16 @@
         </ul>
       </div>
       {% endif %}
-      <div class = 'options'>
+      <div class="options">
         <ul>
           {% if user.is_authenticated %}
-          <div class = 'link'>
+          <div class="link">
           <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
           | 
           <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
           </div>
           {% else %}
-          <div class = 'link'>
+          <div class="link">
           <li><a href="{% url 'account_login' %}">Sign In</a></li>
           |
           <li><a href="{% url 'account_signup' %}">Sign Up</a></li>

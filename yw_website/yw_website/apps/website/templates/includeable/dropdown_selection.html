@@ -1,0 +1,22 @@
+{% load custom_filters %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/common.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/dropdown_selection.css">
+
+<div class="dropdown">
+    <button class="button dropbtn">
+        {% for item in list %}
+            {% if item.id == current.id %}
+                <p>{{ name }} #{{ forloop.counter }}</p>
+            {% endif %}
+        {% endfor %}
+    </button>
+    <div class="dropdown-content">
+        {% for item in list %}
+            {% if item.id != list.id %}
+                <a href="{{ request.get_full_path|trim_url_tail }}/{{ item.id }}/">{{ name }} #{{ forloop.counter }}</a>
+            {%  endif %}
+        {% endfor %}
+    </div>
+</div>

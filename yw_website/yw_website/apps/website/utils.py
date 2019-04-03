@@ -2,6 +2,8 @@ from django.db.models import Q
 from haystack.inputs import AutoQuery
 from haystack.query import SearchQuerySet
 
+from .program_blocks import ProgramBlocks
+
 from .models import *
 
 def search_and_create_query_set(q):
@@ -66,3 +68,24 @@ def search_and_create_query_set(q):
         return Workflow.objects.filter(query).exclude(version__isnull=True)
     else:
         return Workflow.objects.none()
+
+def get_block_data(run_id):
+    '''
+    This function sets up the block structure so that from a parent program
+    block you may drill down into a child of that program block
+    '''
+    program_blocks = ProgramBlock.objects.filter(run=run_id)
+    data = Data.objects.filter(run=run_id)
+    parents = get_direct_descendants(None, program_blocks)
+    return parents
+
+def get_direct_descendants(program_block_id, program_blocks):
+    descendants = []
+    for child in program_blocks.filter(in_program_block_id=program_block_id):
+        new_child = ProgramBlocks()
+        new_child.name = child.name
+        new_child.program_block_id = child.programblock_id
+        new_child.id = child.id
+        new_child.direct_descendants = get_direct_descendants(new_child.id, program_blocks)
+        descendants.append(new_child)
+    return descendants

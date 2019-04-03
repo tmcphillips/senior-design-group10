@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
-  <nav class="navbar navbar-default">
+  <nav class="navbar-default">
     <div class="container-fluid">
 
         <div class="navbar-header"> 
@@ -16,7 +16,7 @@
         
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav navbar-nav">
-                <li class="">
+                <li>
                     <a href="{% url 'my_workflows' %}">
                         My Workflows
                     </a>
@@ -29,15 +29,15 @@
                 </li>
                 {% endif %}
                <li>
-                <form class=search type="get" action=".">
+                <form class="search" type="get" action=".">
                     <input type="text" name="q">
-                    <button type="submit">Search</button>
+                    <button class="searchbutton" type="submit">Search</button>
                 </form>                
                </li>
             </ul>
             
             <ul class="nav navbar-nav navbar-right">
-                <li class="">
+                <li>
                     {% if user.is_authenticated %}
                         <a href="{% url 'account_logout' %}"> {{user.get_username}} | Logout </a>
                     {% else %}

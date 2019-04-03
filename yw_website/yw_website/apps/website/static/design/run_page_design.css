@@ -1,23 +1,4 @@
 
-.box {
-	margin:auto;
-	text-align: left;
-	background-color: white;
-	width: 90%;
-	padding-bottom: 3%;
-	padding-top: 3%;
-}
-
-.border {
-	margin:auto;
-	text-align: left;
-	width: 95%;
-	height: 95%;
-	padding-bottom: 3%;
-	padding-left: 3%;
-	border-style: dotted;
-}
-
 .text {
 	padding-right: 30%;
 }

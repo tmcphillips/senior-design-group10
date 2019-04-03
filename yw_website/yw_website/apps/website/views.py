@@ -18,7 +18,7 @@ from django.shortcuts import get_object_or_404
 
 from .models import *
 from .serializers import *
-from .utils import search_and_create_query_set
+from .utils import search_and_create_query_set, get_block_data
 
 from rest_framework import serializers
 from django.http import HttpResponseRedirect
@@ -161,13 +161,14 @@ def run_detail(request, run_id):
         run = Run.objects.get(pk=run_id)
         resource_list = Resource.objects.filter(run=run)
         runs = Run.objects.filter(version=run.version)
+        block_inputs = get_block_data(run_id)
     except Run.DoesNotExist:
         return Response(status=404, data={"error": "run not found"})
 
     return render(
         request,
         "pages/run_detail.html",
-        {"run": run, "file_list": resource_list, "runs": runs},
+        {"run": run, "file_list": resource_list, "runs": runs, "blocks": block_inputs, "graph_output": run.version.yw_graph_output},
     )
 
 def delete_workflows(request, workflow_id):
