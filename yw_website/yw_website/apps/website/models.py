@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class Tag(models.Model):
-    parent_tag = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True)
+    parent_tag = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
 
     WORKFLOW = "w"
     VERSION = "v"
@@ -80,7 +80,7 @@ class ProgramBlock(models.Model):
     programblock_id = models.IntegerField()
     name = models.TextField()
     qualified_name = models.TextField()
-    in_program_block = models.ForeignKey("self", on_delete=models.DO_NOTHING, null=True)
+    in_program_block = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -95,7 +95,7 @@ class Data(models.Model):
 
     data_id = models.IntegerField()
     in_program_block = models.ForeignKey(
-        ProgramBlock, on_delete=models.DO_NOTHING, null=True
+        ProgramBlock, on_delete=models.CASCADE, null=True
     )
     name = models.TextField()
     qualified_name = models.TextField()
@@ -113,8 +113,8 @@ class Port(models.Model):
         unique_together = ("port_id", "run")
 
     port_id = models.IntegerField()
-    on_program_block = models.ForeignKey(ProgramBlock, on_delete=models.DO_NOTHING)
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+    on_program_block = models.ForeignKey(ProgramBlock, on_delete=models.CASCADE)
+    data = models.ForeignKey(Data, on_delete=models.CASCADE)
     name = models.TextField()
     qualified_name = models.TextField()
     alias = models.TextField(null=True)
@@ -142,12 +142,12 @@ class Channel(models.Model):
 
     channel_id = models.IntegerField()
     out_port = models.ForeignKey(
-        Port, on_delete=models.DO_NOTHING, related_name="inport"
+        Port, on_delete=models.CASCADE, related_name="inport"
     )
     in_port = models.ForeignKey(
-        Port, on_delete=models.DO_NOTHING, related_name="outport"
+        Port, on_delete=models.CASCADE, related_name="outport"
     )
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+    data = models.ForeignKey(Data, on_delete=models.CASCADE)
     is_inflow = models.BooleanField()
     is_outflow = models.BooleanField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
@@ -163,7 +163,7 @@ class UriVariable(models.Model):
         unique_together = ("uri_variable_id", "run")
 
     uri_variable_id = models.IntegerField()
-    port = models.ForeignKey(Port, on_delete=models.DO_NOTHING)
+    port = models.ForeignKey(Port, on_delete=models.CASCADE)
     name = models.TextField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
 
@@ -174,7 +174,7 @@ class Resource(models.Model):
 
     resource_id = models.IntegerField()
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
-    data = models.ForeignKey(Data, on_delete=models.DO_NOTHING)
+    data = models.ForeignKey(Data, on_delete=models.CASCADE)
 
     checksum = models.CharField(max_length=128)
     last_modified = models.DateTimeField()
@@ -185,6 +185,6 @@ class Resource(models.Model):
 
 class UriVariableValue(models.Model):
     run = models.ForeignKey(Run, on_delete=models.CASCADE)
-    uri_variable = models.ForeignKey(UriVariable, on_delete=models.DO_NOTHING)
-    resource = models.ForeignKey(Resource, on_delete=models.DO_NOTHING)
+    uri_variable = models.ForeignKey(UriVariable, on_delete=models.CASCADE)
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE)
     value = models.TextField()
