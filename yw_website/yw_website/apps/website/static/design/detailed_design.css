@@ -195,15 +195,4 @@ svg {
     color: #ffffff;
 }
 
-.tags{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 15%;
-    white-space: nowrap;
-}
-
-span.tags:hover {
-    overflow: visible;
-}
-
 

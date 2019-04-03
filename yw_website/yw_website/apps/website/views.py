@@ -21,6 +21,8 @@ from .serializers import *
 from .utils import search_and_create_query_set
 
 from rest_framework import serializers
+from django.http import HttpResponseRedirect
+
 
 
 #############################################################
@@ -42,9 +44,7 @@ def home(request):
         workflow.version_id = latest_version.id
         workflow.version_modified = latest_version.last_modified
 
-        workflow.tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
-            "tag__title", flat=True
-        )
+        workflow.tags = TagWorkflow.objects.filter(workflow=workflow)
 
     workflow_list = sorted(workflow_list, key=lambda t: t.version_modified, reverse=True)
 
@@ -74,9 +74,7 @@ def my_workflows(request):
             workflow.version_id = latest_version.id
             workflow.version_modified = latest_version.last_modified
 
-            workflow.tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
-                "tag__title", flat=True
-            )
+            workflow.tags = TagWorkflow.objects.filter(workflow=workflow)
 
     workflow_list = sorted(workflow_list, key=lambda t: t.version_modified, reverse=True)
 
@@ -135,9 +133,7 @@ def detailed_workflow(request, workflow_id, version_id):
                 edit = True
             version = Version.objects.get(pk=version_id)
             versions = Version.objects.filter(workflow=workflow)
-            tags = TagWorkflow.objects.filter(workflow=workflow).values_list(
-                "tag__title", flat=True
-            )
+            tags = TagWorkflow.objects.filter(workflow=workflow)
 
             runs = Run.objects.filter(version=version)
             info = {
@@ -192,6 +188,13 @@ def delete_versions(request, workflow_id, run_id, version_id):
     return redirect(
                 "/detailed_workflow/{}/version/{}/".format(workflow_id, version_id)
             )
+
+def tag_delete(request, tag_id):
+    tag = Tag.objects.get(pk=tag_id)
+    tag.delete()
+    next = request.POST.get('next', '/')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 #############################################################
 # REST API Views
 #############################################################

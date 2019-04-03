@@ -2,7 +2,7 @@
 
 ## Prerequisites: 
 ### Required:
-* Python 3.6 or greater
+* Python 3.5 or greater
 * Pip for the installed Python3 environment
 * [Clone the YesWorkflow Web Components Repository](https://github.com/aniehuser/senior-design-group10)
 * Install project dependencies by executing `pip install -r requirements.txt`
@@ -66,7 +66,7 @@ Required configurations to use YesWorkflow Save
 
 Set `save.serveraddress` to the DNS/IP address/URL of the server you would like to save a workflow's run to. 
 You can view what the server address to set the configuration on YesWorkflow WebComponents instance's Home Page. 
-![Image of instance's DNS](demos/tutorials/dns.png)
+![Image of instance's DNS](./demos/tutorials/dns.png)
 
 **NOTE** :: YesWorkflow Save is currently a bit finicky, so, in this example, to save a workflow's run to `localhost:8000` as shown, you would need to include the `http://` before the dns, as well as a trailing `/`. It would look something like `save.serveraddress=http://localhost:8000/`
 
@@ -122,7 +122,7 @@ This puts the graphviz string into a file so you can see 'save' related content.
 ## Website Navigation
 YesWorkflow Web Components has three major pages. The Home page, which contains a list of all workflows uploaded to the website. To view only the workflows associated with the currently logged in user, click the My Workflows tab. 
 
-![alt text](./images/my_workflows.png "My Workflows")
+![alt text](/demos/images/my_workflows.png "My Workflows")
 
 
 To navigate back to the homepage, click the YesWorkflow logo in the top left corner.
@@ -131,7 +131,7 @@ On the Home page and My Workflows page one can enter a query into the search bar
 
 By clicking on a workflow found on either the Home page or the My Workflows page you will be navigated to a more detailed view of the workflow. 
 
-![alt text](./images/workflow_click.png "Click Here")
+![alt text](/demos/images/workflow_click.png "Click Here")
 
 The next page you will see is the detailed workflow page. If you are the owner of this workflow you will have extra privileges, such as editing and deleting the workflow.
 
@@ -139,8 +139,8 @@ You can select different versions of the workflow with the version dropdown.
 
 To navigate to a more detailed view of a run, click on one of the runs found in the list of runs. This run page will contain more details about the files associated with the run.
 
-![alt text](./images/run_click.png "Click Here")
+![alt text](/demos/images/run_click.png "Click Here")
 
 Currently the run page is a work in progress but once finished it will contain parsed information about the files found when the save command is executed. 
 
-![alt text](./images/run_page.png "Click Here")
+![alt text](/demos/images/run_page.png "Click Here")
