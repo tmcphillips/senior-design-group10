@@ -17,20 +17,46 @@
     {% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}
     <div class="filler"></div>
     <div class="border">
+     <div class=edit_button>
         {% if edit == True %}
-        <div class="edit_button">
             <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
                 {% csrf_token %}
-                <button class="button" type="submit"> Edit Workflow</button>
+                <button type="submit"> Edit Workflow</button>
             </form>
-            <div class="delete">
-                <button class="button" onclick="deleteFunctionWorkflows()">Delete Workflow</button>
+            <div class=delete>
+                <button onclick="deleteWorkflow()">Delete Workflow</button>
             </div>
             <script>
-                function deleteFunctionWorkflows() {
-                    if (confirm("Do you really want to delete this workflow?")) {
-                        document.location.href="{% url 'delete_workflows' workflow.id %}";
-                    }
+                function deleteWorkflow() {
+                    // Create template
+                    var box = document.createElement("div");
+                    var cancel = document.createElement("button");
+                    cancel.innerHTML = "Cancel";
+                    cancel.onclick = function() { document.body.removeChild(this.parentNode) }
+                    var text = document.createTextNode("Are you sure you want to delete this workflow?  ");
+                    var yes = document.createElement("button");
+                    yes.innerHTML = "Delete";
+                    yes.onclick = function() { document.location.href="{% url 'delete_workflows' workflow.id %}";}
+
+                    box.appendChild(text);
+                    box.appendChild(cancel);
+                    box.appendChild(yes);
+
+                    // Style box
+                    box.style.padding = "1%";
+                    box.style.position = "absolute"; 
+                    box.style.width = "300px";
+                    box.style.height = "80px";
+                    box.style.backgroundColor = "white";
+                    box.style.borderRadius = "5px";
+                    box.style.boxShadow = "0px 5px 5px 0px black";
+
+                    // Center box.
+                    box.style.left = "45%";
+                    box.style.top = "50px";
+
+                    // Append box to body
+                    document.body.appendChild(box);
                 }
             </script>
         </div>
