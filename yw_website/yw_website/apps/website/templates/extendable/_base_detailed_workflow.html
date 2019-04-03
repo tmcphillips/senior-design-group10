@@ -18,16 +18,16 @@
     <div class="filler"></div>
     <div class="border">
      <div class=edit_button>
-        {% if edit == False %}
+        {% if edit == True %}
             <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
                 {% csrf_token %}
                 <button type="submit"> Edit Workflow</button>
             </form>
             <div class=delete>
-                <button onclick="deleteFunc()">Delete Workflow</button>
+                <button onclick="deleteWorkflow()">Delete Workflow</button>
             </div>
             <script>
-                function deleteFunc() {
+                function deleteWorkflow() {
                     // Create template
                     var box = document.createElement("div");
                     var cancel = document.createElement("button");
