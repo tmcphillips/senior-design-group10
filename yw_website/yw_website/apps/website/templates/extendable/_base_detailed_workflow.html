@@ -52,12 +52,9 @@
         </div>
         
         <div class="outside_data">
+            {% include 'includeable/tagarray.html' with tags=tags %}
             <b>Description: </b>{{workflow.description}}
             <br><br>
-            <b>Tags: </b> 
-            {% for tag in tags %}
-            <span class="tags"> {{tag}}{% if not forloop.last %},{% endif %} </span>
-            {% endfor %} 
         </div>
         <div class="run-text">
             Runs associated with current version:

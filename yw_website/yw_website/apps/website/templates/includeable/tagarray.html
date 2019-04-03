@@ -1,0 +1,14 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}css/bulma.css">
+
+<div class="tags has-addons">
+{% for tag in tags %}
+  <div class="control">
+    <div class="tags has-addons">
+      <a href="{% url 'home' %}?q={{ tag.tag.title }}" class="tag is-link">{{tag.tag.title}}</a>
+      <a href="{% url 'tag_delete' tag.tag.id %}" class="tag is-delete"></a>
+    </div>
+  </div>
+{% endfor %}
+</div>

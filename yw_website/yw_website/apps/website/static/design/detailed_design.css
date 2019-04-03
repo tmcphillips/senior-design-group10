@@ -73,17 +73,6 @@
     color: black;
 }
 
-.tags {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 15%;
-    white-space: nowrap;
-}
-
-span.tags:hover {
-    overflow: visible;
-}
-
 .workflow-id {
 	text-align: right;
     margin-right: 2%;

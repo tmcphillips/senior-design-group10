@@ -18,14 +18,12 @@
 
 
 {% if workflow_list %}
-
-    <div>
-        {% for workflow in workflow_list %}
-        <a class="link-highlight-off" href="{% url 'detailed_workflow' workflow.id workflow.version_id %}">
+     {% for workflow in workflow_list %}
+         <a href="{% url 'detailed_workflow' workflow.id workflow.version_id %}" style="text-decoration: none; color:inherit;">
             <div class="card">
-                <div class="tags">
-                    Tags: {{ workflow.tags | join:", " }}
-                </div>
+                {% include 'includeable/tagarray.html' with tags=workflow.tags %}
+                <a href="{% url 'detailed_workflow' workflow.id workflow.version_id %}" style="text-decoration: none; color:inherit;">
+
                 <div class="author">
                     Author: {{workflow.user}}
                 </div>
@@ -39,7 +37,10 @@
                 <div class="workflow-details" id="description">
                     <b>Description: </b>{{ workflow.description }}
                 </div>
-            </div>
+                </a>
+             </div>
+         </a>
+
             <script>
                 function description_view(){
                     var description = document.getElementById("description");
@@ -51,11 +52,7 @@
                     }
                 }
             </script>
-         </a>
         {% endfor %}
-
-        </div>
-
 {% else %}
 
     <p>There are no workflows in the system.</p>
