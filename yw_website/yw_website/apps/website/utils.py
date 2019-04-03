@@ -102,8 +102,12 @@ def get_ports(parents):
             new_port.data_id = port.data_id
             new_port.on_program_block_id = port.on_program_block_id
             new_port.run_id = port.run_id
-            if new_port.is_inport:
+            if new_port.is_inport and not new_port.is_outport:
                 block.in_ports.append(new_port)
-            else:
+            elif new_port.is_outport and not new_port.is_inport:
                 block.out_ports.append(new_port)
+            else: 
+                # both in port and out port
+                # TODO: error handle gracefully if we have a port that is both in and out
+                pass
     
