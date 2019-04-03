@@ -84,7 +84,7 @@
   align-items: center;
   background-color: whitesmoke;
   border-radius: 4px;
-  color: #4a4a4a;
+  color: #4a4a4 isa;
   display: inline-flex;
   font-size: 0.75rem;
   height: 2em;
@@ -126,7 +126,7 @@
 }
 
 .tag:not(body).is-link {
-  background-color: #3273dc;
+  background-color: #00d1b2;
   color: #fff;
 }
 
