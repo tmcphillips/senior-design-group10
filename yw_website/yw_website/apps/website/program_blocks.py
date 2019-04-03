@@ -7,6 +7,10 @@ class ProgramBlocks:
         self.in_program_block_id = None
         self.direct_descendents = []
         self.data_objs = []
+        self.in_ports = []
+        self.out_ports = []
     
     def __str__(self):
-        return "%s: id: %d, programblock_id: %d, in program block: %d" % (self.name, self.id, self.programblock_id, self.in_program_block_id)
+        s =  "{}: id: {}, programblock_id: {}, in program block: {}" 
+        return s.format(self.name, self.id, self.program_block_id, self.in_program_block_id)
+

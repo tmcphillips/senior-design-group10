@@ -3,6 +3,7 @@ from haystack.inputs import AutoQuery
 from haystack.query import SearchQuerySet
 
 from .program_blocks import ProgramBlocks
+from .ports import Ports
 
 from .models import *
 
@@ -87,5 +88,26 @@ def get_direct_descendants(program_block_id, program_blocks):
         new_child.program_block_id = child.programblock_id
         new_child.id = child.id
         new_child.direct_descendants = get_direct_descendants(new_child.id, program_blocks)
+        get_ports(new_child)
         descendants.append(new_child)
     return descendants
+
+def get_ports(program_block):
+    for port in Port.objects.filter(on_program_block_id=program_block.id):
+        new_port = Ports()
+        new_port.name = port.name
+        new_port.id = port.id
+        new_port.is_inport = port.is_inport
+        new_port.is_outport = port.is_outport
+        new_port.data_id = port.data_id
+        new_port.on_program_block_id = port.on_program_block_id
+        new_port.run_id = port.run_id
+        if new_port.is_inport and not new_port.is_outport:
+            program_block.in_ports.append(new_port)
+        elif new_port.is_outport and not new_port.is_inport:
+            program_block.out_ports.append(new_port)
+        else: 
+            # both in port and out port
+            # TODO: error handle gracefully if we have a port that is both in and out
+            pass
+    
