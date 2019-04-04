@@ -24,6 +24,7 @@
 		Add Tags: <input class="input tag-input" type="text" id="tags"/>
 		<input type="button" class="addTag" id="addTag" value="+"/>
 	</div>
+	<input type="hidden" id="tagArray" name="tagArray"> <br>
 	<p id="newtags"> </p>
 	{% for tag in workflowTags %}
 		{{ tag.tag.title}},

@@ -8,7 +8,7 @@
     <button class="button dropbtn">
         {% for item in list %}
             {% if item.id == current.id %}
-                <p>{{ name }} #{{ forloop.counter }}</p>
+                <p>{{ name }} #{{ forloop.counter }} &#9662</p>
             {% endif %}
         {% endfor %}
     </button>
