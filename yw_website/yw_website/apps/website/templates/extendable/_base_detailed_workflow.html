@@ -6,87 +6,87 @@
     <script src="{{ STATIC_PREFIX }}scripts/viz.js"></script>
     <script src="{{ STATIC_PREFIX }}scripts/d3.min.js"></script>
     <script src="{{ STATIC_PREFIX }}scripts/d3-graphviz.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/common.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/detailed_design.css">
 
 {% endblock %}
 
 {% block main_content %}
 
-<div class=box>
-    <div class=edit_button>
+<div class="box">
+    {% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}
+    <div class="filler"></div>
+    <div class="border">
+     <div class=edit_button>
         {% if edit == True %}
             <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
                 {% csrf_token %}
                 <button type="submit"> Edit Workflow</button>
             </form>
             <div class=delete>
-                <button onclick="deleteFunctionWorkflows()">Delete Workflow</button>
+                <button onclick="deleteWorkflow()">Delete Workflow</button>
             </div>
             <script>
-                function deleteFunctionWorkflows() {
-                    if (confirm("Do you really want to delete this workflow?")) {
-                        document.location.href="{% url 'delete_workflows' workflow.id %}";
-                    }
+                function deleteWorkflow() {
+                    // Create template
+                    var box = document.createElement("div");
+                    var cancel = document.createElement("button");
+                    cancel.innerHTML = "Cancel";
+                    cancel.onclick = function() { document.body.removeChild(this.parentNode) }
+                    var text = document.createTextNode("Are you sure you want to delete this workflow?  ");
+                    var yes = document.createElement("button");
+                    yes.innerHTML = "Delete";
+                    yes.onclick = function() { document.location.href="{% url 'delete_workflows' workflow.id %}";}
+
+                    box.appendChild(text);
+                    box.appendChild(cancel);
+                    box.appendChild(yes);
+
+                    // Style box
+                    box.style.padding = "1%";
+                    box.style.position = "absolute"; 
+                    box.style.width = "300px";
+                    box.style.height = "80px";
+                    box.style.backgroundColor = "white";
+                    box.style.borderRadius = "5px";
+                    box.style.boxShadow = "0px 5px 5px 0px black";
+
+                    // Center box.
+                    box.style.left = "45%";
+                    box.style.top = "50px";
+
+                    // Append box to body
+                    document.body.appendChild(box);
                 }
             </script>
-
-</body>
-</html>
+        </div>
         {% endif%}
-    </div>
-    <link rel="stylesheet" type="text/css" href="{% static 'design/detailed_design.css' %}">
-    <div class=workflow_id>
-        Workflow ID: {{ workflow.id }}
-        <br>
-        Author: {{workflow.user}}
-    </div>
+        <div class="workflow-id">
+            Workflow ID: {{ workflow.id }}
+            <br>
+            Author: {{workflow.user}}
+        </div>
 
-
-    <div class=title>
-        {{ workflow.title}}
+        <div class="title">
+            {{ workflow.title}}
+        </div>
+        
+        {% include 'includeable/graph_box.html' with yw_graph_output=version.yw_graph_output %}
+        
+        <div class="detailed-dropdown-container">
+            {% include 'includeable/dropdown_selection.html' with name='Version' current=version list=versions %}
+        </div>
+        
+        <div class="outside_data">
+            {% include 'includeable/tagarray.html' with tags=tags %}
+            <b>Description: </b>{{workflow.description}}
+            <br><br>
+        </div>
+        <div class="run-text">
+            Runs associated with current version:
+        </div>
+        {% include 'includeable/run_list.html' with run_list=run_list %}
     </div>
-
-    <ol id="elementStyle">
-        <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
-            <li>
-                <div id="graph1" class = workflow-image></div>
-            </li>
-            <script type="text/javascript">
-                graph = `{{ version.yw_graph_output|safe }}`
-            </script>
-            <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
-    </ol>
-
-    {% if versions %}
-        <div class="dropdown">
-                <button class="dropbtn">
-                    {% for version_ in versions %}
-                        {% if version_.id == version.id %}
-                            <text>Version #{{ forloop.counter }}  &#9662</text>
-                            <br>
-                        {% endif %}
-                    {% endfor %}
-                </button>
-                <div class="dropdown-content">
-                    {% for version_ in versions %}
-                        {% if version_.id != version.id %}
-                            <a href="{% url 'detailed_workflow' workflow.id version_.id %}">Version #{{ forloop.counter }}</a>
-                        {%  endif %}
-                    {% endfor %}
-                </div>
-            </div>
-    {% endif %}
-
-    <div class=outside_data>
-        {% include 'includeable/tagarray.html' with tags=tags %}
-        <b>Description: </b>{{workflow.description}}
-        <br><br>
-    </div>
-    <hr />
-    <div class=run-text>
-        Runs associated with current version:
-    </div>
-    {% include 'includeable/run_list.html' with run_list=run_list %}
 </div>
 
 {% endblock %}

@@ -1,0 +1,24 @@
+{% comment %}
+
+Example: 
+{% include 'includeable/graph_box.html' with yw_graph_output=<graphviz string> %}
+
+This component expects a graphviz styled string as input for the yw_graph_output argument.
+
+{% endcomment %}
+
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<script src="{{ STATIC_PREFIX }}scripts/viz.js"></script>
+<script src="{{ STATIC_PREFIX }}scripts/d3.min.js"></script>
+<script src="{{ STATIC_PREFIX }}scripts/d3-graphviz.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/graph_box.css">
+
+<div class="graph_container">
+    <div id="graph" class="workflow-image"></div>
+    <script type="text/javascript">
+        graph=`{{ yw_graph_output|safe }}`
+    </script>
+    <script type="text/javascript" src={% static "scripts/home_render_options.js" %}></script>
+    <script type="text/javascript" src={% static "scripts/graphviz_render.js" %}></script>
+</div>
