@@ -136,3 +136,17 @@ To navigate back to the homepage, click the YesWorkflow logo in the top left cor
 On the Home page and My Workflows page one can enter a query into the search bar and filter workflows that are relevant to the search entry.
 
 By clicking on a workflow found on either the Home page or the My Workflows page you will be navigated to a more detailed view of the workflow. 
+![alt text](/demos/images/workflow_click.png "Click Here")
+
+The next page you will see is the detailed workflow page. If you are the owner of this workflow you will have extra privileges, such as editing and deleting the workflow.
+
+You can select different versions of the workflow with the version dropdown. 
+
+To navigate to a more detailed view of a run, click on one of the runs found in the list of runs. This run page will contain more details about the files associated with the run.
+
+![alt text](/demos/images/run_click.png "Click Here")
+
+Currently the run page is a work in progress but once finished it will contain parsed information about the files found when the save command is executed. 
+
+![alt text](/demos/images/run_page.png "Click Here")
+
