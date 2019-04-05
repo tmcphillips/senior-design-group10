@@ -8,23 +8,36 @@
 * Install project dependencies by executing `pip install -r requirements.txt`
 
 ### Optional:
-The YesWorkflow Web Components Repository comes with an already packaged YesWorkflow Jar file that can be used for the purposes of saving one's work to the website. This Jar files is found at the root of the project directory.
+The YesWorkflow Web Components Repository comes with an already packaged YesWorkflow Jar file that can be used to save work to the website. This Jar files is found at the root of the project directory.
 
-If one would like to see the source code for the CLI Java tool it can be found at the [YesWorkflow Prototypes Repository](https://github.com/aniehuser/yw-prototypes).
+To see the source code for the CLI Java tool, go to the [YesWorkflow Prototypes Repository](https://github.com/aniehuser/yw-prototypes).
 
 For more detailed instruction on how to begin using and developing the CLI please see the README found within this repository.
 
 ## Installation:
+<<<<<<< HEAD
 After installing all prerequisites navigate to the folder in the cloned website repository labeled scripts. To quickly launch the website execute *deploy_python3.sh* if on MacOS or Linux. If on a Window's environment execute *deploy_python.sh*. Note that these two files are simply a collection of bash commands that will initialize and begin running the YesWorkflow Web Components website. 
+=======
+After installing all prerequisites navigate to the folder in the cloned website repository called 'scripts'. To quickly launch the website execute *deploy_python3.sh* if on MacOs or Linux. If on a Window's environment execute *deploy_python.sh*. Note that these two files are simply a collection of bash commands that will initialize and begin running the YesWorkflow Web Components website. 
+>>>>>>> 5fafa31b612bfbf37726c795b290f8d680a51f1a
 
 If unable to run these bash files, the Python3 commands inside can be executed separately through the terminal.
 
 For documentation on the commands found in these files please see the [Django documentation](https://docs.djangoproject.com/en/2.1/).
 
 ## Key Terms:
+<<<<<<< HEAD
 * Workflows - A visual representation of a script's main functions that shows the flow of data throughout the program.
 * Versions - A distinctly different version of a workflow. Versions are used to distinguish when a workflow has been updated in any way.
 * Runs - A run through of data inputs on a specific version of a specific workflow. Runs show inputs and outputs into a script and help give a better understanding of where data is being handled and manipulated
+=======
+* Workflows - A graphical way to describe and manage the anaysis of
+complex data 
+* Versions - Changing the annotations of a YesWorkflow script
+results in a different version of the same workflow
+* Runs - If there are no changes to an already run script, 
+using the save function will add a run 
+>>>>>>> 5fafa31b612bfbf37726c795b290f8d680a51f1a
 * Tags - optional identifying keywords
 
 ## CLI Tool
@@ -32,10 +45,11 @@ For documentation on the commands found in these files please see the [Django do
 Note: To use the jar file please install the following prequisite:
 * Java (JRE) version 1.10
 
-The Jar file to be executed from the terminal can be found at the root folder of the YesWorkflow Web Components repository.
+The Jar file will need to be executed from the terminal and can be found at the root folder of the YesWorkflow Web Components repository.
 
-YesWorkflow CLI's Save command works by executing and aggregating all YesWorkflow commands and then sending important data up to your deployed YesWorkflow WebComponents instance. To use, one can type in the command prompt
+YesWorkflow CLI's Save command works by executing and aggregating all YesWorkflow commands and then sending important data up to your deployed YesWorkflow WebComponents instance. To use, type in the command prompt below
 
+### Example usage:
 In this example my_scripty.py is a python file that contains YesWorkflow annotations. The commands will work the same on any .matlab or .R files that contain YesWorkflow annotations.
 
 ```
@@ -135,17 +149,3 @@ To navigate back to the homepage, click the YesWorkflow logo in the top left cor
 On the Home page and My Workflows page one can enter a query into the search bar and filter workflows that are relevant to the search entry.
 
 By clicking on a workflow found on either the Home page or the My Workflows page you will be navigated to a more detailed view of the workflow. 
-
-![alt text](/demos/images/workflow_click.png "Click Here")
-
-The next page you will see is the detailed workflow page. If you are the owner of this workflow you will have extra privileges, such as editing and deleting the workflow.
-
-You can select different versions of the workflow with the version dropdown. 
-
-To navigate to a more detailed view of a run, click on one of the runs found in the list of runs. This run page will contain more details about the files associated with the run.
-
-![alt text](/demos/images/run_click.png "Click Here")
-
-Currently the run page is a work in progress but once finished it will contain parsed information about the files found when the save command is executed. 
-
-![alt text](/demos/images/run_page.png "Click Here")
