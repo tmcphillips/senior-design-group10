@@ -15,29 +15,16 @@ To see the source code for the CLI Java tool, go to the [YesWorkflow Prototypes 
 For more detailed instruction on how to begin using and developing the CLI please see the README found within this repository.
 
 ## Installation:
-<<<<<<< HEAD
 After installing all prerequisites navigate to the folder in the cloned website repository labeled scripts. To quickly launch the website execute *deploy_python3.sh* if on MacOS or Linux. If on a Window's environment execute *deploy_python.sh*. Note that these two files are simply a collection of bash commands that will initialize and begin running the YesWorkflow Web Components website. 
-=======
-After installing all prerequisites navigate to the folder in the cloned website repository called 'scripts'. To quickly launch the website execute *deploy_python3.sh* if on MacOs or Linux. If on a Window's environment execute *deploy_python.sh*. Note that these two files are simply a collection of bash commands that will initialize and begin running the YesWorkflow Web Components website. 
->>>>>>> 5fafa31b612bfbf37726c795b290f8d680a51f1a
 
 If unable to run these bash files, the Python3 commands inside can be executed separately through the terminal.
 
 For documentation on the commands found in these files please see the [Django documentation](https://docs.djangoproject.com/en/2.1/).
 
 ## Key Terms:
-<<<<<<< HEAD
 * Workflows - A visual representation of a script's main functions that shows the flow of data throughout the program.
 * Versions - A distinctly different version of a workflow. Versions are used to distinguish when a workflow has been updated in any way.
 * Runs - A run through of data inputs on a specific version of a specific workflow. Runs show inputs and outputs into a script and help give a better understanding of where data is being handled and manipulated
-=======
-* Workflows - A graphical way to describe and manage the anaysis of
-complex data 
-* Versions - Changing the annotations of a YesWorkflow script
-results in a different version of the same workflow
-* Runs - If there are no changes to an already run script, 
-using the save function will add a run 
->>>>>>> 5fafa31b612bfbf37726c795b290f8d680a51f1a
 * Tags - optional identifying keywords
 
 ## CLI Tool
