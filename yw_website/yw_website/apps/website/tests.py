@@ -446,9 +446,6 @@ class ViewsTestCase(TestCase):
             {"uriVariableId": 1, "resource": 1, "value": "uripath"}
         ]
 
-        route = "/save/"
-        response = self.client.post(route, self.data, format="json")
-
     def test_view_home(self):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200, msg="The home page is not returning a 200 status code")
@@ -456,10 +453,23 @@ class ViewsTestCase(TestCase):
     def test_view_my_workflows_authenticated(self):
         response = self.client.get(reverse('my_workflows'))
         self.assertEqual(response.status_code, 200,
-                         msg="An unathenticated user was able to access my_workflows page")
+                         msg="An authanticated user was unable to access my_workflows page")
 
     def test_view_my_workflows_unauthenticated(self):
-        self.client.logout()
-        response = self.client.get(reverse('my_workflows'))
+        client = APIClient()
+        username = str(uuid.uuid1())
+        password = "Password!@#"
+        user = User.objects.create_user(username=username, password=password)
+
+        res = client.post('/rest-auth/login/', data={'username': username, 'password': password},
+                               format='json')
+        token = res.data['key']
+        client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token))
+
+        response = client.get(reverse('my_workflows'))
+        self.assertEqual(response.status_code, 200,
+                         msg="An athenticated user was unable to access my_workflows page")
+        client.logout()
+        response = client.get(reverse('my_workflows'))
         self.assertEqual(response.status_code, 302, msg="An unathenticated user was not "
                                                         "redirected to login after trying to access my_workflows page")
