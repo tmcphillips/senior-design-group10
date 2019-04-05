@@ -35,10 +35,11 @@ using the save function will add a run
 Note: To use the jar file please install the following prequisite:
 * Java (JRE) version 1.10
 
-The Jar file to be executed from the terminal can be found at the root folder of the YesWorkflow Web Components repository.
+The Jar file will need to be executed from the terminal and can be found at the root folder of the YesWorkflow Web Components repository.
 
-YesWorkflow CLI's Save command works by executing and aggregating all YesWorkflow commands and then sending important data up to your deployed YesWorkflow WebComponents instance. To use, one can type in the command prompt
+YesWorkflow CLI's Save command works by executing and aggregating all YesWorkflow commands and then sending important data up to your deployed YesWorkflow WebComponents instance. To use, type in the command prompt below
 
+## Example usage:
 In this example my_scripty.py is a python file that contains YesWorkflow annotations. The commands will work the same on any .matlab or .R files that contain YesWorkflow annotations.
 
 ```
@@ -141,7 +142,7 @@ By clicking on a workflow found on either the Home page or the My Workflows page
 
 ![alt text](/demos/images/workflow_click.png "Click Here")
 
-The next page you will see is the detailed workflow page. If you are the owner of this workflow you will have extra privileges, such as editing and deleting the workflow.
+The next page you will see is the detailed workflow page. If you are the owner of this workflow you will have extra options, such as editing and deleting the workflow.
 
 You can select different versions of the workflow with the version dropdown. 
 
