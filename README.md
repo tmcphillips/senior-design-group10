@@ -8,24 +8,27 @@
 * Install project dependencies by executing `pip install -r requirements.txt`
 
 ### Optional:
-The YesWorkflow Web Components Repository comes with an already packaged YesWorkflow Jar file that can be used for the purposes of saving one's work to the website. This Jar files is found at the root of the project directory.
+The YesWorkflow Web Components Repository comes with an already packaged YesWorkflow Jar file that can be used to save work to the website. This Jar files is found at the root of the project directory.
 
-If one would like to see the source code for the CLI Java tool it can be found at the [YesWorkflow Prototypes Repository](https://github.com/aniehuser/yw-prototypes).
+To see the source code for the CLI Java tool, go to the [YesWorkflow Prototypes Repository](https://github.com/aniehuser/yw-prototypes).
 
 For more detailed instruction on how to begin using and developing the CLI please see the README found within this repository.
 
 ## Installation:
-After installing all prerequisites navigate to the folder in the cloned website repository labeled scripts. To quickly launch the website execute *deploy_python3.sh* if on MacOs or Linux. If on a Window's environment execute *deploy_python.sh*. Note that these two files are simply a collection of bash commands that will initialize and begin running the YesWorkflow Web Components website. 
+After installing all prerequisites navigate to the folder in the cloned website repository called 'scripts'. To quickly launch the website execute *deploy_python3.sh* if on MacOs or Linux. If on a Window's environment execute *deploy_python.sh*. Note that these two files are simply a collection of bash commands that will initialize and begin running the YesWorkflow Web Components website. 
 
 If unable to run these bash files, the Python3 commands inside can be executed separately through the terminal.
 
 For documentation on the commands found in these files please see the [Django documentation](https://docs.djangoproject.com/en/2.1/).
 
 ## Key Terms:
-* Workflows - TODO
-* Versions - TODO
-* Runs - TODO
-* Tags - TODO
+* Workflows - A graphical way to describe and manage the anaysis of
+complex data 
+* Versions - Changing the annotations of a YesWorkflow script
+results in a different version of the same workflow
+* Runs - If there are no changes to an already run script, 
+using the save function will add a run 
+* Tags - optional identifying keywords
 
 ## CLI Tool
 ### YesWorkflow Save Command and Configurations
