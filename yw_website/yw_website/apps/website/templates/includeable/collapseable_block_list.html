@@ -1,5 +1,8 @@
 {% comment %}
 
+The JavaScript file `scripts/collapse.js` must be included directly below where this component
+is included on the page.
+
 Example: 
 {% include 'includeable/collapseable_block_list.html' with blocks=<ProgramBlocks-object>%}
 
@@ -9,16 +12,27 @@ can be found here: https://github.com/aniehuser/senior-design-group10/blob/maste
 {% endcomment %}
 
 {% load static %}
+{% load custom_filters %}
 {% get_static_prefix as STATIC_PREFIX %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/collapseable_block_list.css">
 
 <div class="block-list-container">
-    <ol>
-        {% for block in blocks %}
-        <li class="block-list-item">
-            {{ block.name }}
-            {% include 'includeable/collapseable_block_list.html' with blocks=block.direct_descendants%}
-        </li>
-        {% endfor %}
-    </ol>
+{% for block in blocks %}
+    <div id="block-list-item-{{ block.id }}" class="block-list-item">
+        <div class="block-list-span">
+            <div id="expand-button-element-{{ block.id }}" class="static-left">
+                {% if block.direct_descendants %}
+                <i id="expand-button-{{ block.id }}" class="fas fa-plus"></i>
+                <i id="collapse-button-{{ block.id }}" class="fas fa-minus hidden"></i>
+                {% endif %}
+            </div>
+            <div class="dynamic-right">
+                Block Name: {{ block.name|trailing_block_name }}
+                <div id="collapse-content-{{ block.id }}" class="collapsed-content hidden">
+                    {% include 'includeable/collapseable_block_list.html' with blocks=block.direct_descendants %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 </div>
