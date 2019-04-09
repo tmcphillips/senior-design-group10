@@ -16,7 +16,7 @@
 <div class="box">
     {% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}
     <div class="filler"></div>
-      <div class=edit_button>
+      <div class="edit_button">
         {% if edit == True %}
             <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
                 {% csrf_token %}
