@@ -20,9 +20,10 @@
             <b>Last Modified: </b> {{run.version.last_modified}}
         </div>
         
-        <div class="collapseable-list">
+        <div id="collapse" class="collapseable-list">
             {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}
         </div>
+        <script src="{{ STATIC_PREFIX }}scripts/collapse.js"></script>
     </div>
 </div>
     
