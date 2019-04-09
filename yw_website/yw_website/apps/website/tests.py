@@ -456,20 +456,6 @@ class ViewsTestCase(TestCase):
                          msg="An authanticated user was unable to access my_workflows page")
 
     def test_view_my_workflows_unauthenticated(self):
-        client = APIClient()
-        username = str(uuid.uuid1())
-        password = "Password!@#"
-        user = User.objects.create_user(username=username, password=password)
-
-        res = client.post('/rest-auth/login/', data={'username': username, 'password': password},
-                               format='json')
-        token = res.data['key']
-        client.credentials(HTTP_AUTHORIZATION='Token {}'.format(self.token))
-
-        response = client.get(reverse('my_workflows'))
-        self.assertEqual(response.status_code, 200,
-                         msg="An athenticated user was unable to access my_workflows page")
-        client.logout()
         response = client.get(reverse('my_workflows'))
         self.assertEqual(response.status_code, 302, msg="An unathenticated user was not "
                                                         "redirected to login after trying to access my_workflows page")
