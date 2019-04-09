@@ -3,7 +3,33 @@
 }
 
 .block-list-item {
-    padding-left: 1em;
+    padding-top: .25em;
     text-align: left;
     align-items: left;
 }
+
+.hidden {
+    display: none;
+}
+
+.block-list-span {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+}
+
+.static-left {
+    display: block;
+    padding-right: 1em;
+    width: 1em;
+    line-height: 1.65;
+}
+
+.collapsed-content {
+    padding-left: 2em;
+}
+
+.dynamic-right {
+}
+
