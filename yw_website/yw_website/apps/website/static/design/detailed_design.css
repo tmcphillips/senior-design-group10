@@ -16,6 +16,7 @@
     padding-right: 2%;
 }
 
+
 #run-delete button {
     background-color: #f1f1f1;
     font-color: blue;
@@ -28,7 +29,7 @@
     border-style: transparent;
     text-align: left;
     background-color: #f1f1f1;
-    margin: 3% 3%;
+    margin: 3% 0;
     border-radius: 10px;
 
 }
@@ -40,22 +41,18 @@
 }
 
 #run_style li {
-    border: 1px solid;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 15px;
-    margin-top: 15px;
-    list-style-type: none;
-    text-align: left;
-    padding: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-    background-color: #f1f1f1;
-    border-width: 2px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+	padding: 16px;
+	text-align: left;
+	background-color: #f1f1f1;
+	border-width: 2px;
+	border-color: black;
+	margin-bottom: 3%;
 }
 
 .run-text {
     text-align: left;
-    padding-left: 3%;
+    padding-bottom: 3%;
     color: rgb(5, 97, 92);
     font-weight: bold;
 }
@@ -96,4 +93,9 @@ span.tags:hover {
     align-content: center;
     width: 100%;
     height: 5em;
+}
+
+.link-highlight-off:hover {
+	text-decoration: none;
+	color: inherit;
 }

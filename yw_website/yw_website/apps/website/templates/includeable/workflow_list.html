@@ -21,8 +21,9 @@
 
     <div>
         {% for workflow in workflow_list %}
+        <div class="card">
         <a class="link-highlight-off" href="{% url 'detailed_workflow' workflow.id workflow.version_id %}">
-            <div class="card">
+            
                 <div class="tags">
                     Tags: {{ workflow.tags | join:", " }}
                 </div>
@@ -36,22 +37,31 @@
                     {{ workflow.version_modified }}
                 </div>
 
-                <div class="workflow-details" id="description">
+                <div class="workflow-details" id="{{workflow.id}}description">
                     <b>Description: </b>{{ workflow.description }}
-                </div>
-            </div>
-            <script>
-                function description_view(){
-                    var description = document.getElementById("description");
-                    if (description.style.display === "none") {
-                        description.style.display = "block";
-                    }
-                    else {
-                        description.style.display = "none";
-                    }
+                </div>   
+
+        </a>
+        <div >                
+            <input id = "{{workflow.id}}description_button" type="button" value = "Read More..." class = "expand-description-button" onclick="description_view('{{workflow.id}}description', '{{workflow.id}}description_button')" ></input>
+        </div>
+        <script>
+            function description_view(card_id, button_id){
+                var description = document.getElementById(card_id);
+                var description_button = document.getElementById(button_id);
+                if (description.style.maxHeight === "none") {
+                    description.style.maxHeight = "65px"
+                    description_button.value = "Read More..."
                 }
-            </script>
-         </a>
+                else {
+                    description.style.maxHeight = "none";
+                    description_button.value = "Read Less..."
+
+                }
+            }
+        </script>
+        </div>
+
         {% endfor %}
 
         </div>

@@ -14,9 +14,9 @@
 
 .run-dropdown-container {
     display: flex;
-    align-content: center;
+    text-align: center;
     position: relative;
     width: 100%;
-    padding-top: 2.5em;
+    padding-top: 1.5em;
     margin:auto;
 }

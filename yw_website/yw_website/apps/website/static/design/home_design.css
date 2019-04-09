@@ -5,8 +5,8 @@
 
 .workflow-details {
 	font-size: 14px;
-	display: hidden;
-	margin-bottom: 20px;
+	overflow: hidden;
+	max-height: 65px;
 }
 
 .more-details-button {
@@ -72,5 +72,17 @@
 	background-color: #f1f1f1;
 	border-width: 2px;
 	border-color: black;
-	margin-bottom: 5%;
+	margin-bottom: 3%;
+}
+
+.expand-description-button {
+	color: rgb(9, 148, 141);
+	font-size: 12px;
+	padding: 0px;
+	background-color: transparent;
+	border: none;
+}
+
+.expand-description-button:focus {
+	outline: none;
 }

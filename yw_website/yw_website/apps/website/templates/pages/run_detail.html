@@ -9,16 +9,19 @@
     {% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}
     <div class="filler"></div>
     <div class="border">
-        <div class="run-dropdown-container">
-            {% include 'includeable/dropdown_selection.html' with name='Run' current=run list=runs %}
-        </div>
-        {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
-        
         <div class="text">
             <b>Workflow: </b> {{run.version.workflow.title}}
             <br>
             <b>Last Modified: </b> {{run.version.last_modified}}
+
         </div>
+        <div class="run-dropdown-container">
+            {% include 'includeable/dropdown_selection.html' with name='Run' current=run list=runs %}
+        </div>
+
+        {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
+        
+
         
         <div class="collapseable-list">
             {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}

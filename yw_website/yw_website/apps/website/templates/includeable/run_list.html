@@ -6,12 +6,14 @@
 <ol class="run-list" id=run_style>
     {% for run in run_list %}
     <li>
+        <a class="link-highlight-off" href="{% url 'run_detail' run.id %}">
         <div class="table-title">
-            <a href="{% url 'run_detail' run.id %}">Run#{{ forloop.counter}}</a> 
+            Run#{{ forloop.counter}}
         </div>
         <div class="workflow-details">
             <b>Time Stamp: </b>{{ run.run_time_stamp }} 
         </div>
+        </a>
         <div class="run-delete">
             <button onclick="deleteFunctionRuns()">Delete</button>
         </div>
@@ -22,6 +24,7 @@
                 }
             }
         </script>
+     
     </li>
     {% endfor %}
 </ol>
