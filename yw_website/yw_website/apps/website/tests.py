@@ -456,6 +456,7 @@ class ViewsTestCase(TestCase):
                          msg="An authanticated user was unable to access my_workflows page")
 
     def test_view_my_workflows_unauthenticated(self):
+        client = APIClient()
         response = client.get(reverse('my_workflows'))
         self.assertEqual(response.status_code, 302, msg="An unathenticated user was not "
                                                         "redirected to login after trying to access my_workflows page")
