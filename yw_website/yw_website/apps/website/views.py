@@ -153,7 +153,6 @@ def detailed_workflow(request, workflow_id, version_id):
                 "run_list": runs,
                 "form": form,
                 "edit": edit,
-                "can_edit_tags":edit,
             }
             return render(request, "pages/detailed_workflow.html", info)
         elif request.method == "POST":
