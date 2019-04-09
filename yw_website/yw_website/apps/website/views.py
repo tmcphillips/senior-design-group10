@@ -66,6 +66,7 @@ def my_workflows(request):
     else:
         workflow_list = Workflow.objects.all().exclude(version__isnull=True)
 
+    workflow_list = workflow_list.filter(user=request.user)
     for workflow in workflow_list:
         latest_version = (
             Version.objects.filter(workflow=workflow).order_by("last_modified").first()
