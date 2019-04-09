@@ -17,7 +17,6 @@
     {% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}
     <div class="filler"></div>
     <div class="border">
-     <div class=edit_button>
         {% if edit == True %}
             <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
                 {% csrf_token %}
@@ -59,7 +58,6 @@
                     document.body.appendChild(box);
                 }
             </script>
-        </div>
         {% endif%}
         <div class="workflow-id">
             Workflow ID: {{ workflow.id }}
