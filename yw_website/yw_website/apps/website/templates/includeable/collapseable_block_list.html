@@ -28,12 +28,12 @@ can be found here: https://github.com/aniehuser/senior-design-group10/blob/maste
             <div id="expand-button-element-{{ block.id }}" class="static-left">
                 {% if block.direct_descendants %}
                     <i id="expand-button-{{ block.id }}" class="fas fa-plus"></i>
-                    <i id="collapse-button-{{ block.id }}" class="fas fa-minus hidden"></i>
+                    <i id="collapse-button-{{ block.id }}" class="fas fa-minus"></i>
                 {% endif %}
             </div>
             <div class="dynamic-right">
                 Block Name: {{ block.name|trailing_block_name }}
-                <div id="collapse-content-{{ block.id }}" class="collapsed-content hidden">
+                <div id="collapse-content-{{ block.id }}" class="collapsed-content">
                     {% include 'includeable/collapseable_block_list.html' with blocks=block.direct_descendants %}
                 </div>
             </div>
