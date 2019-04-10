@@ -8,7 +8,7 @@ for(let i = 0; i < collapseButtons.length; i++)
     console.log(jQueryButton)
     // console.log(collapseButtons)
     let splitDashArray = jQueryButton.attr("id").split("-")
-    // console.log("splitting id array: " + splitDashArray)
+    console.log("splitting id array: " + splitDashArray)
     // console.log(splitDashArray)
     let idNumber = splitDashArray[splitDashArray.length-1]
     console.log("getting id num: " + idNumber)
@@ -19,6 +19,8 @@ for(let i = 0; i < collapseButtons.length; i++)
 
     let plus = jQueryButton.find("#expand-button-" + idNumber)
     let minus = jQueryButton.find("#collapse-button-" + idNumber)
+    console.log(plus)
+    console.log(minus)
     minus.hide()
 
     jQueryButton.click((event) => {
@@ -26,12 +28,8 @@ for(let i = 0; i < collapseButtons.length; i++)
         console.log(event)
         if(!jQueryButton.children())
             return;
-        
-        // console.log("plus minus exists")
-        // console.log(collapseButtons[i].childNodes)
-        
 
-        collapseContent.slideToggle(100)
+        collapseContent.slideToggle(150)
         plus.toggle()
         minus.toggle()
         console.log("after " + idNumber)

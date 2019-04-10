@@ -26,16 +26,35 @@ can be found here: https://github.com/aniehuser/senior-design-group10/blob/maste
     <div id="block-list-item-{{ block.id }}" class="block-list-item">
         <div class="block-list-span">
             <div id="expand-button-element-{{ block.id }}" class="static-left">
-                {% if block.direct_descendants %}
+                {% if block.direct_descendants or blocks.in_ports or block.out_ports %}
                     <i id="expand-button-{{ block.id }}" class="fas fa-plus"></i>
                     <i id="collapse-button-{{ block.id }}" class="fas fa-minus"></i>
                 {% endif %}
             </div>
             <div class="dynamic-right">
-                Block Name: {{ block.name|trailing_block_name }}
-                <div id="collapse-content-{{ block.id }}" class="collapsed-content">
-                    {% include 'includeable/collapseable_block_list.html' with blocks=block.direct_descendants %}
-                </div>
+                {{ block.name|trailing_block_name }}
+            </div>
+        </div>
+        <div id="collapse-content-{{ block.id }}" class="collapsed-content">
+            {% include 'includeable/collapseable_port.html' with port_type="Inputs" id=block.id ports=block.in_ports %}
+        
+            {% include 'includeable/collapseable_port.html' with port_type="Outputs" id=block.id ports=block.out_ports %}
+            
+            <div class="block-list-span">
+            {% if block.direct_descendants %}
+                <div id="expand-button-element-blocks{{ block.id }}" class="static-left">
+                        <i id="expand-button-blocks{{ block.id }}" class="fas fa-plus"></i>
+                        <i id="collapse-button-blocks{{ block.id }}" class="fas fa-minus"></i>
+                    </div>
+                    <div class="dynamic-right"> 
+                        Blocks
+                    </div>
+            {% endif %}
+            </div>
+            <div id="collapse-content-blocks{{ block.id }}" class="collapsed-content">
+            {% if block.direct_descendants %}
+                {% include 'includeable/collapseable_block_list.html' with blocks=block.direct_descendants %}
+            {% endif %}
             </div>
         </div>
     </div>

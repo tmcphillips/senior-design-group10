@@ -1,0 +1,37 @@
+{% comment %}
+
+Expected parameters:
+    port_type: String value, usually will be "Inputs" or "Outputs"
+    ports: A list of ports derived from the .ports.Ports class
+    id: Unique integer value
+
+Example:
+{% include 'includeable/collapseable_port.html' with port_type="Inputs" id=block.id ports=block.in_ports%}
+
+{% endcomment %}
+
+<div class="block-list-container">
+    <div class="block-list-item{{ port_type|lower }}{{ id }}">
+        <div class="block-list-span">
+        {% if ports %}
+            <div id="expand-button-element-{{ port_type|lower }}{{ id }}" class="static-left">
+                <i id="expand-button-{{ port_type|lower }}{{ id }}" class="fas fa-plus"></i>
+                <i id="collapse-button-{{ port_type|lower }}{{ id }}" class="fas fa-minus"></i>
+            </div>
+            <div class="dynamic-right">
+                {{ port_type }}
+            </div>
+            
+        {% endif %}
+        </div>
+        {% if ports %}
+        <div id="collapse-content-{{ port_type|lower }}{{ id }}" class="collapsed-content">
+                {% for port in ports %}
+                <div>
+                    {{ port.name }}
+                </div>
+                {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
