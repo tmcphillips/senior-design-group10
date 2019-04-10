@@ -21,16 +21,15 @@ Example:
             <div class="dynamic-right">
                 {{ port_type }}
             </div>
-            
         {% endif %}
         </div>
         {% if ports %}
         <div id="collapse-content-{{ port_type|lower }}{{ id }}" class="collapsed-content">
-                {% for port in ports %}
-                <div>
-                    {{ port.name }}
-                </div>
-                {% endfor %}
+        {% for port in ports %}
+            <div>
+                {{ port.name }}
+            </div>
+        {% endfor %}
         </div>
         {% endif %}
     </div>
