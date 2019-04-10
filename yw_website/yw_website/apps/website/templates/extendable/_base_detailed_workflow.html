@@ -80,7 +80,7 @@
         </div>
         
         <div class="outside_data">
-            {% include 'includeable/tagarray.html' with tags=tags %}
+            {% include 'includeable/tagarray.html' with tags=tags can_edit_tags=edit  %}
             <b>Description: </b>{{workflow.description}}
             <br><br>
         </div>
