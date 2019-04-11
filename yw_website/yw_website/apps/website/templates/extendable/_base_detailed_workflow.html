@@ -22,10 +22,10 @@
       {% endif %}
             <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
                 {% csrf_token %}
-                <button type="submit"> Edit Workflow</button>
+                <button class="waves-effect waves-light btn" type="submit"> Edit Workflow</button>
             </form>
             <div class=delete>
-                <button onclick="deleteWorkflow()">Delete Workflow</button>
+                <button class="waves-effect waves-light btn" onclick="deleteWorkflow()">Delete Workflow</button>
             </div>
             <script>
                 function deleteWorkflow() {
