@@ -19,14 +19,14 @@
       <div class= "border">
       {% if edit %}
         <div class="edit_button">
+        <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
+            {% csrf_token %}
+            <button type="submit"> Edit Workflow</button>
+        </form>
+        <div>
+            <button onclick="deleteWorkflow()">Delete Workflow</button>
+        </div>
       {% endif %}
-            <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
-                {% csrf_token %}
-                <button type="submit"> Edit Workflow</button>
-            </form>
-            <div class=delete>
-                <button onclick="deleteWorkflow()">Delete Workflow</button>
-            </div>
             <script>
                 function deleteWorkflow() {
                     // Create template

@@ -4,23 +4,6 @@
     font-size: 17px;
 }
 
-.delete {
-    font-size: 12px;
-}
-
-.run-delete {
-    font-size: 12px;
-    float: right;
-    font-weight: bold;
-    margin-top: -32px;
-    padding-right: 2%;
-}
-
-#run-delete button {
-    background-color: #f1f1f1;
-    font-color: blue;
-}
-
 .outside_data {
     margin: auto;
     padding: 3%;
@@ -33,24 +16,27 @@
 
 }
 
-.run-list {
-    margin: auto;
-    padding: 0%;
-    list-style-type: none;
+.run-delete {
+  font-size: 12px;
+  float: right;
+  font-weight: bold;
+  margin-top: -32px;
+  padding-right: 2%;
 }
 
-#run_style li {
-    border: 1px solid;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 15px;
-    margin-top: 15px;
-    list-style-type: none;
-    text-align: left;
-    padding: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-    background-color: #f1f1f1;
-    border-width: 2px;
+#run-delete button {
+  background-color: #f1f1f1;
+  font-color: blue;
+}
+
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+	padding: 16px;
+	text-align: left;
+	background-color: #f1f1f1;
+	border-width: 2px;
+	border-color: black;
+	margin-bottom: 5%;
 }
 
 .run-text {
@@ -85,4 +71,98 @@
     align-content: center;
     width: 100%;
     height: 5em;
+}
+
+
+.delete, .modal-close, .is-unselectable, .button, .file, .breadcrumb, .pagination-previous,
+.pagination-next,
+.pagination-link,
+.pagination-ellipsis, .tabs {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.delete, .modal-close {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-color: rgba(10, 10, 10, 0.2);
+  border: none;
+  border-radius: 290486px;
+  cursor: pointer;
+  pointer-events: auto;
+  display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 0;
+  height: 20px;
+  max-height: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  min-width: 20px;
+  outline: none;
+  position: relative;
+  vertical-align: top;
+  width: 20px;
+  float: right;
+}
+
+.delete::before, .modal-close::before, .delete::after, .modal-close::after {
+  background-color: white;
+  content: "";
+  display: block;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+          transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.delete::before, .modal-close::before {
+  height: 2px;
+  width: 50%;
+}
+
+.delete::after, .modal-close::after {
+  height: 50%;
+  width: 2px;
+}
+
+.delete:hover, .modal-close:hover, .delete:focus, .modal-close:focus {
+  background-color: rgba(10, 10, 10, 0.3);
+}
+
+.delete:active, .modal-close:active {
+  background-color: rgba(10, 10, 10, 0.4);
+}
+
+.is-small.delete, .is-small.modal-close {
+  height: 16px;
+  max-height: 16px;
+  max-width: 16px;
+  min-height: 16px;
+  min-width: 16px;
+  width: 16px;
+}
+
+.is-medium.delete, .is-medium.modal-close {
+  height: 24px;
+  max-height: 24px;
+  max-width: 24px;
+  min-height: 24px;
+  min-width: 24px;
+  width: 24px;
+}
+
+.is-large.delete, .is-large.modal-close {
+  height: 32px;
+  max-height: 32px;
+  max-width: 32px;
+  min-height: 32px;
+  min-width: 32px;
+  width: 32px;
 }
