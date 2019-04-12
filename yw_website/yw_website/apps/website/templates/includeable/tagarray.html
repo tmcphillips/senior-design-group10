@@ -4,11 +4,15 @@
 
 <div class="tags">
 {% for tag in tags %}
+{% if can_edit_tags %}
   <div class="control">
     <div class="tags has-addons">
+      {% endif %}
       <a href="{% url 'home' %}?q={{ tag.tag.title }}" class="tag is-link">{{tag.tag.title}}</a>
+      {% if can_edit_tags %}
       <a href="{% url 'tag_delete' tag.tag.id %}" class="tag is-delete"></a>
     </div>
   </div>
+  {% endif %}
 {% endfor %}
 </div>

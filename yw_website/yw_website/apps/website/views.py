@@ -87,7 +87,7 @@ def my_workflows(request):
     workflows = paginator.get_page(page)
     host = request.get_host()
     return render(
-        request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host}
+        request, "pages/my_workflows.html", {"workflow_list": workflows, "host": host, "can_edit_tags":True}
     )
 
 
