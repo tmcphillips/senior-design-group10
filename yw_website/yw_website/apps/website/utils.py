@@ -3,7 +3,7 @@ from haystack.inputs import AutoQuery
 from haystack.query import SearchQuerySet
 
 from .program_blocks import ProgramBlocks
-from .ports import Ports
+from .ports import Ports, PortResource
 
 from .models import *
 
@@ -99,9 +99,11 @@ def get_ports(program_block):
         new_port.id = port.id
         new_port.is_inport = port.is_inport
         new_port.is_outport = port.is_outport
-        new_port.data_id = port.data_id
+        new_port.data_id = port.data.id
         new_port.on_program_block_id = port.on_program_block_id
-        new_port.run_id = port.run_id
+        new_port.run_id = port.run.id
+        new_port.resources = get_port_resources(new_port.data_id)
+
         if new_port.is_inport and not new_port.is_outport:
             program_block.in_ports.append(new_port)
         elif new_port.is_outport and not new_port.is_inport:
@@ -111,3 +113,18 @@ def get_ports(program_block):
             # TODO: error handle gracefully if we have a port that is both in and out
             pass
     
+def get_port_resources(data_id):
+    resources = []
+    for resource in Resource.objects.filter(data=data_id):
+        port_resource = PortResource()
+        port_resource.id = resource.id
+        port_resource.data = resource.data.id
+        port_resource.run_id = resource.run.id
+        port_resource.checksum = resource.checksum
+        port_resource.last_modified = resource.last_modified
+        port_resource.name = resource.name
+        port_resource.resource_id = resource.resource_id
+        port_resource.size = resource.size
+        port_resource.uri = resource.uri
+        resources.append(port_resource)
+    return resources
