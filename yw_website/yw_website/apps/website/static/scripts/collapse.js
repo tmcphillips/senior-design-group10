@@ -1,37 +1,39 @@
-let collapseButtons = document.querySelectorAll(".static-left");
-let collapseList = document.querySelector("#collapse")
-
+let collapseList = $("#collapse")
+let collapseButtons = collapseList.find(".static-left");
+// console.log(collapseButtons)
 for(let i = 0; i < collapseButtons.length; i++)
 {
+
+    jQueryButton = $(collapseButtons[i])
+    // console.log(jQueryButton)
     // console.log(collapseButtons)
-    let splitDashArray = collapseButtons[i].id.split("-")
+    let splitDashArray = jQueryButton.attr("id").split("-")
     // console.log("splitting id array: " + splitDashArray)
     // console.log(splitDashArray)
     let idNumber = splitDashArray[splitDashArray.length-1]
     // console.log("getting id num: " + idNumber)
-    let collapseContent = collapseList.querySelector("#collapse-content-" + idNumber)
+    let collapseContent = collapseList.find("#collapse-content-" + idNumber)
+    collapseContent.hide()
     // console.log("getting content from id #collapse-content-" + idNumber + ": ")
     // console.log(collapseContent)
-    collapseButtons[i].addEventListener("click", (event) => {
-        // console.log("before " + collapseContent.style.display) 
-        // console.log(event)
-        if(!collapseButtons[i].childNodes)
-            return;
-        
-        // console.log("plus minus exists")
-        // console.log(collapseButtons[i].childNodes)
 
-        let plus = collapseButtons[i].querySelector("#expand-button-" + idNumber)
-        let minus = collapseButtons[i].querySelector("#collapse-button-" + idNumber)
-        if(collapseContent.classList.contains("hidden")) {
-            collapseContent.classList.remove("hidden")
-            plus.classList.add("hidden")
-            minus.classList.remove("hidden")
-        } else {
-            collapseContent.classList.add("hidden")
-            plus.classList.remove("hidden")
-            minus.classList.add("hidden")
-        }
-        // console.log("after " + collapseContent.style.display)
+    let plus = jQueryButton.find("#expand-button-" + idNumber)
+    let minus = jQueryButton.find("#collapse-button-" + idNumber)
+    // console.log(plus)
+    // console.log(minus)
+    minus.hide()
+
+    jQueryButton.click((event) => {
+        // console.log("before " + idNumber) 
+        // console.log(event)
+        if(!jQueryButton.children())
+            return;
+
+        collapseContent.slideToggle(150)
+        plus.toggle()
+        minus.toggle()
+        // console.log("after " + idNumber)
     });
+
+    // console.log(jQueryButton)
 }
