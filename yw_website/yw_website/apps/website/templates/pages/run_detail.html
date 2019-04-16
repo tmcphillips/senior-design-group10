@@ -5,26 +5,38 @@
 {% block main_content %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/common.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/run_detail.css">
-<div class="box">
-    {% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}
-    <div class="filler"></div>
-    <div class="border">
-        <div class="run-dropdown-container">
+
+<div class="box fit-content-height">
+<div class="filler">{% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}</div>
+<div class="border">
+    
+    <div class="run-dropdown-container">
             {% include 'includeable/dropdown_selection.html' with name='Run' current=run list=runs %}
-        </div>
-        {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
-        
-        <div class="text">
-            <b>Workflow: </b> {{run.version.workflow.title}}
-            <br>
-            <b>Last Modified: </b> {{run.version.last_modified}}
-        </div>
-        
-        <div id="collapse" class="collapseable-list">
-            {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}
-        </div>
-        <script src="{{ STATIC_PREFIX }}scripts/collapse.js"></script>
     </div>
+
+    <div class="text">
+        <b>Workflow: </b> {{run.version.workflow.title}}
+        <br>
+        <b>Last Modified: </b> {{run.version.last_modified}}
+    </div>
+
+    <div class="vertical-split">
+        <div>    
+            <div id="collapse" class="collapseable-list">
+                {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}
+            </div>
+        </div>
+        <div>
+            <div class="detail-graph-container">
+                {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
+            </div>
+            <div class="detail-filebox-container">
+
+            </div>
+        </div>
+    </div>
+    <script src="{{ STATIC_PREFIX }}scripts/collapse.js"></script>
+</div>
 </div>
     
 {% endblock %}

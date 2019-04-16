@@ -1,9 +1,14 @@
-body {
+body, html {
     margin: 0;
     padding: 0;
     border: 0;
-    width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+body {
     height: 100%;
+    width: 100%;
 }
 
 .box {
@@ -11,16 +16,17 @@ body {
     background-color: #e0ebeb;
     width: 100%;
     height: 100%;
+    padding: 3%;
 }
 
 .border {
 	margin:auto;
     text-align: left;
     background-color: white;
-	width: 90%;
-	height: 90%;
-    margin: 5%;
-    padding: 5%;
+	width: 100%;
+	height: 100%;
+    /* margin: 5%; */
+    padding: 3em 3em;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
@@ -58,4 +64,31 @@ body {
 
 .filler {
     height: .1em;
+}
+
+.vertical-split {
+    display: flex;
+    align-items: center;
+    margin: 1em 0;
+} 
+
+.vertical-split > div {
+    flex: 1;
+    padding: 1em;
+}
+
+.horizontal-split {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.vertical-split > div {
+    flex: 1;
+    padding: 1em;
+}
+
+.fit-content-height {
+    min-height: 100%;
+    /* margin-bottom: 0; */
 }
