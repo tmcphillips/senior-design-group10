@@ -19,7 +19,6 @@
       <div class= "border">
       {% if edit %}
         <div class="edit_button">
-      {% endif %}
             <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
                 {% csrf_token %}
                 <button class="waves-effect waves-light btn" type="submit"> Edit Workflow</button>
@@ -60,8 +59,7 @@
                     document.body.appendChild(box);
                 }
             </script>
-        {% if edit %}
-        <div/>
+        </div>
         {% endif%}
         <div class="workflow-id">
             Workflow ID: {{ workflow.id }}
