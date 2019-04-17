@@ -438,4 +438,4 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
 
     def _utc_to_local(self, utc):
         local_tz = get_localzone()
-        return utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
+        return local_tz.localize(utc)
