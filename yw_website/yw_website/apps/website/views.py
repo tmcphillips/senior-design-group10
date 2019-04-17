@@ -30,8 +30,7 @@ from django.http import HttpResponseRedirect
 #############################################################
 def home(request):
     if 'q' in request.GET:
-        workflow_list = search_and_create_query_set(request.GET['q'])
-
+        workflow_list = search_and_create_query_set(request.GET['q'], 'tag' in request.GET)
     else:
         workflow_list = Workflow.objects.all().exclude(version__isnull=True)
 
@@ -61,7 +60,7 @@ def home(request):
 @login_required(login_url="/accounts/login/")
 def my_workflows(request):
     if 'q' in request.GET:
-        workflow_list = search_and_create_query_set(request.GET['q'])
+        workflow_list = search_and_create_query_set(request.GET['q'], 'tag' in request.GET)
 
     else:
         workflow_list = Workflow.objects.all().exclude(version__isnull=True)
