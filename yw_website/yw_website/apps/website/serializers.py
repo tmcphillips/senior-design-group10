@@ -438,10 +438,11 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
 
     def _utc_to_local(self, utc):
         local_tz = get_localzone()
+        utc = utc.timestamp()
         # local_dt = utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
         # new_utc = datetime.utcfromtimestamp(utc)
         # local_dt = new_utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
-        local_tz.fromutc(datetime.utcfromtimestamp(utc).replace(tzinfo=None))
+        local_dt = local_tz.fromutc(datetime.datetime.fromtimestamp(utc).replace(tzinfo=None))
 
         # local_dt = pytz.timezone()
         # return local_tz.normalize(local_dt)
