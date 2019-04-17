@@ -211,7 +211,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             yw_model_checksum=validated_data.get("modelChecksum"),
             yw_model_output=validated_data.get("model"),
             yw_graph_output=validated_data.get("graph"),
-            last_modified=self._utc_to_local(datetime.datetime.now(tz=timezone.utc)),
+            last_modified=self._utc_to_local(datetime.datetime.utcnow()),
         )
         v.save()
         r = self._create_update_helper(w, v, validated_data)
@@ -225,7 +225,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             defaults={
                 "yw_model_output": validated_data.get("model"),
                 "yw_graph_output": validated_data.get("graph"),
-                "last_modified": self._utc_to_local(datetime.datetime.now(tz=timezone.utc)),
+                "last_modified": self._utc_to_local(datetime.datetime.utcnow()),
             },
         )
         v.save()
@@ -247,7 +247,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         return r
 
     def _create_run(self, v, validated_data):
-        r = Run(version=v, run_time_stamp=datetime.datetime.now(tz=timezone.utc))
+        r = Run(version=v, run_time_stamp=datetime.datetime.utcnow())
         r.save()
         return r
 
