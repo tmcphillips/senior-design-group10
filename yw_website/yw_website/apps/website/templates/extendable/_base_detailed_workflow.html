@@ -19,10 +19,10 @@
         <div class="edit_button">
             <form method="get" action="{% url 'edit_page' workflow.id version.id %}">
                 {% csrf_token %}
-                <button type="submit"> Edit Workflow</button>
+                <button class="waves-effect waves-light btn" type="submit"> Edit Workflow</button>
             </form>
             <div class=delete>
-                <button onclick="deleteWorkflow()">Delete Workflow</button>
+                <button class="waves-effect waves-light btn" onclick="deleteWorkflow()">Delete Workflow</button>
             </div>
             <script>
                 function deleteWorkflow() {
@@ -83,7 +83,7 @@
         <div class="run-text">
             Runs associated with current version:
         </div>
-        {% include 'includeable/run_list.html' with run_list=run_list %}
+        {% include 'includeable/run_list.html' with run_list=run_list edit=edit %}
     </div>
 </div>
 

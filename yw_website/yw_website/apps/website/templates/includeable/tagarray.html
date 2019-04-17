@@ -10,7 +10,7 @@
       {% endif %}
       <a href="{% url 'home' %}?q={{ tag.tag.title }}" class="tag is-link">{{tag.tag.title}}</a>
       {% if can_edit_tags %}
-      <a href="{% url 'tag_delete' tag.tag.id %}" class="tag is-delete"></a>
+      <a href="{% url 'tag_delete' tag.tag.id %}" onclick="return confirm('Are you sure you want to delete this tag?');"class="tag is-delete"></a>
     </div>
   </div>
   {% endif %}

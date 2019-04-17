@@ -1,6 +1,6 @@
 .graph_container {
-    border: none;
-    width: 94%;
+    border: solid;
+    width: 100%;
     margin: auto;
     list-style-type: none;
 }
