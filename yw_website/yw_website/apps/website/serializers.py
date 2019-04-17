@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import *
-import datetime
+import datetime, pytz
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -436,4 +436,4 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             uv.save()
 
     def _utc_to_local(self, utc):
-        return utc.replace(tzinfo=timezone.utc).astimezone(tz=None)
+        return utc.replace(tzinfo=pytz.utc).astimezone(tz=None)
