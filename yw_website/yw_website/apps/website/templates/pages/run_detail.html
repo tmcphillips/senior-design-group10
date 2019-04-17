@@ -6,32 +6,32 @@
 <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/common.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/run_detail.css">
 
-<div class="box fit-content-height">
-<div class="filler">{% comment %} HACK: For some reason this allows formatting to work, do not remove. {% endcomment %}</div>
+<div class="box fit-page">
 <div class="border">
-    
-    <div class="run-dropdown-container">
+    <div class="horizontal-split">
+
+        <div class="run-dropdown-container">
             {% include 'includeable/dropdown_selection.html' with name='Run' current=run list=runs %}
-    </div>
-
-    <div class="text">
-        <b>Workflow: </b> {{run.version.workflow.title}}
-        <br>
-        <b>Last Modified: </b> {{run.version.last_modified}}
-    </div>
-
-    <div class="vertical-split">
-        <div>    
-            <div id="collapse" class="collapseable-list">
-                {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}
-            </div>
         </div>
-        <div>
-            <div class="detail-graph-container">
-                {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
-            </div>
-            <div class="detail-filebox-container">
+        
+        <div class="text">
+            <b>Workflow: </b> {{run.version.workflow.title}}
+            <br>
+            <b>Last Modified: </b> {{run.version.last_modified}}
+        </div>
+        
+        <div class="vertical-split height-40em">
+                <div id="collapse" class="collapseable-list width40p">
+                    {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}
+                </di=v>
 
+            <div class="horizontal-split flex1 height-40em">
+                <div class="height50p">
+                    {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
+                </div>
+                <div class="height50p">
+                    <!-- placeholder for file box -->
+                </div>
             </div>
         </div>
     </div>

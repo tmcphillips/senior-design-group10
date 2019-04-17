@@ -35,7 +35,7 @@ can be found here: https://github.com/aniehuser/senior-design-group10/blob/maste
                 {{ block.name|trailing_block_name }}
             </div>
         </div>
-        <div id="collapse-content-{{ block.id }}" class="collapsed-content">
+        <div id="collapse-content-{{ block.id }}" class="collapsed-content" style="display: none;">
             {% include 'includeable/collapseable_port.html' with port_type="Inputs" id=block.id ports=block.in_ports %}
         
             {% include 'includeable/collapseable_port.html' with port_type="Outputs" id=block.id ports=block.out_ports %}
@@ -44,7 +44,7 @@ can be found here: https://github.com/aniehuser/senior-design-group10/blob/maste
             {% if block.direct_descendants %}
                 <div id="expand-button-element-blocks{{ block.id }}" class="static-left">
                         <i id="expand-button-blocks{{ block.id }}" class="fas fa-plus"></i>
-                        <i id="collapse-button-blocks{{ block.id }}" class="fas fa-minus"></i>
+                        <i id="collapse-button-blocks{{ block.id }}" class="fas fa-minus" style="display: none;"></i>
                     </div>
                     <div class="dynamic-right"> 
                         Blocks

@@ -3,7 +3,6 @@ let collapseButtons = collapseList.find(".static-left");
 // console.log(collapseButtons)
 for(let i = 0; i < collapseButtons.length; i++)
 {
-
     jQueryButton = $(collapseButtons[i])
     // console.log(jQueryButton)
     // console.log(collapseButtons)

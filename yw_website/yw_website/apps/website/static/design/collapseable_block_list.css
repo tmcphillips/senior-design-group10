@@ -31,3 +31,7 @@
 
 .dynamic-right {
 }
+
+.hidden-text {
+    opacity: 0;
+}

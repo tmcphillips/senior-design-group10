@@ -1,0 +1,29 @@
+<div class="block-list-container">
+    <div class="block-list-item-resource{{ id }}">
+        <div class="block-list-span">
+        {% if resources %}
+            <div id="expand-button-element-resource{{ id }}" class="static-left">
+                <i id="expand-button-resource{{ id }}" class="fas fa-plus"></i>
+                <i id="collapse-button-resource{{ id }}" class="fas fa-minus"></i>
+            </div>
+        {% else %}
+            <div class=hidden-text>
+                <i class="fas fa-plus"></i>
+            </div>
+        {% endif %}
+            <div class="dynamic-right">
+                {{ name }}
+            </div>
+        </div>
+        {% if resources %}
+        <div id="collapse-content-resource{{ id }}" class="collapsed-content">
+        {% for res in resources %}
+            <div>
+                {{ res.uri }}
+            </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+    
