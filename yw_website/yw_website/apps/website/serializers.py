@@ -247,7 +247,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         return r
 
     def _create_run(self, v, validated_data):
-        r = Run(version=v, run_time_stamp=datetime.datetime.utcnow())
+        r = Run(version=v, run_time_stamp=self._utc_to_local(datetime.datetime.utcnow()))
         r.save()
         return r
 
@@ -438,5 +438,10 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
 
     def _utc_to_local(self, utc):
         local_tz = get_localzone()
-        local_dt = utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
-        return local_tz.normalize(local_dt)
+        # local_dt = utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
+        new_utc = datetime.utcfromtimestamp(utc)
+        local_dt = new_utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
+
+        # local_dt = pytz.timezone()
+        # return local_tz.normalize(local_dt)
+        return local_dt
