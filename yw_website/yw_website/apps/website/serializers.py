@@ -435,5 +435,5 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             )
             uv.save()
 
-    def _utc_to_local(utc):
+    def _utc_to_local(self, utc):
         return utc.replace(tzinfo=timezone.utc).astimezone(tz=None)
