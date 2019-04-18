@@ -4,7 +4,7 @@ from .models import *
 import datetime
 import pytz
 from tzlocal import get_localzone
-from tzlocal.parser import parse
+from dateutil.parser import parse
 import django.utils.timezone as djangotz
 import os
 
