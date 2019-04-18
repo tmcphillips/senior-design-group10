@@ -7,6 +7,7 @@ import pytz
 # from django.utils import timezone
 from tzlocal import get_localzone
 from dateutil import tz
+from dateutil.parser import parse
 import django.utils.timezone as djangotz
 import os
 
@@ -494,6 +495,8 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         # my_tz_name = datetime.datetime.now(tz.tzlocal())
         # print('my Timezone: ', my_tz_name)
         # my_tz = pytz.timezone(my_tz_name)
+        if isinstance(utc, str):
+            utc = parse(utc)
         print('testing: ', utc)
         if djangotz.is_naive(utc):
             utc = utc.replace(tzinfo=my_tz_name)
