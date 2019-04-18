@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
 from .models import *
-import datetime, pytz
-from tzlocal import get_localzone
+import datetime
+import pytz
+import os
 
 from django.core.exceptions import ObjectDoesNotExist
-
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -437,13 +437,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             uv.save()
 
     def _utc_to_local(self, utc):
-        local_tz = get_localzone()
-        utc = utc.timestamp()
-        # local_dt = utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
-        # new_utc = datetime.utcfromtimestamp(utc)
-        # local_dt = new_utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
-        local_dt = local_tz.fromutc(datetime.datetime.fromtimestamp(utc).replace(tzinfo=None))
-
-        # local_dt = pytz.timezone()
-        # return local_tz.normalize(local_dt)
-        return local_dt
+        my_tz_name = '/'.join(os.path.realpath('/etc/localtime').split('/')[-2:])
+        my_tz = pytz.timezone(my_tz_name)
+        utc = utc.replace(tzinfo=my_tz)
+        return utc
