@@ -27,7 +27,7 @@ Example:
         <div id="collapse-content-{{ port_type|lower }}{{ id }}" class="collapsed-content">
         {% for port in ports %}
             <div>
-                {{ port.name }}
+                {% include 'includeable/collapseable_resource.html' with name=port.name id=id resources=port.resources %}
             </div>
         {% endfor %}
         </div>

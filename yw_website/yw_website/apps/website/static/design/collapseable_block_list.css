@@ -17,17 +17,23 @@
     flex-direction: row;
     width: 100%;
     height: auto;
+    line-height: .95;
 }
 
 .static-left {
     display: block;
     width: 1em;
-    line-height: 1.65;
 }
 
 .collapsed-content {
     padding-left: 2em;
+    line-height: .95;
 }
 
 .dynamic-right {
+    font-size: 14px;
+}
+
+.hidden-text {
+    opacity: 0;
 }
