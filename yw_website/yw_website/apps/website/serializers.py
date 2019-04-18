@@ -499,12 +499,13 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             utc = parse(utc)
         print('testing: ', utc)
         if djangotz.is_naive(utc):
-            utc = utc.astimezone(tzinfo=my_tz_name)
+            utc = utc.astimezone(my_tz_name)
             print('the type: ',type(utc))
             # utc = utc.localize(my_tz_name)
             print('converting naive: ', utc)
         elif djangotz.is_aware(utc):
-            utc = utc.astimezone(tzinfo=my_tz_name)
+            utc = utc.replace(tzinfo=None)
+            utc = utc.astimezone(my_tz_name)
             print('converting aware: ', utc)
         return utc
 
