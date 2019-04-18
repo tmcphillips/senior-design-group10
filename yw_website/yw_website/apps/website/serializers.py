@@ -2,12 +2,8 @@ from rest_framework import serializers
 
 from .models import *
 import datetime
-import time
 import pytz
-# from django.utils import timezone
 from tzlocal import get_localzone
-from dateutil import tz
-from dateutil.parser import parse
 import django.utils.timezone as djangotz
 import os
 
@@ -444,67 +440,12 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             uv.save()
 
     def _utc_to_local(self, utc):
-        # local_tz = get_localzone()
-        # print("THIS IS A TEST")
-        # print(type(utc))
-        # utc = utc.timestamp()
-        # local_dt = utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
-        # new_utc = datetime.utcfromtimestamp(utc)
-        # local_dt = new_utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
-        # local_dt = local_tz.fromutc(datetime.fromtimestamp(utc).replace(tzinfo=None))
-
-        # local_tz = tz.tzlocal()
-        # # return local_tz.normalize(local_dt)
-        # now_timestamp = time.time()
-        # offset = datetime.datetime.fromtimestamp(now_timestamp) - datetime.datetime.utcfromtimestamp(now_timestamp)
-        # print("THIS IS A TEST")
-        # print(utc)
-        # new = utc + offset
-        # new = new.astimezone(local_tz)
-        # print("conversion")
-        # print(new)
-        # return new
-        
-        # print("testing")
-        # print(utc)
-        # print(type(utc))
-        # now = datetime.datetime.utcnow()
-        # local_dt = get_localzone()
-        # utc_tz = tz.gettz('UTC')
-
-        # # convert
-        # print("replacing")
-        # new = now.replace(tzinfo=utc_tz)
-        # print(new)
-        # print("converting")
-        # print(new.astimezone(local_dt))
-
-        # print("this is the timezone")
-        # print(local_dt)
-        
-        # # print(new)
-        # # print(type(new))
-        # return new
-        # my_tz_name = '/'.join(os.path.realpath('/etc/localtime').split('/')[-2:])
-
-
         my_tz_name = get_localzone()
-        print('checking')
-        # print(my_tz_name)
-        # print('my_tz_name: ',type(my_tz_name))
-        # my_tz_name = datetime.datetime.now(tz.tzlocal())
-        # print('my Timezone: ', my_tz_name)
-        # my_tz = pytz.timezone(my_tz_name)
         if isinstance(utc, str):
             utc = parse(utc)
-        print('testing: ', utc)
         if djangotz.is_naive(utc):
             utc = utc.replace(tzinfo=my_tz_name)
-            print('the type: ',type(utc))
-            # utc = utc.localize(my_tz_name)
-            print('converting naive: ', utc)
         elif djangotz.is_aware(utc):
             utc = utc.replace(tzinfo=pytz.utc).astimezone(my_tz_name)
-            print('converting aware: ', utc)
         return utc
 

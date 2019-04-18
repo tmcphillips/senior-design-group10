@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import django.utils.timezone as tz
 from tzlocal import get_localzone
-import pytz
 import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
