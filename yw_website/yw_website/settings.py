@@ -142,7 +142,9 @@ SITE_ID = 1
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = tz.activate(get_localzone())
+# local_tz = get_localzone()
+
+TIME_ZONE = tz.get_current_timezone_name()
 
 USE_I18N = True
 

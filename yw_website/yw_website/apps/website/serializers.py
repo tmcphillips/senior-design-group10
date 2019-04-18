@@ -492,9 +492,9 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         print(type(my_tz_name))
         # my_tz_name = datetime.datetime.now(tz.tzlocal())
         print('my Timezone: ', my_tz_name)
-        my_tz = pytz.timezone(my_tz_name)
+        # my_tz = pytz.timezone(my_tz_name)
         print('testing: ', utc)
-        utc = utc.replace(tzinfo=my_tz)
+        utc = utc.replace(tzinfo=my_tz_name)
         print('converting', utc)
         # print(utc)
         return utc
