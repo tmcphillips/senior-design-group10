@@ -2,10 +2,15 @@ from rest_framework import serializers
 
 from .models import *
 import datetime
+import time
 import pytz
+# from django.utils import timezone
+from tzlocal import get_localzone
+from dateutil import tz
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
+
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -437,7 +442,60 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             uv.save()
 
     def _utc_to_local(self, utc):
-        my_tz_name = '/'.join(os.path.realpath('/etc/localtime').split('/')[-2:])
+        # local_tz = get_localzone()
+        # print("THIS IS A TEST")
+        # print(type(utc))
+        # utc = utc.timestamp()
+        # local_dt = utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
+        # new_utc = datetime.utcfromtimestamp(utc)
+        # local_dt = new_utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
+        # local_dt = local_tz.fromutc(datetime.fromtimestamp(utc).replace(tzinfo=None))
+
+        # local_tz = tz.tzlocal()
+        # # return local_tz.normalize(local_dt)
+        # now_timestamp = time.time()
+        # offset = datetime.datetime.fromtimestamp(now_timestamp) - datetime.datetime.utcfromtimestamp(now_timestamp)
+        # print("THIS IS A TEST")
+        # print(utc)
+        # new = utc + offset
+        # new = new.astimezone(local_tz)
+        # print("conversion")
+        # print(new)
+        # return new
+        
+        # print("testing")
+        # print(utc)
+        # print(type(utc))
+        # now = datetime.datetime.utcnow()
+        # local_dt = get_localzone()
+        # utc_tz = tz.gettz('UTC')
+
+        # # convert
+        # print("replacing")
+        # new = now.replace(tzinfo=utc_tz)
+        # print(new)
+        # print("converting")
+        # print(new.astimezone(local_dt))
+
+        # print("this is the timezone")
+        # print(local_dt)
+        
+        # # print(new)
+        # # print(type(new))
+        # return new
+        # my_tz_name = '/'.join(os.path.realpath('/etc/localtime').split('/')[-2:])
+
+
+        my_tz_name = get_localzone()
+        print('checking')
+        print(my_tz_name)
+        print(type(my_tz_name))
+        # my_tz_name = datetime.datetime.now(tz.tzlocal())
+        print('my Timezone: ', my_tz_name)
         my_tz = pytz.timezone(my_tz_name)
+        print('testing: ', utc)
         utc = utc.replace(tzinfo=my_tz)
+        print('converting', utc)
+        # print(utc)
         return utc
+
