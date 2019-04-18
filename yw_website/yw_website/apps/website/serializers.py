@@ -7,6 +7,7 @@ import pytz
 # from django.utils import timezone
 from tzlocal import get_localzone
 from dateutil import tz
+import django.utils.timezone as djangotz
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -489,14 +490,16 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         my_tz_name = get_localzone()
         print('checking')
         print(my_tz_name)
-        print(type(my_tz_name))
+        print('my_tz_name: ',type(my_tz_name))
         # my_tz_name = datetime.datetime.now(tz.tzlocal())
         print('my Timezone: ', my_tz_name)
         # my_tz = pytz.timezone(my_tz_name)
         print('testing: ', utc)
-        # utc = utc.replace(tzinfo=my_tz_name)
-        utc = utc.astimezone(my_tz_name)
-        print('converting', utc)
-        # print(utc)
+        if djangotz.is_naive(utc):
+            utc = utc.replace(tzinfo=my_tz_name)
+            print('the type: ',type(utc))
+            # utc = utc.localize(my_tz_name)
+            print('converting', utc)
+            # print(utc)
         return utc
 
