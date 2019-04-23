@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import django.utils.timezone as tz
+from tzlocal import get_localzone
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -140,7 +143,10 @@ SITE_ID = 1
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# 148 sets timezone to the local zone
+tz.activate(get_localzone())
+# this line below would set timezone back to UTC
+# TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

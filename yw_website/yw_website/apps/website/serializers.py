@@ -2,6 +2,11 @@ from rest_framework import serializers
 
 from .models import *
 import datetime
+import pytz
+from tzlocal import get_localzone
+from dateutil.parser import parse
+import django.utils.timezone as djangotz
+import os
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -210,7 +215,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             yw_model_checksum=validated_data.get("modelChecksum"),
             yw_model_output=validated_data.get("model"),
             yw_graph_output=validated_data.get("graph"),
-            last_modified=datetime.datetime.now(tz=timezone.utc),
+            last_modified=self._utc_to_local(timezone.now()),
         )
         v.save()
         r = self._create_update_helper(w, v, validated_data)
@@ -224,7 +229,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
             defaults={
                 "yw_model_output": validated_data.get("model"),
                 "yw_graph_output": validated_data.get("graph"),
-                "last_modified": datetime.datetime.now(tz=timezone.utc),
+                "last_modified": self._utc_to_local(timezone.now()),
             },
         )
         v.save()
@@ -246,7 +251,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
         return r
 
     def _create_run(self, v, validated_data):
-        r = Run(version=v, run_time_stamp=datetime.datetime.now(tz=timezone.utc))
+        r = Run(version=v, run_time_stamp=self._utc_to_local(timezone.now()))
         r.save()
         return r
 
@@ -406,7 +411,7 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                 name=resource.get("name"),
                 checksum=resource.get("checksum"),
                 size=resource.get("size"),
-                last_modified=resource.get("lastModified"),
+                last_modified= self._utc_to_local(resource.get("lastModified")),
             )
             new_resource.save()
 
@@ -434,3 +439,14 @@ class YesWorkflowSaveSerializer(serializers.ModelSerializer):
                 run=r,
             )
             uv.save()
+
+    def _utc_to_local(self, utc):
+        my_tz_name = get_localzone()
+        if isinstance(utc, str):
+            utc = parse(utc)
+        if djangotz.is_naive(utc):
+            utc = utc.replace(tzinfo=my_tz_name)
+        elif djangotz.is_aware(utc):
+            utc = utc.replace(tzinfo=pytz.utc).astimezone(my_tz_name)
+        return utc
+

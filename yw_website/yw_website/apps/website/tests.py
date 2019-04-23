@@ -138,7 +138,7 @@ class YwSaveTestCase(TestCase):
                 "name": "file_name_1",
                 "checksum": str(uuid.uuid1()),
                 "size": 9,
-                "lastModified": datetime.datetime.now(),
+                "lastModified": timezone.now(),
             },
             {
                 "resourceId": 2,
@@ -147,7 +147,7 @@ class YwSaveTestCase(TestCase):
                 "checksum": str(uuid.uuid1()),
                 "size": 3,
                 "uri": "file_uri_2",
-                "lastModified": datetime.datetime.now(),
+                "lastModified": timezone.now(),
             }
         ]
         self.data["uriVariableValue"] = [
@@ -210,7 +210,7 @@ class YwSaveTestCase(TestCase):
                 "checksum": str(uuid.uuid1()),
                 "size": 3,
                 "uri": "file_uri1",
-                "lastModified": datetime.datetime.now(),
+                "lastModified": timezone.now(),
             },
             {
                 "resourceId": 2,
@@ -219,7 +219,7 @@ class YwSaveTestCase(TestCase):
                 "checksum": str(uuid.uuid1()),
                 "size": 9,
                 "uri": "file_uri2",
-                "lastModified": datetime.datetime.now(),
+                "lastModified": timezone.now(),
             },
         ]
 
@@ -430,7 +430,7 @@ class ViewsTestCase(TestCase):
                 "name": "file_name_1",
                 "checksum": str(uuid.uuid1()),
                 "size": 9,
-                "lastModified": datetime.datetime.now(),
+                "lastModified": timezone.now(),
             },
             {
                 "resourceId": 2,
@@ -439,7 +439,7 @@ class ViewsTestCase(TestCase):
                 "checksum": str(uuid.uuid1()),
                 "size": 3,
                 "uri": "file_uri_2",
-                "lastModified": datetime.datetime.now(),
+                "lastModified": timezone.now(),
             }
         ]
         self.data["uriVariableValue"] = [
