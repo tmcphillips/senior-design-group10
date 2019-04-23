@@ -30,11 +30,29 @@
                     {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
                 </div>
                 <div class="height50p">
-                    <!-- placeholder for file box -->
+                    <div id="file-table" class="file-table-container">
+                    </div>
+                    <script>
+                        // $("#collapse").click(function(){
+
+                        //     $.ajax({
+                        //         url: "{% url 'populate_file_table' %}",
+                        //         type: 'GET',
+                        //         contentType: false,
+                        //         success: function(html) {
+                        //             $("#file-table").append(html)
+                        //         },
+                        //         error: function(error) {
+                        //         }
+                        //     });
+                        // });
+
+                    </script>
                 </div>
             </div>
         </div>
     </div>
+    <script> let tableUrl = "{% url 'populate_file_table' %}"; </script>
     <script src="{{ STATIC_PREFIX }}scripts/collapse.js"></script>
 </div>
 </div>

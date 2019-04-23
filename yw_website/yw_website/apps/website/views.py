@@ -1,10 +1,14 @@
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import redirect, render, get_object_or_404
+from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, serializers
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework.decorators import (
     action,
@@ -14,14 +18,13 @@ from rest_framework.decorators import (
     permission_classes,
 )
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 
 from .models import *
 from .serializers import *
 from .utils import search_and_create_query_set, get_block_data
 
-from rest_framework import serializers
-from django.http import HttpResponseRedirect
+from .ports import PortResource
+
 
 
 
@@ -206,6 +209,30 @@ def tag_delete(request, tag_id):
     tag.delete()
     next = request.POST.get('next', '/')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def populate_file_table(request):
+    resources_string = request.GET.get("resources", None)
+    print(resources_string)
+    if resources_string is not None:
+        resource_ids = [int(id) for id in resources_string.split(",")]
+        resources = Resource.objects.filter(pk__in=resource_ids)
+        print(resource_ids)
+    else:
+        resources = None
+
+    print(resources)
+        
+  
+    
+
+    # Must use os.sep since loader.get_template does not account for Windows filepaths.
+    table_template = loader.get_template("includeable" + os.sep + "file_table.html")
+
+    # table_html = table_template.render({"resources": Resource.objects.filter(pk__in=resource_ids)})
+   
+
+    table_html = table_template.render({"resources": resources})
+    return HttpResponse(table_html)
 
 #############################################################
 # REST API Views

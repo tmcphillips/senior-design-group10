@@ -1,0 +1,18 @@
+
+{% if resources %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>File Path</th>
+        <th>Size</th>
+        <th>Last Modified</th>
+        <th>SHA-512</th>
+        <th>Related Workflows</th>
+    </tr>
+    {% for res in resources %}
+        {% include 'includeable/file_table_row.html' with resource=res %}
+    {% endfor %}
+</table>
+{% else %}
+<p>No files selected, click on a file in the dropdown to the left to view here.</p>
+{% endif %}

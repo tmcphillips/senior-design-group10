@@ -137,3 +137,8 @@ def get_port_resources(data_id):
         port_resource.uri = resource.uri
         resources.append(port_resource)
     return resources
+
+def truncate(n, decimals=0):
+    multiplier = 10 ** decimals
+    truncated = int(n * multiplier) / multiplier
+    return int(truncated) if truncated.is_integer() else truncated

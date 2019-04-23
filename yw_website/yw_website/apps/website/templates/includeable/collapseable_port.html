@@ -18,7 +18,7 @@ Example:
                 <i id="expand-button-{{ port_type|lower }}{{ id }}" class="fas fa-plus"></i>
                 <i id="collapse-button-{{ port_type|lower }}{{ id }}" class="fas fa-minus"></i>
             </div>
-            <div class="dynamic-right">
+            <div id="js-port-{{ port_type|lower }}{{ id }}" class="js-port dynamic-right">
                 {{ port_type }}
             </div>
         {% endif %}

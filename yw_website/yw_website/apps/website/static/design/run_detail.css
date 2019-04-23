@@ -31,3 +31,8 @@
     position: relative;
     width: 100%;
 }
+
+.file-table-cell {
+    overflow-x: scroll;
+    white-space: nowrap;
+}

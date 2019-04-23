@@ -31,6 +31,7 @@ urlpatterns = [
     path('detailed_workflow/<int:workflow_id>/version/<int:version_id>/',
          detailed_workflow, name='detailed_workflow'),
     path('run_detail/<int:run_id>/', run_detail, name='run_detail'),
+    path('run_detail/file_table/', populate_file_table, name='populate_file_table'),
     path('my_workflows/edit/<int:workflow_id>/version/<int:version_id>/', edit_workflow, name='edit_page'),
     path('my_workflows/<int:workflow_id>/', delete_workflows, name='delete_workflows'),
     path('my_workflows/<int:workflow_id>/<int:version_id>/<int:run_id>/', delete_runs, name='delete_runs'),

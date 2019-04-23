@@ -18,7 +18,7 @@
         {% if resources %}
         <div id="collapse-content-resource{{ id }}" class="collapsed-content">
         {% for res in resources %}
-            <div>
+            <div id="js-resource-{{ res.id }}" class="js-resource">
                 {{ res.uri }}
             </div>
         {% endfor %}
