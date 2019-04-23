@@ -36,7 +36,7 @@ def home(request):
 
     for workflow in workflow_list:
         latest_version = (
-            Version.objects.filter(workflow=workflow).order_by("last_modified").first()
+            Version.objects.filter(workflow=workflow).order_by("last_modified").last()
         )
 
         workflow.graph = latest_version.yw_graph_output
@@ -68,7 +68,7 @@ def my_workflows(request):
     workflow_list = workflow_list.filter(user=request.user)
     for workflow in workflow_list:
         latest_version = (
-            Version.objects.filter(workflow=workflow).order_by("last_modified").first()
+            Version.objects.filter(workflow=workflow).order_by("last_modified").last()
         )
         if latest_version is None:
             workflow_list = workflow_list.exclude(pk=workflow.id)
