@@ -26,8 +26,6 @@ from .utils import search_and_create_query_set, get_block_data
 from .ports import PortResource
 
 
-
-
 #############################################################
 # Website Views
 #############################################################
@@ -49,7 +47,6 @@ def home(request):
         workflow.tags = TagWorkflow.objects.filter(workflow=workflow)
 
     workflow_list = sorted(workflow_list, key=lambda t: t.version_modified, reverse=True)
-
 
     paginator = Paginator(workflow_list, 10)
     page = request.GET.get("page")
@@ -220,18 +217,16 @@ def populate_file_table(request):
     else:
         resources = None
 
-    print(resources)
-        
-  
-    
-
     # Must use os.sep since loader.get_template does not account for Windows filepaths.
     table_template = loader.get_template("includeable" + os.sep + "file_table.html")
 
-    # table_html = table_template.render({"resources": Resource.objects.filter(pk__in=resource_ids)})
-   
+    sorted_resources = sorted(resources, key=lambda t: t.id, reverse=True)
 
-    table_html = table_template.render({"resources": resources})
+    paginator = Paginator(sorted_resources, 5)
+    page = request.GET.get("page", 1)
+    paged_resources = paginator.get_page(page)
+
+    table_html = table_template.render({"resources": paged_resources})
     return HttpResponse(table_html)
 
 #############################################################

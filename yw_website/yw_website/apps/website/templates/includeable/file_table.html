@@ -1,18 +1,89 @@
 
 {% if resources %}
-<table>
-    <tr>
-        <th>Name</th>
-        <th>File Path</th>
-        <th>Size</th>
-        <th>Last Modified</th>
-        <th>SHA-512</th>
-        <th>Related Workflows</th>
-    </tr>
-    {% for res in resources %}
-        {% include 'includeable/file_table_row.html' with resource=res %}
-    {% endfor %}
-</table>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>File Path</th>
+            <th>Size</th>
+            <th>Last Modified</th>
+            <th>SHA-512</th>
+            <th>Related Workflows</th>
+        </tr>
+        {% for res in resources %}
+            {% include 'includeable/file_table_row.html' with resource=res %}
+        {% endfor %}
+        
+    </table>
+    <div class="pagination">
+        <span id="file-table-pager" class="step-links">
+            {% if resources.has_previous %}
+                <div id="page-1">&laquo; First</div>
+                <div id="page-previous">Previous</div>
+            {% endif %}
+
+            <span class="current">
+                Page {{ resources.number }} of {{ resources.paginator.num_pages }}.
+            </span>
+
+            {% if resources.has_next %}
+                <div id="page-next">Next</div>
+                <div id="page-last">Last &raquo;</div>
+            {% endif %}
+        </span>
+    </div> 
+    <script>
+        function getPagedFileTable(page) {
+            $.ajax({
+                url: "{% url 'populate_file_table' %}" + `?resources=${window.currentResources}&page=${page}`, 
+                type: 'GET',
+                contentType: false,
+                success: function(html) {
+                    let table = $("#file-table");
+                    table.empty()
+                    table.append(html)
+                },
+                error: function(error) {
+                }
+            });
+        }
+
+        var tablePager = $("#file-table-pager");
+    </script>
+    {% if resources.has_previous %}
+    <script>
+        var page1 = tablePager.find("#page-1")
+        page1.click(function(){
+            getPagedFileTable("1")
+        });
+        
+        var pagePrev = tablePager.find("#page-previous")
+        console.log("{{ resources.previous_page_number }}")
+        pagePrev.click(function(){
+            getPagedFileTable("{{ resources.previous_page_number }}")
+        });
+    </script>
+    {% endif %}
+    {% if resources.has_next %}
+    <script>
+        var pageNext = tablePager.find("#page-next")
+        if(pageNext.length)
+        {
+            console.log("{{ resources.next_page_number }}")
+            pageNext.click(function(){
+                getPagedFileTable("{{ resources.next_page_number }}")
+            });
+        }
+            
+        var pageLast = tablePager.find("#page-last")
+        if(pageLast.length)
+        {
+            console.log("{{ resources.paginator.num_pages }}")
+            pageLast.click(function(){
+                getPagedFileTable("{{ resources.paginator.num_pages }}")
+            });
+        }
+    </script>
+    {% endif %}
 {% else %}
 <p>No files selected, click on a file in the dropdown to the left to view here.</p>
 {% endif %}
