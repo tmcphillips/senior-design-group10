@@ -10,6 +10,7 @@
 .collapseable-list {
     text-align: left;
     overflow-y: scroll;
+    overflow-x: scroll;
     height: 40em;
     padding: .1em .1em .1em .5em;
     border-radius: .1em;
@@ -30,4 +31,97 @@
     align-content: center;
     position: relative;
     width: 100%;
+}
+
+.file-table-container {
+    display: block;
+    font-size: 12px;
+    height: 100%;
+    width: 100%;
+}
+
+#scroll-table {
+    scrollY: 100%;
+}
+
+.file-table-cell {
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.center-text {
+    text-align: center;
+    padding-top: 20%;
+}
+
+.centerish {
+    margin-left: 40%;
+}
+
+.resource-selection {
+    /* do not delete this class */
+}
+
+.selected-file {
+    background-color: #e0ebeb;
+}
+
+/* overriding bootstrap */
+.form-control {
+    height: 23px;
+    padding: 1px;
+    font-size: 1em;
+}
+
+.dataTables_scrollHead {
+    height: 34px;
+}
+
+.table > tbody > tr > td {
+    padding: 6px;
+    line-height: 1.3;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    padding: .5em 0em .5em .5em;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    padding: .5em 0em 0em 0em;
+}
+
+.pagination {
+    margin: 0;
+}
+
+ul.pagination {
+    height: 23px;
+}
+
+.pagination li.active {
+    background: white;
+}
+
+.pagination li a {
+    font-size: 1em;
+    padding: 0 9px;
+    line-height: 23px;
+}
+
+div.file-table-container button.btn {
+    padding: 0 11px; 
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > td {
+    border-right-width: 0;
+    border-left-width: 0;
+}
+
+.table {
+    margin-bottom: 0;
 }

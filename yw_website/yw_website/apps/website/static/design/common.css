@@ -49,7 +49,7 @@ body {
     text-align: left;
 }
 
-.pagination {
+.yw-pagination {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -80,6 +80,10 @@ body {
 
 .width40p {
     width: 40%;
+}
+
+.width35p {
+    width: 35%;
 }
 
 .height50p {

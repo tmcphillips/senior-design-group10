@@ -460,3 +460,67 @@ class ViewsTestCase(TestCase):
         response = client.get(reverse('my_workflows'))
         self.assertEqual(response.status_code, 302, msg="An unathenticated user was not "
                                                         "redirected to login after trying to access my_workflows page")
+
+
+from yw_website.apps.website import utils
+class UtilsTestCase(TestCase):
+    def setUp(self):
+        pass
+
+    def test_truncate_0(self):
+        actual = utils.truncate(100.444)
+        expected = 100
+        self.assertEqual(expected, actual)
+        self.assertIsInstance(actual, int)
+
+    def test_truncate_1(self):
+        actual = utils.truncate(100.444, decimals=1)
+        expected = 100.4
+        self.assertEqual(expected, actual)
+        self.assertIsInstance(actual, float)
+
+    def test_truncate_2(self):
+        actual = utils.truncate(100.444, decimals=2)
+        expected = 100.44
+        self.assertEqual(expected, actual)
+        self.assertIsInstance(actual, float)
+
+    def test_truncate_3(self):
+        actual = utils.truncate(1.002, decimals=3)
+        expected = 1.002
+        self.assertEqual(expected, actual)
+        self.assertIsInstance(actual, float)
+
+    def test_truncate_100(self):
+        actual = utils.truncate(100.444, decimals=100)
+        expected = 100.444
+        self.assertEqual(expected, actual)
+        self.assertIsInstance(actual, float)
+
+
+from yw_website.apps.website.templatetags import custom_filters
+class CustomFiltersTestCase(TestCase):
+    def setUp(self):
+        self.pretty_byte_expected = {0: "0 B", 1: "1 B", 55: "55 B", 999: "999 B",
+                        1000: "1 kB", 1002: "1.002 kB", 88585: "88.585 kB", 999999: "999.999 kB",
+                        1000000: "1 MB", 105444123: "105.444 MB", 999999999: "999.999 MB",
+                        1000000000: "1 GB", 434321444696: "434.321 GB", 999999999999: "999.999 GB",
+                        1000000000000: "1 TB"}
+        self.trailing_block_name_expected = {"name": "name", "name.second": "second", ".": "", "": "", "name.second.third.fourth": "fourth"}
+        self.trim_url_tail_expected = {"hey/there/guy/": "hey/there", "hey/there/": "hey", "hey": ""}
+
+    # NOTE: If adding new testcases, accuracy may be .001-.002 off. That is OK.
+    def test_pretty_bytes(self):
+        for byte_num in self.pretty_byte_expected:
+            with self.subTest():
+                self.assertEqual(self.pretty_byte_expected[byte_num], custom_filters.pretty_bytes(byte_num))
+
+    def test_trailing_block_name(self):
+        for test_input in self.trailing_block_name_expected:
+            with self.subTest():
+                self.assertEqual(self.trailing_block_name_expected[test_input], custom_filters.trailing_block_name(test_input))
+
+    def test_trim_url_tail(self):
+        for test_input in self.trim_url_tail_expected:
+            with self.subTest():
+                self.assertEqual(self.trim_url_tail_expected[test_input], custom_filters.trim_url_tail(test_input))

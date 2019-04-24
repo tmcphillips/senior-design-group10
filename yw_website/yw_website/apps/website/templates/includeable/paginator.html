@@ -1,12 +1,12 @@
 {% comment %}
- <!-- Content to be paginated must be assigned to the document_list keyword argument when including
+ Content to be paginated must be assigned to the document_list keyword argument when including
         
     Example:
     {% include 'includeable/paginator.html' with document_list=<pageable_object> %}
         
- -->
+
 {% endcomment %}
-<div class="pagination">
+<div class="yw-pagination">
     <span class="step-links">
         {% if document_list.has_previous %}
             <a href="?page=1">&laquo; First</a>

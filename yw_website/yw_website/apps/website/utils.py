@@ -8,7 +8,7 @@ from .ports import Ports, PortResource
 from .models import *
 
 
-def search_and_create_query_set(q, tag):
+def search_and_create_query_set(q, tag=False, resource=False):
     """
     This function takes a user search as a parameter and then uses the
     Django haystack API to create a Django QuerySet containing all related
@@ -18,6 +18,8 @@ def search_and_create_query_set(q, tag):
     workflows = set()
     if tag:
         sqs = SearchQuerySet().filter(content=aq).models(Tag)
+    elif resource:
+        sqs = SearchQuerySet().filter(content=aq).models(Resource)
     else:
         sqs = (
             SearchQuerySet()
@@ -137,3 +139,8 @@ def get_port_resources(data_id):
         port_resource.uri = resource.uri
         resources.append(port_resource)
     return resources
+
+def truncate(n, decimals=0):
+    multiplier = 10 ** decimals
+    truncated = int(n * multiplier) / multiplier
+    return int(truncated) if truncated.is_integer() else truncated
