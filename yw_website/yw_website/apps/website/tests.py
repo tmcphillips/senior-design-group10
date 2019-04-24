@@ -502,10 +502,10 @@ from yw_website.apps.website.templatetags import custom_filters
 class CustomFiltersTestCase(TestCase):
     def setUp(self):
         self.pretty_byte_expected = {0: "0 B", 1: "1 B", 55: "55 B", 999: "999 B",
-                        1_000: "1 kB", 1_002: "1.002 kB", 88_585: "88.585 kB", 999_999: "999.999 kB",
-                        1_000_000: "1 MB", 105_444_123: "105.444 MB", 999_999_999: "999.999 MB",
-                        1_000_000_000: "1 GB", 434_321_444_696: "434.321 GB", 999_999_999_999: "999.999 GB",
-                        1_000_000_000_000: "1 TB"}
+                        1000: "1 kB", 1002: "1.002 kB", 88585: "88.585 kB", 999999: "999.999 kB",
+                        1000000: "1 MB", 105444123: "105.444 MB", 999999999: "999.999 MB",
+                        1000000000: "1 GB", 434321444696: "434.321 GB", 999999999999: "999.999 GB",
+                        1000000000000: "1 TB"}
         self.trailing_block_name_expected = {"name": "name", "name.second": "second", ".": "", "": "", "name.second.third.fourth": "fourth"}
         self.trim_url_tail_expected = {"hey/there/guy/": "hey/there", "hey/there/": "hey", "hey": ""}
 
