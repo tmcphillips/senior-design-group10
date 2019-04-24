@@ -1,89 +1,55 @@
 
 {% if resources %}
-    <table>
+{% load custom_filters %}
+<table id="scroll-table" class="table table-striped table-bordered table-sm">
+    <thead>
         <tr>
-            <th>Name</th>
-            <th>File Path</th>
-            <th>Size</th>
-            <th>Last Modified</th>
-            <th>SHA-512</th>
-            <th>Related Workflows</th>
+            <th class="th-sm">Name</th>
+            <th class="th-sm">File Path</th>
+            <th class="th-sm">Size</th>
+            <th class="th-sm">Last Modified</th>
         </tr>
+    </thead>
+    <tbody>
         {% for res in resources %}
-            {% include 'includeable/file_table_row.html' with resource=res %}
-        {% endfor %}
-        
-    </table>
-    <div class="pagination">
-        <span id="file-table-pager" class="step-links">
-            {% if resources.has_previous %}
-                <div id="page-1">&laquo; First</div>
-                <div id="page-previous">Previous</div>
-            {% endif %}
-
-            <span class="current">
-                Page {{ resources.number }} of {{ resources.paginator.num_pages }}.
-            </span>
-
-            {% if resources.has_next %}
-                <div id="page-next">Next</div>
-                <div id="page-last">Last &raquo;</div>
-            {% endif %}
-        </span>
-    </div> 
-    <script>
-        function getPagedFileTable(page) {
-            $.ajax({
-                url: "{% url 'populate_file_table' %}" + `?resources=${window.currentResources}&page=${page}`, 
-                type: 'GET',
-                contentType: false,
-                success: function(html) {
-                    let table = $("#file-table");
-                    table.empty()
-                    table.append(html)
-                },
-                error: function(error) {
-                }
-            });
-        }
-
-        var tablePager = $("#file-table-pager");
-    </script>
-    {% if resources.has_previous %}
-    <script>
-        var page1 = tablePager.find("#page-1")
-        page1.click(function(){
-            getPagedFileTable("1")
-        });
-        
-        var pagePrev = tablePager.find("#page-previous")
-        console.log("{{ resources.previous_page_number }}")
-        pagePrev.click(function(){
-            getPagedFileTable("{{ resources.previous_page_number }}")
-        });
-    </script>
-    {% endif %}
-    {% if resources.has_next %}
-    <script>
-        var pageNext = tablePager.find("#page-next")
-        if(pageNext.length)
+        <tr id="resource-id-{{ res.checksum }}" class="resource-selection">
+            <td>{{ res.name }}</td>
+            <td>{{ res.uri }}</td>
+            <td class="align-right">{{ res.size|pretty_bytes }}</td>
+            <td class="align-right">{{ res.last_modified }}</td>
+        </tr>
+        {% endfor%}
+    </tbody>
+</table>
+<a id="associated-workflows">
+    <button class="waves-effect waves-light btn centerish" type="submit">Associated Workflows</button>
+</a>
+<script>
+    var associatedWorkflows = $("#associated-workflows")
+    $(".resource-selection").click(function(e){
+        $(".resource-selection").removeAttr("style")
+        var target = e.target;
+        if(!target.id)
         {
-            console.log("{{ resources.next_page_number }}")
-            pageNext.click(function(){
-                getPagedFileTable("{{ resources.next_page_number }}")
-            });
+            target = target.parentNode
         }
-            
-        var pageLast = tablePager.find("#page-last")
-        if(pageLast.length)
-        {
-            console.log("{{ resources.paginator.num_pages }}")
-            pageLast.click(function(){
-                getPagedFileTable("{{ resources.paginator.num_pages }}")
-            });
-        }
-    </script>
-    {% endif %}
+        $(target).attr("style", "background-color: #e0ebeb;")
+        id = target.id.split("-")
+        check = id[id.length-1]
+        associatedWorkflows.attr("href", `{% url 'home' %}?q=${check}&resource`) 
+    })
+
+
+</script>
+<script>
+$(document).ready(function () {
+    $('#scroll-table').DataTable({
+        "scrollY": "200px",
+        "scrollCollapse": true,
+    });
+    $('.dataTables_length').addClass('bs-select');
+});
+</script>
 {% else %}
-<p>No files selected, click on a file in the dropdown to the left to view here.</p>
+<p class="center-text">No files selected, click on a file in the dropdown to the left to view here.</p>
 {% endif %}

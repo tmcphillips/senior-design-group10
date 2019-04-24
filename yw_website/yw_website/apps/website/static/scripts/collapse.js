@@ -59,7 +59,6 @@ for(let i = 0; i < collapseButtons.length; i++)
 }
 
 let resources = $(".js-resource")
-
 for(let i=0; i<resources.length; i++)
 {
     let res = $(resources[i])
@@ -71,7 +70,6 @@ for(let i=0; i<resources.length; i++)
 }
 
 let ports = $(".js-port")
-
 for(let i=0; i< ports.length; i++)
 {
     let port = $(ports[i])

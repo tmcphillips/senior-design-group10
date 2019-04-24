@@ -509,6 +509,7 @@ class CustomFiltersTestCase(TestCase):
         self.trailing_block_name_expected = {"name": "name", "name.second": "second", ".": "", "": "", "name.second.third.fourth": "fourth"}
         self.trim_url_tail_expected = {"hey/there/guy/": "hey/there", "hey/there/": "hey", "hey": ""}
 
+    # NOTE: If adding new testcases, accuracy may be .001-.002 off. That is OK.
     def test_pretty_bytes(self):
         for byte_num in self.pretty_byte_expected:
             with self.subTest():

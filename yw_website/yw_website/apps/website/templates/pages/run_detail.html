@@ -2,9 +2,11 @@
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
 
-{% block main_content %}
-<link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/common.css">
+{% block inherits_from_base_scripts %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}design/run_detail.css">
+{% endblock %}
+
+{% block main_content %}
 
 <div class="box fit-page">
 <div class="border">
@@ -25,29 +27,14 @@
                 {% include 'includeable/collapseable_block_list.html' with blocks=blocks%}
             </div>
 
-            <div class="horizontal-split flex1 height-40em">
-                <div class="height50p">
+            <div class="horizontal-split height-40em">
+                <div class="height40em">
                     {% include 'includeable/graph_box.html' with yw_graph_output=graph_output %}
                 </div>
                 <div class="height50p">
                     <div id="file-table" class="file-table-container">
+                        {% include 'includeable/file_table.html' %}
                     </div>
-                    <script>
-                        // $("#collapse").click(function(){
-
-                        //     $.ajax({
-                        //         url: "{% url 'populate_file_table' %}",
-                        //         type: 'GET',
-                        //         contentType: false,
-                        //         success: function(html) {
-                        //             $("#file-table").append(html)
-                        //         },
-                        //         error: function(error) {
-                        //         }
-                        //     });
-                        // });
-
-                    </script>
                 </div>
             </div>
         </div>

@@ -31,7 +31,9 @@ from .ports import PortResource
 #############################################################
 def home(request):
     if 'q' in request.GET:
-        workflow_list = search_and_create_query_set(request.GET['q'], 'tag' in request.GET)
+        workflow_list = search_and_create_query_set(request.GET['q'], 
+                                                    tag='tag' in request.GET,
+                                                    resource='resource' in request.GET)
     else:
         workflow_list = Workflow.objects.all().exclude(version__isnull=True)
 
@@ -222,11 +224,7 @@ def populate_file_table(request):
 
     sorted_resources = sorted(resources, key=lambda t: t.id, reverse=True)
 
-    paginator = Paginator(sorted_resources, 5)
-    page = request.GET.get("page", 1)
-    paged_resources = paginator.get_page(page)
-
-    table_html = table_template.render({"resources": paged_resources})
+    table_html = table_template.render({"resources": sorted_resources})
     return HttpResponse(table_html)
 
 #############################################################
