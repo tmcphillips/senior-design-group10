@@ -25,10 +25,10 @@ urlpatterns = [
     ###
     # USER PATHS
     ###
+    path('', include('yw_website.apps.website.urls')), # yes-workflow-web-components urls
     path('admin/', admin.site.urls,),
     path('accounts/', include('allauth.urls')),
     path('search/', include('haystack.urls'), name='haystack_search'),
-    path('', include('yw_website.apps.website.urls')),
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls'))
 ]
