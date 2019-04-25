@@ -39,7 +39,6 @@ globalVariables(c("model","model.y","model.x","AICc","coefs","numPreds"))
 # @BEGIN main
 # @IN ITRDB_chronologies
 # @IN predictands
-# @IN calibration.years
 # @IN prediction.years
 # @PARAM min.width
 # @PARAM verbose
@@ -60,10 +59,8 @@ paleocar_models <- function(chronologies,
 
   # @BEGIN get_predictor_matrix
   # @IN chronologies
-  # @IN calibration.years
   # @PARAM min.width
   # @OUT predictor.matrix
-  # @OUT max.preds
   t <- Sys.time()
   predictor.matrix <- get_predictor_matrix(chronologies = chronologies,
                                            calibration.years = calibration.years,
@@ -137,7 +134,6 @@ paleocar_models <- function(chronologies,
   # @BEGIN calculateModels
   # @IN predlist
   # @IN carscores
-  # @IN max.preds
   # @OUT linear.models
   allModels <- data.table::data.table(cell=numeric(),year=numeric(),model=numeric(),numPreds=numeric(),CV=numeric(),AICc=numeric(),coefs=numeric())
   complete.cell.years <- data.table::data.table(cell=numeric(),year=numeric())
