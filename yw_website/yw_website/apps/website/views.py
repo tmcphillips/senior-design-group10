@@ -184,26 +184,35 @@ def run_detail(request, run_id):
         {"run": run, "file_list": resource_list, "runs": runs, "blocks": block_inputs, "graph_output": run.version.yw_graph_output},
     )
 
+@login_required(login_url="/accounts/login/")
 def delete_workflows(request, workflow_id):
     workflow = get_object_or_404(Workflow, pk=workflow_id)
-    workflow.delete()
+    if workflow.user == request.user:
+        workflow.delete()
     return redirect('my_workflows')
 
+@login_required(login_url="/accounts/login/")
 def delete_runs(request, workflow_id, run_id, version_id):
-    run = get_object_or_404(Run, pk=run_id)
-    run.delete()
+    workflow = get_object_or_404(Workflow, pk=workflow_id)
+    if workflow.user == request.user:
+        run = get_object_or_404(Run, pk=run_id)
+        run.delete()
     return redirect(
                 "/detailed_workflow/{}/version/{}/".format(workflow_id, version_id)
             )
 
+@login_required(login_url="/accounts/login/")
 def delete_versions(request, workflow_id, run_id, version_id):
-    version = get_object_or_404(Version, pk=version_id)
-    version.delete()
+    workflow = get_object_or_404(Workflow, pk=workflow_id)
+    if workflow.user == request.user:
+        version = get_object_or_404(Version, pk=version_id)
+        version.delete()
     return redirect(
                 "/detailed_workflow/{}/version/{}/".format(workflow_id, version_id)
             )
 
 def tag_delete(request, tag_id):
+    # TODO: Security, anyone can delete a tag if they guess the ID
     tag = Tag.objects.get(pk=tag_id)
     tag.delete()
     next = request.POST.get('next', '/')
