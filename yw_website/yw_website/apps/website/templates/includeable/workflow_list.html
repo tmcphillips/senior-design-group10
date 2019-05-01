@@ -34,24 +34,13 @@
                     {{ workflow.version_modified }}
                 </div>
 
-                <div class="workflow-details" id="description">
+                <div class="workflow-details" id="description{{'workflow.id'}}">
                     <b>Description: </b>{{ workflow.description }}
                 </div>
                 </a>
              </div>
          </a>
 
-            <script>
-                function description_view(){
-                    var description = document.getElementById("description");
-                    if (description.style.display === "none") {
-                        description.style.display = "block";
-                    }
-                    else {
-                        description.style.display = "none";
-                    }
-                }
-            </script>
         {% endfor %}
 {% else %}
 

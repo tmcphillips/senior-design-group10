@@ -29,6 +29,7 @@
 .collapsed-content {
     padding-left: 2em;
     line-height: .95;
+    margin: 1px;
 }
 
 .dynamic-right {

@@ -66,6 +66,10 @@
     /* do not delete this class */
 }
 
+.run-graph-container {
+    height: 40em;
+    margin-left: 10px
+}
 .selected-file {
     background-color: #e0ebeb;
 }
