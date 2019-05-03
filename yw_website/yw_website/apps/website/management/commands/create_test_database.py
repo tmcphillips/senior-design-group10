@@ -39,35 +39,41 @@ DUMMY_GRAPH_STRING = """digraph Workflow {
     validate_eventDate_field_of_data -> date_val_log_output_port [label=date_val_log]
     }"""
 
-# TODO: Add file outputs
-# > recon
-# > extract
-# > model/graph
-
 
 class Command(BaseCommand):
 
-    help = 'create_test_database creates mock entries into the YesWorkflow database. This command should only be run in a test environment.'
+    help = "create_test_database creates mock entries into the YesWorkflow database. This command should only be run in a test environment."
 
     def add_arguments(self, parser):
-        parser.add_argument('--entries', type=int, dest='entries',
-                            help='Number of mock entries to create. Default is 10.')
+        parser.add_argument(
+            "--entries",
+            type=int,
+            dest="entries",
+            help="Number of mock entries to create. Default is 10.",
+        )
 
     def _create_tags(self):
         tag_fixture = AutoFixture(Tag)
         _ = tag_fixture.create(self.num_entries)
 
     def _create_workflows(self):
-        workflow_fixture = AutoFixture(Workflow, field_values={'user': None})
+        workflow_fixture = AutoFixture(Workflow, field_values={"user": None})
         _ = workflow_fixture.create(self.num_entries)
 
     def _create_scripts(self):
-        script_fixture = AutoFixture(Script, field_values={'checksum':str(uuid.uuid4())})
+        script_fixture = AutoFixture(
+            Script, field_values={"checksum": str(uuid.uuid4())}
+        )
         _ = script_fixture.create(self.num_entries)
 
     def _create_versions(self):
         version_fixture = AutoFixture(
-            Version, field_values={'yw_graph_output': DUMMY_GRAPH_STRING, 'yw_model_checksum':str(uuid.uuid4())})
+            Version,
+            field_values={
+                "yw_graph_output": DUMMY_GRAPH_STRING,
+                "yw_model_checksum": str(uuid.uuid4()),
+            },
+        )
         _ = version_fixture.create(self.num_entries)
 
     def _create_runs(self):
@@ -109,14 +115,14 @@ class Command(BaseCommand):
     def _create_resources(self):
         resourcesfixture = AutoFixture(Resource)
         _ = resourcesfixture.create(self.num_entries)
-    
+
     def _create_uri_variable_values(self):
         uri_variable_valuesfixture = AutoFixture(UriVariableValue)
         _ = uri_variable_valuesfixture.create(self.num_entries)
 
     def handle(self, *args, **options):
-        if type(options['entries']) == int and options['entries'] >= 0:
-            self.num_entries = options['entries']
+        if type(options["entries"]) == int and options["entries"] >= 0:
+            self.num_entries = options["entries"]
         else:
             self.num_entries = 10
 
@@ -135,4 +141,3 @@ class Command(BaseCommand):
         self._create_uri_variables()
         self._create_resources()
         self._create_uri_variable_values()
-        
